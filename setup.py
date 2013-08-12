@@ -31,9 +31,9 @@ setup(name='loadsweb',
           "License :: OSI Approved :: Apache Software License",
           "Development Status :: 3 - Alpha"],
       install_requires=install_requires,
-      tests_require=['unittest2'],
+      tests_require=['unittest2', 'webtest'],
       test_suite='loadsweb.tests',
       entry_points="""
       [console_scripts]
-      loads-web = loadsweb:main
+      loads-web = loadsweb.main:main
       """)
