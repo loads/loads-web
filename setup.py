@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 from loadsweb import __version__
 
 
-install_requires = ['bottle']
+install_requires = ['bottle', 'loads']
 
 try:
     import argparse     # NOQA

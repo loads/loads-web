@@ -10,4 +10,4 @@ class TestMain(unittest2.TestCase):
 
     def test_index(self):
         resp = self.app.get('/')
-        self.assertEqual(resp.text, 'Hello')
+        self.assertTrue('Active runs' in resp.text)

@@ -1,14 +1,26 @@
 import sys
-from bottle import route, run
+import os
+
+from bottle import route, run, SimpleTemplate
 from bottle import app as _app
+
+from loadsweb.controller import Controller
+
+_TMPL = os.path.join(os.path.dirname(__file__), 'templates')
+
+
+def render(name, **options):
+    with open(os.path.join(_TMPL, name + '.tmpl')) as f:
+        return SimpleTemplate(f.read()).render(**options)
 
 
 @route('/')
 def index():
-    return 'Hello'
+    return render('index', runs=app.controller.get_runs())
 
 
 app = _app()
+app.controller = Controller()
 
 
 def main():
