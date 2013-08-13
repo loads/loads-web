@@ -3,8 +3,8 @@ import os
 from json import dumps
 
 import bottle
-from bottle import route, run, SimpleTemplate, request
-from bottle import app as _app, TEMPLATE_PATH
+from bottle import (route, run, SimpleTemplate, request,
+                    app as _app, TEMPLATE_PATH, static_file)
 
 import gevent
 from gevent.pywsgi import WSGIServer
@@ -14,6 +14,8 @@ from loadsweb.controller import Controller
 
 
 _TMPL = os.path.join(os.path.dirname(__file__), 'templates')
+_MEDIA = os.path.join(os.path.dirname(__file__), 'media')
+
 TEMPLATE_PATH.append(_TMPL)
 
 
@@ -45,10 +47,15 @@ def handle_websocket(run_id=None):
     while True:
         try:
             info = app.controller.get_run_info(run_id)
-            wsock.send(dumps(info))
+            wsock.send(dumps(info['counts']))
             gevent.sleep(1.)
         except WebSocketError:
             break
+
+
+@route('/media/<filename>')
+def handle_media(filename):
+    return static_file(filename, root=_MEDIA)
 
 
 app = _app()

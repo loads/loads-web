@@ -10,10 +10,41 @@
 <li>Agents: {{info['metadata']['agents']}}</li>
 </ul>
 
-<ul>
-% for key, val in info['counts'].items():
-<li>{{key}}: {{val}}</li>
-% end
-</ul>
+<div>
+hits: <span id="hits">{{info['counts']['add_hit']}}</span>
+</div>
+<div>
+successes: <span id="hits">{{info['counts'].get('addSuccess', 0)}}</span>
+</div>
+<div>
+failures: <span id="hits">{{info['counts'].get('addFailure', 0)}}</span>
+</div>
+<div>
+errors: <span id="hits">{{info['counts'].get('addError', 0)}}</span>
+</div>
 
+<script>
+  $(document).ready(function() {
+    console.log('starting');
+    try {
+		var socket = new WebSocket("ws://localhost:8080/run/{{run_id}}/websocket");
 
+		socket.onopen = function(){
+		console.log("Socket has been opened!");
+		};
+
+		socket.onmessage = function(msg) {
+        var obj = JSON.parse(msg.data);
+		$('#hits').text(obj.add_hit);
+		};
+
+		socket.onclose = function() {
+		console.log("closing");
+		};
+	}
+	catch(exception) {
+      console.log(exception);
+    }
+
+  });
+</script>
