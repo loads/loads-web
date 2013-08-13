@@ -1,0 +1,19 @@
+%rebase base.tmpl
+
+<h2>Run nº{{run_id}}</h2>
+
+<div>Testing {{info['metadata']['fqn']}}</div>
+<ul>
+<li>Users: {{info['metadata']['users']}}</li>
+<li>Hits: {{info['metadata']['hits']}}</li>
+<li>Duration: {{info['metadata']['duration']}}</li>
+<li>Agents: {{info['metadata']['agents']}}</li>
+</ul>
+
+<ul>
+% for key, val in info['counts'].items():
+<li>{{key}}: {{val}}</li>
+% end
+</ul>
+
+

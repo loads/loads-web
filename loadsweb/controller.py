@@ -14,3 +14,10 @@ class Controller(object):
 
     def get_runs(self):
         return self.db.get_runs()
+
+    def get_run_info(self, run_id):
+        data = self.db.get_data(run_id)
+        counts = self.db.get_counts(run_id)
+        metadata = self.db.get_metadata(run_id)
+        return {'data': data, 'counts': counts,
+                'metadata': metadata}
