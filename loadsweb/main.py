@@ -22,12 +22,12 @@ def index():
     return render('index', runs=app.controller.get_runs(),
                   controller=app.controller)
 
+
 @route('/run/<run_id>')
 def _run(run_id=None):
     return render('run', run_id=run_id,
                   info=app.controller.get_run_info(run_id),
                   controller=app.controller)
-
 
 
 app = _app()

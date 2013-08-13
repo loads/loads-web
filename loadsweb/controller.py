@@ -1,4 +1,3 @@
-from loads.transport.client import Client
 from loads.db import get_database
 
 

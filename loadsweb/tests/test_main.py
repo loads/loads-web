@@ -14,4 +14,3 @@ class TestMain(unittest2.TestCase):
         first_link = resp.html.find_all('a')[0]['href']
         run_page = self.app.get(first_link)
         self.assertTrue(run_page.status_code, 200)
-
