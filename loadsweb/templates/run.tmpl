@@ -1,8 +1,62 @@
 %rebase base.tmpl
 
-<h2>Run nº{{run_id}}</h2>
+<h1>Run nº{{run_id}}</h1>
 
-<div>Testing {{info['metadata']['fqn']}}</div>
+<div class="dashboardHeader">
+  Testing {{info['metadata']['fqn']}}. Started at {{info['metadata']['started']}}
+</div>
+
+
+<div class="dashboard">
+<div id="rpsWidget" class="widget">
+  <div class="widgetTitle">RPS</div>
+  <div class="widgetValue">
+    <span id="rps_title" style="position: absolute;left: 75px">
+      {{info['counts'].get('socket_open', 0)}}
+    </span>
+    <canvas style="float: right; height: 100; width: 175px" id="rps">
+    </canvas>
+  </div>
+</div>
+
+<div class="widget">
+  <div class="widgetTitle">Elapsed (s)</div> 
+  <div class="widgetValue" id="elapsed">{{info['counts']['elapsed']}}</div>
+</div>
+
+<div class="widget">
+  <div class="widgetTitle">Hits</div>
+  <div class="widgetValue" id="hits">{{info['counts']['add_hit']}}</div>
+</div>
+
+<div class="widget">
+  <div class="widgetTitle">Successes</div>
+  <div class="widgetValue" id="addSuccess">{{info['counts'].get('addSuccess', 0)}}</div>
+</div>
+
+<div class="widget">
+  <div class="widgetTitle">Failures</div>
+  <div class="widgetValue" id="addFailure">{{info['counts'].get('addFailure', 0)}}</div>
+</div>
+
+<div class="widget">
+  <div class="widgetTitle">Errors</div>
+  <div class="widgetValue" id="addError">{{info['counts'].get('addError', 0)}}</div>
+</div>
+
+<div class="widget">
+  <div class="widgetTitle">Sockets</div>
+  <div class="widgetValue" id="socket_open">{{info['counts'].get('socket_open', 0)}}</div>
+</div>
+
+<div class="widget">
+  <div class="widgetTitle">Bytes/Sockets</div>
+  <div class="widgetValue" id="socket_message">{{info['counts'].get('socket_message', 0)}}</div>
+</div>
+</div>
+<div style="clear:both"></div>
+
+Used options:
 <ul>
 <li>Users: {{info['metadata']['users']}}</li>
 <li>Hits: {{info['metadata']['hits']}}</li>
@@ -10,18 +64,6 @@
 <li>Agents: {{info['metadata']['agents']}}</li>
 </ul>
 
-<div>
-hits: <span id="hits">{{info['counts']['add_hit']}}</span>
-</div>
-<div>
-successes: <span id="hits">{{info['counts'].get('addSuccess', 0)}}</span>
-</div>
-<div>
-failures: <span id="hits">{{info['counts'].get('addFailure', 0)}}</span>
-</div>
-<div>
-errors: <span id="hits">{{info['counts'].get('addError', 0)}}</span>
-</div>
 
 <script>
   $(document).ready(function() {
@@ -36,6 +78,14 @@ errors: <span id="hits">{{info['counts'].get('addError', 0)}}</span>
 		socket.onmessage = function(msg) {
         var obj = JSON.parse(msg.data);
 		$('#hits').text(obj.add_hit);
+		$('#socket_open').text(obj.socket_open);
+		$('#socket_message').text(obj.socket_message);
+		$('#addSuccess').text(obj.addSuccess);
+		$('#addFailure').text(obj.addFailure);
+		$('#addError').text(obj.addError);
+		$('#elapsed').text(obj.elapsed);
+		$('#rps_title').text(obj.rps);
+        gauge.set(obj.rps);
 		};
 
 		socket.onclose = function() {
@@ -45,6 +95,30 @@ errors: <span id="hits">{{info['counts'].get('addError', 0)}}</span>
 	catch(exception) {
       console.log(exception);
     }
+
+  var opts = {
+  lines: 10, // The number of lines to draw
+  angle: 0, // The length of each line
+  lineWidth: 0.44, // The line thickness
+  pointer: {
+    length: 0.9, // The radius of the inner circle
+    strokeWidth: 0.035, // The rotation offset
+    color: '#000000' // Fill color
+  },
+  limitMax: 'false',   // If true, the pointer will not go past the end of the gauge
+
+  colorStart: '#6FADCF',   // Colors
+  colorStop: '#8FC0DA',    // just experiment with them
+  strokeColor: '#E0E0E0',   // to see which ones work best for you
+  generateGradient: true
+};
+var target = document.getElementById('rps'); // your canvas element
+var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+gauge.maxValue = 80; // set max gauge value
+gauge.animationSpeed = 34; // set animation speed (32 is default value)
+gauge.set({{info['counts']['rps']}}); // set actual value
+
+
 
   });
 </script>
