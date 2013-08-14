@@ -3,8 +3,11 @@
 <h1>Run nº{{run_id}}</h1>
 
 <div class="dashboardHeader">
+
+%if active:
   <div id="spinner">
   </div>
+%end
 
   Testing {{info['metadata']['fqn']}}. Started at {{info['metadata']['started']}}
 </div>
@@ -23,7 +26,7 @@
 </div>
 
 <div class="widget">
-  <div class="widgetTitle">Elapsed (s)</div> 
+  <div class="widgetTitle">Elapsed (s)</div>
   <div class="widgetValue" id="elapsed">{{info['counts']['elapsed']}}</div>
 </div>
 
@@ -69,6 +72,7 @@
 </ul>
 </div>
 
+%if active:
 <script>
   $(document).ready(function() {
     try {
@@ -145,3 +149,4 @@ var spinner = new Spinner(opts).spin(target);
 
   });
 </script>
+%end

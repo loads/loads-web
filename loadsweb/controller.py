@@ -13,15 +13,29 @@ class Controller(object):
 
         self.db = get_database(db, **self.dboptions)
 
-    def get_runs(self):
-        return self.db.get_runs()
+    def get_runs(self, **filters):
+        if filters == {}:
+            return self.db.get_runs()
+
+        runs = []
+
+        for run in self.db.get_runs():
+            info = self.get_run_info(run)
+            for key, value in filters.items():
+                if key not in info['metadata']:
+                    continue
+                else:
+                    if info['metadata'][key] == value:
+                        runs.append(run)
+                        break
+
+        return runs
 
     def get_run_info(self, run_id):
         data = self.db.get_data(run_id)
         counts = self.db.get_counts(run_id)
         metadata = self.db.get_metadata(run_id)
         started = metadata.get('started')
-
 
         # aproximative = should be set by the broker
         if started is not None:

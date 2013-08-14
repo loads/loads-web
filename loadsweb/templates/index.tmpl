@@ -9,8 +9,10 @@
   </div>
  </div>
 </div>
+<div style="clear:both"></div>
 
 <h2>Active runs</h2>
+%if len(runs) > 0:
 <div class="dashboard">
   %for index, (started, fqn, run_id) in enumerate(runs):
  <div class="widget">
@@ -21,3 +23,17 @@
   </div>
   %end
 </div>
+%else:
+<div class="dashboard">
+  Nothing is running.
+</div>
+%end
+
+<h2>Older runs</h2>
+<ul>
+  %for index, (started, fqn, run_id) in enumerate(inactives):
+  <li>
+    <a href="/run/{{run_id}}">{{started}}: {{fqn}}</a>
+  </li>
+  %end
+</ul>

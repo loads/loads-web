@@ -34,17 +34,23 @@ def handle_index():
         fqn = info['metadata']['fqn']
         return started, fqn, run_id
 
-    runs = [_dated(run) for run in app.controller.get_runs()]
+    runs = [_dated(run) for run in app.controller.get_runs(active=True)]
     runs.sort()
 
-    return render('index', runs=runs,
+    inactives = [_dated(run) for run in app.controller.get_runs(stopped=True)]
+    inactives.sort()
+    inactives.reverse()
+
+    return render('index', runs=runs, inactives=inactives,
                   controller=app.controller)
 
 
 @route('/run/<run_id>')
 def handle_run(run_id=None):
+    info = app.controller.get_run_info(run_id)
+
     return render('run', run_id=run_id,
-                  info=app.controller.get_run_info(run_id),
+                  info=info, active=info['metadata'].get('active', False),
                   controller=app.controller,
                   wsserver=app.wsserver, wsport=app.wsport)
 
