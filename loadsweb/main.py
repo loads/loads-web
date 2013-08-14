@@ -4,7 +4,8 @@ from json import dumps
 
 import bottle
 from bottle import (route, run, SimpleTemplate, request,
-                    app as _app, TEMPLATE_PATH, static_file)
+                    app as _app, TEMPLATE_PATH, static_file,
+                    abort)
 
 import gevent
 from gevent.pywsgi import WSGIServer
@@ -27,7 +28,16 @@ def render(name, **options):
 
 @route('/')
 def handle_index():
-    return render('index', runs=app.controller.get_runs(),
+    def _dated(run_id):
+        info = app.controller.get_run_info(run_id)
+        started = info['metadata'].get('started', 0)
+        fqn = info['metadata']['fqn']
+        return started, fqn, run_id
+
+    runs = [_dated(run) for run in app.controller.get_runs()]
+    runs.sort()
+
+    return render('index', runs=runs,
                   controller=app.controller)
 
 
@@ -35,7 +45,8 @@ def handle_index():
 def handle_run(run_id=None):
     return render('run', run_id=run_id,
                   info=app.controller.get_run_info(run_id),
-                  controller=app.controller)
+                  controller=app.controller,
+                  wsserver=app.wsserver, wsport=app.wsport)
 
 
 @route('/run/<run_id>/websocket')
@@ -61,6 +72,10 @@ def handle_media(filename):
 app = _app()
 app.controller = Controller()
 bottle.debug(True)
+
+# options XXX
+app.wsserver = 'localhost'
+app.wsport = 8080
 
 
 def main():

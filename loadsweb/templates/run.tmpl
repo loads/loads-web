@@ -67,9 +67,8 @@ Used options:
 
 <script>
   $(document).ready(function() {
-    console.log('starting');
     try {
-		var socket = new WebSocket("ws://localhost:8080/run/{{run_id}}/websocket");
+		var socket = new WebSocket("ws://{{wsserver}}:{{wsport}}/run/{{run_id}}/websocket");
 
 		socket.onopen = function(){
 		console.log("Socket has been opened!");
