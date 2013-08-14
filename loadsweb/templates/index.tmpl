@@ -1,10 +1,23 @@
 %rebase base.tmpl
+<h1>Loads cluster</h1>
 
-<h1>Active runs</h2>
-<ul>
-  %for started, fqn, run_id in runs:
-  <li>
-    <a href="/run/{{run_id}}">Run on {{fqn}} started at {{started}}</a>
-  </li>
+<div class="dashboard">
+ <div class="widget">
+  <div class="widgetTitle">Agents</div>
+  <div class="widgetValue">
+   3
+  </div>
+ </div>
+</div>
+
+<h2>Active runs</h2>
+<div class="dashboard">
+  %for index, (started, fqn, run_id) in enumerate(runs):
+ <div class="widget">
+  <div class="widgetTitle">Run nº{{index+1}}</div>
+  <div class="widgetSmallValue">
+    <a href="/run/{{run_id}}">{{started}}</a>
+  </div>
+  </div>
   %end
-</ul>
+</div>

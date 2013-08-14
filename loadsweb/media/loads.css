@@ -17,6 +17,11 @@ h1 {
   line-height: 1.6;
 }
 
+h2, h3 {
+  color: rgb(226, 107, 29);
+
+}
+
 div.dashboard {
   width: 100%;
   height: 150px;
@@ -26,6 +31,34 @@ div.widgetTitle {
   text-transform: uppercase ;
   color: gray;
 }
+
+div.options {
+  margin-top: 10px;
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+  text-transform: uppercase ;
+  display: inline-block;
+  font-size: 80%;
+ 
+}
+
+div.widgetSmallValue a {
+  color: rgb(77, 163, 213);
+
+}
+
+div.widgetSmallValue {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 15px;
+  line-height: 100px;
+  font-weight: 700;
+  height: 100px;
+  color: rgb(77, 163, 213);
+  background: transparent;
+}
+
 
 div.widgetValue {
   text-align: center;
