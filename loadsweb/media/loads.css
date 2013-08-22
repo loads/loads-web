@@ -89,3 +89,19 @@ div.header a {
   text-decoration: none;
 }
 
+div.run {
+  width: 500px;
+}
+
+div.run a {
+  text-decoration: None;
+}
+
+div.fqn {
+  text-align: center;
+  height: 100px;
+}
+
+div.date {
+  text-align: center;
+}

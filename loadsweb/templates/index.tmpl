@@ -29,12 +29,16 @@
 %if len(runs) > 0:
 <div class="dashboard">
   %for index, (started, fqn, run_id) in enumerate(runs):
- <div class="widget">
-  <div class="widgetTitle">Run nº{{index+1}}</div>
+ <div class="widget run">
+  <div class="widgetTitle">Run nº{{index+1}} - {{started}}</div>
   <div class="widgetSmallValue">
-    <a href="/run/{{run_id}}">{{started}}</a>
+    <a href="/run/{{run_id}}">
+     <div class="fqn">{{fqn}}</div>
+
+   </a>
   </div>
   </div>
+  <div style="clear:both"></div>
   %end
 </div>
 %else:
