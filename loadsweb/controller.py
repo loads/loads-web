@@ -1,17 +1,23 @@
 import time
 from datetime import datetime
+
 from loads.db import get_database
+from loads.transport.client import Client
 
 
 class Controller(object):
 
-    def __init__(self, db='redis', dboptions=None):
+    def __init__(self, db='redis', dboptions=None, broker=None):
         if dboptions is None:
             self.dboptions = {}
         else:
             self.dboptions = dboptions
 
         self.db = get_database(db, **self.dboptions)
+        self.client = Client(broker)
+
+    def get_broker_info(self):
+        return self.client.ping()
 
     def get_runs(self, **filters):
         if filters == {}:

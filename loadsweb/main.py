@@ -3,7 +3,7 @@ import os
 from json import dumps
 
 import bottle
-from bottle import (route, run, SimpleTemplate, request,
+from bottle import (route, SimpleTemplate, request,
                     app as _app, TEMPLATE_PATH, static_file,
                     abort)
 
@@ -41,8 +41,10 @@ def handle_index():
     inactives.sort()
     inactives.reverse()
 
+    info = app.controller.get_broker_info()
+
     return render('index', runs=runs, inactives=inactives,
-                  controller=app.controller)
+                  controller=app.controller, broker_info=info)
 
 
 @route('/run/<run_id>')
@@ -76,12 +78,16 @@ def handle_media(filename):
 
 
 app = _app()
-app.controller = Controller()
-bottle.debug(True)
-
-# options XXX
+# options to push in  a config file XXX
+app.db = 'redis'
+app.dboptions = {}
 app.wsserver = 'localhost'
 app.wsport = 8080
+app.broker = 'ipc:///tmp/loads-front.ipc'
+app.controller = Controller(db=app.db, dboptions=app.dboptions,
+                            broker=app.broker)
+
+bottle.debug(True)
 
 
 def main():
