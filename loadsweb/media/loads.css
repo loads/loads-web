@@ -85,3 +85,7 @@ div.widget {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+div.header a {
+  text-decoration: none;
+}
+
