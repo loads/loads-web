@@ -1,6 +1,4 @@
 %rebase base.tmpl
-<h1>Loads cluster</h1>
-
 <div class="dashboard">
  <div class="widget">
   <div class="widgetTitle">Agents</div>
@@ -8,11 +6,26 @@
    {{len(broker_info['agents'])}}
   </div>
  </div>
+
+ <div class="widget">
+  <div class="widgetTitle">Active Runs</div>
+  <div class="widgetValue">
+   {{len(runs)}}
+  </div>
+ </div>
+
+ <div class="widget">
+  <div class="widgetTitle">Stored Runs</div>
+  <div class="widgetValue">
+   {{len(inactives)}}
+  </div>
+ </div>
+
 </div>
 
 <div style="clear:both"></div>
 
-<h2>Active runs</h2>
+<h2>Active Runs</h2>
 %if len(runs) > 0:
 <div class="dashboard">
   %for index, (started, fqn, run_id) in enumerate(runs):
@@ -30,7 +43,7 @@
 </div>
 %end
 
-<h2>Older runs</h2>
+<h2>Stored Runs</h2>
 <ul>
   %for index, (started, fqn, run_id) in enumerate(inactives):
   <li>
