@@ -16,6 +16,9 @@ class Controller(object):
         self.db = get_database(db, **self.dboptions)
         self.client = Client(broker)
 
+    def ping_db(self):
+        return self.db.ping()
+
     def get_broker_info(self):
         return self.client.ping()
 

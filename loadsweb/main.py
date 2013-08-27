@@ -28,6 +28,12 @@ def render(name, **options):
 
 @route('/')
 def handle_index():
+
+    if not app.controller.ping_db():
+        # the DB is down.
+        # XXX status code ?
+        return render('error', message='The DB seems down')
+
     def _dated(run_id):
         info = app.controller.get_run_info(run_id)
         started = info['metadata'].get('started', 0)
