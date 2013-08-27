@@ -106,11 +106,18 @@ div.date {
   text-align: center;
 }
 
-#summary, #results {
+#summary, #results, #status, #active {
   float: left;
   width: 49%;
   padding: 5px;
 }
+
+#stored {
+  float: left;
+  width: 99%;
+  padding: 5px;
+}
+
 
 #summary dt, #results dt {
   width: 150px;
@@ -118,7 +125,12 @@ div.date {
   clear: left;
 }
 
- #results dt {
+#results dt {
   width: 250px;
 }
 
+#stored dt {
+  width: 400px;
+  float: left;
+  clear: left;
+}
