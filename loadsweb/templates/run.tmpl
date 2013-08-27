@@ -1,38 +1,89 @@
 %rebase base.tmpl
-
-<h2>Run nº{{run_id}}</h2>
-
-<div class="dashboardHeader">
-
 %if active:
   <div id="spinner">
   </div>
 %end
 
-  Testing {{info['metadata']['fqn']}}. Started at {{info['metadata']['started']}}
-</div>
 
+<p>Testing <strong>{{info['metadata']['fqn']}}</strong></p>
+
+<dl id="summary">
+  <h3>Status</h3>
+
+  <dt>Run Id</dt>
+  <dd>{{run_id}}</dd>
+
+  <dt>Duration</dt>
+  <dd>{{info['counts']['elapsed']}}</dd>
+
+  <dt>Started</dt>
+  <dd>{{info['metadata']['started']}}</dd>
+
+  <dt>State</dt>
+  <dd>
+  %if active:
+    Running
+  %else:
+    Ended
+  %end
+  </dd>
+
+
+  <h3>Configuration</h3>
+
+  <dt>Users</dt>
+  <dd>{{info['metadata']['users']}}</dd>
+
+  <dt>Hits</dt>
+  <dd>{{info['metadata']['hits']}}</dd>
+
+  <dt>Agents</dt>
+  <dd>{{info['metadata']['agents']}}</dd>
+
+
+</dl>
+
+
+<dl id="results">
+
+ <h3>Results</h3>
+ <dt>Tests done</dt>
+ <dd>{{info['counts'].get('startTest', 0) - info['counts'].get('stopTest', 0)}}
+ </dd>
+
+ <dt>Successes</dt>
+ <dd id="count-addSuccess">{{info['counts'].get('addSuccess', 0)}}</dd>
+ <dt>Failures</dt>
+ <dd id="count-addFailure">{{info['counts'].get('addFailure', 0)}}</dd>
+
+ <dt>Errors</dt>
+ <dd id="count-addError">{{info['counts'].get('addError', 0)}}</dd>
+
+ <dt>TCP Hits</dt>
+ <dd id="count-add_hit">{{info['counts'].get('add_hit', 0)}}</dd>
+
+ <dt>Opened web sockets</dt>
+ <dd id="count-add_hit">{{info['counts'].get('socket_open', 0)}}</dd>
+ <dt>Total web sockets</dt>
+ <dd id="count-add_hit">{{info['counts'].get('socket_open', 0)}}</dd>
+
+ <dt>Bytes/websockets</dt>
+ <dd id="count-add_hit">{{info['counts'].get('socket_message', 0)}}</dd>
+
+
+%if len(info['custom']) > 0:
+ <h3>Custom metrics</h3>
+ %for name, value in info['custom'].items():
+  <dt>{{name}}</dt>
+  <dd id="count-{{name}}">{{value}}</dd>
+ %end
+</dl>
+%end
 
 <div class="dashboard">
 
-%for name, value in info['counts'].items():
-<div class="widget">
-  <div class="widgetTitle">{{name}}</div>
-  <div class="widgetValue" id="count-{{name}}">{{value}}</div>
-</div>
-%end
 
 <div style="clear:both"></div>
-
-<div class="options">
-<h3>Used options</h3>
-<ul>
-<li>Users: {{info['metadata']['users']}}</li>
-<li>Hits: {{info['metadata']['hits']}}</li>
-<li>Duration: {{info['metadata']['duration']}}</li>
-<li>Agents: {{info['metadata']['agents']}}</li>
-</ul>
-</div>
 
 %if active:
 <script>

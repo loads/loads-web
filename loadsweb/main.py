@@ -11,7 +11,7 @@ import gevent
 from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketHandler, WebSocketError
 
-from loadsweb.controller import Controller
+from loadsweb.controller import Controller, TimeoutError
 
 
 _TMPL = os.path.join(os.path.dirname(__file__), 'templates')
@@ -35,6 +35,14 @@ def handle_index():
         # XXX redirect w/
         return render('error', message='The DB seems down')
 
+    try:
+        info = app.controller.get_broker_info()
+    except TimeoutError:
+        # the broker is down.
+        # XXX status code ?
+        # XXX redirect w/
+        return render('error', message='The Broker seems down')
+
     def _dated(run_id):
         info = app.controller.get_run_info(run_id)
         started = info['metadata'].get('started', 0)
@@ -47,8 +55,6 @@ def handle_index():
     inactives = [_dated(run) for run in app.controller.get_runs(stopped=True)]
     inactives.sort()
     inactives.reverse()
-
-    info = app.controller.get_broker_info()
 
     return render('index', runs=runs, inactives=inactives,
                   controller=app.controller, broker_info=info)

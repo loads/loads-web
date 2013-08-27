@@ -105,3 +105,20 @@ div.fqn {
 div.date {
   text-align: center;
 }
+
+#summary, #results {
+  float: left;
+  width: 49%;
+  padding: 5px;
+}
+
+#summary dt, #results dt {
+  width: 150px;
+  float: left;
+  clear: left;
+}
+
+ #results dt {
+  width: 250px;
+}
+

@@ -1,8 +1,36 @@
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from loads.db import get_database
-from loads.transport.client import Client
+from loads.transport.client import Client, TimeoutError
+
+
+
+def seconds_to_time(seconds):
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    days, hours = divmod(hours, 24)
+
+    res = []
+    if days > 0:
+        res.append('%d d' % days)
+    if hours > 0:
+        res.append('%d h' % hours)
+    if minutes > 0:
+        res.append('%d min' % minutes)
+    if seconds > 0:
+        res.append('%d sec' % seconds)
+
+    if len(res) == 1:
+        return res[0]
+    else:
+        return '%s and %s.' % (' '.join(res[:-1]), res[-1])
+
+
+_COUNTS = ['addError', 'addSuccess', 'stopTestRun', 'startTest',
+           'startTestRun', 'stopTest', 'add_hit',
+           'socket_open', 'socket_message', 'socket_close',
+           'socket_message']
 
 
 class Controller(object):
@@ -43,6 +71,13 @@ class Controller(object):
     def get_run_info(self, run_id):
         data = self.db.get_data(run_id)
         counts = self.db.get_counts(run_id)
+        custom = {}
+        for key, value in list(counts.items()):
+            if key in _COUNTS:
+                continue
+            custom[key] = value
+            del counts[key]
+
         metadata = self.db.get_metadata(run_id)
         started = metadata.get('started')
 
@@ -59,11 +94,11 @@ class Controller(object):
             started = datetime.fromtimestamp(int(started))
             metadata['started'] = started.strftime('%Y-%m-%d %H:%M:%S')
             counts['rps'] = int(rps)
-            counts['elapsed'] = int(elapsed)
+            counts['elapsed'] = seconds_to_time(elapsed)
         else:
             metadata['started'] = 'N/A'
             counts['rps'] = 0
             counts['elapsed'] = 0
 
-        return {'data': data, 'counts': counts,
+        return {'data': data, 'counts': counts, 'custom': custom,
                 'metadata': metadata}

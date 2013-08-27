@@ -1,3 +1,9 @@
+function isInArray(value, array) {
+  return array.indexOf(value) > -1 ? true : false;
+}
+
+var counters = ["addError", "addSuccess"];
+
 function initSocket(url) {
   
   try {
@@ -6,11 +12,13 @@ function initSocket(url) {
     socket.onmessage = function(msg) {
       var obj = JSON.parse(msg.data);
       $.each(obj, function(key, value) {
-        var count_id = '#count-' + key;
-        if ($(count_id).length) {
-          $(count_id).text(value);
-        } else {
-          // TODO: add a new widget on the fly!
+        if (!isInArray(key, counters)) {
+          var count_id = '#count-' + key;
+          if ($(count_id).length) {
+            $(count_id).text(value);
+          } else {
+            // TODO: add a new widget on the fly!
+          }
         }
       });
     };
