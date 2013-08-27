@@ -32,6 +32,7 @@ def handle_index():
     if not app.controller.ping_db():
         # the DB is down.
         # XXX status code ?
+        # XXX redirect w/
         return render('error', message='The DB seems down')
 
     def _dated(run_id):
