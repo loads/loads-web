@@ -5,7 +5,7 @@ from json import dumps
 import bottle
 from bottle import (route, SimpleTemplate, request,
                     app as _app, TEMPLATE_PATH, static_file,
-                    abort)
+                    abort, redirect)
 
 import gevent
 from gevent.pywsgi import WSGIServer
@@ -84,6 +84,11 @@ def handle_websocket(run_id=None):
             gevent.sleep(1.)
         except WebSocketError:
             break
+
+@route('/run/<run_id>/stop')
+def handle_stop(run_id=None):
+    app.controller.stop(run_id)
+    redirect('/run/%s' % run_id)
 
 
 @route('/media/<filename>')

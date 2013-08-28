@@ -44,6 +44,10 @@ class Controller(object):
         self.db = get_database(db, **self.dboptions)
         self.client = Client(broker)
 
+    def stop(self, run_id):
+        self.client.stop_run(run_id)
+        self.get_broker_info()
+
     def ping_db(self):
         return self.db.ping()
 

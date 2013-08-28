@@ -2,6 +2,11 @@
 %if active:
   <div id="spinner">
   </div>
+  <div id="stop">
+  <form action="/run/{{run_id}}/stop" method="GET">
+     <button class="thoughtbot">Stop</button>
+  </form>
+  </div>
 %end
 
 
