@@ -80,11 +80,16 @@ class Controller(object):
 
         metadata = self.db.get_metadata(run_id)
         started = metadata.get('started')
+        ended = metadata.get('ended', time.time())
+        active = metadata.get('active', False)
 
         # aproximative = should be set by the broker
         if started is not None:
-            now = time.time()
-            elapsed = now - started
+            if active:
+                elapsed = time.time() - started
+            else:
+                elapsed = ended - started
+
             hits = counts.get('add_hit', 0)
             if hits == 0:
                 rps = 0
@@ -99,6 +104,11 @@ class Controller(object):
             metadata['started'] = 'N/A'
             counts['rps'] = 0
             counts['elapsed'] = 0
+
+        if metadata.get('active', False):
+            metadata['active_label'] = 'Running'
+        else:
+            metadata['active_label'] = 'Ended'
 
         return {'data': data, 'counts': counts, 'custom': custom,
                 'metadata': metadata}

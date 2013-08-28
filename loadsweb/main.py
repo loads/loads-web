@@ -79,7 +79,8 @@ def handle_websocket(run_id=None):
     while True:
         try:
             info = app.controller.get_run_info(run_id)
-            wsock.send(dumps(info['counts']))
+            del info['data']
+            wsock.send(dumps(info))
             gevent.sleep(1.)
         except WebSocketError:
             break

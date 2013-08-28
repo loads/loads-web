@@ -14,20 +14,13 @@
   <dd>{{run_id}}</dd>
 
   <dt>Duration</dt>
-  <dd>{{info['counts']['elapsed']}}</dd>
+  <dd id='count-elapsed'>{{info['counts']['elapsed']}}</dd>
 
   <dt>Started</dt>
   <dd>{{info['metadata']['started']}}</dd>
 
   <dt>State</dt>
-  <dd>
-  %if active:
-    Running
-  %else:
-    Ended
-  %end
-  </dd>
-
+  <dd id='state'>{{info['metadata']['active_label']}}</dd>
 
   <h3>Configuration</h3>
 
@@ -40,6 +33,8 @@
   <dt>Agents</dt>
   <dd>{{info['metadata']['agents']}}</dd>
 
+  <dt>Duration</dt>
+  <dd>{{info['metadata']['duration']}}</dd>
 
 </dl>
 
@@ -48,7 +43,7 @@
 
  <h3>Results</h3>
  <dt>Tests done</dt>
- <dd>{{info['counts'].get('startTest', 0) - info['counts'].get('stopTest', 0)}}
+ <dd id="count-stopTest">{{info['counts'].get('startTest', 0) - info['counts'].get('stopTest', 0)}}
  </dd>
 
  <dt>Successes</dt>
@@ -63,12 +58,12 @@
  <dd id="count-add_hit">{{info['counts'].get('add_hit', 0)}}</dd>
 
  <dt>Opened web sockets</dt>
- <dd id="count-add_hit">{{info['counts'].get('socket_open', 0)}}</dd>
+ <dd id="count-socket_open">{{info['counts'].get('socket_open', 0)}}</dd>
  <dt>Total web sockets</dt>
- <dd id="count-add_hit">{{info['counts'].get('socket_open', 0)}}</dd>
+ <dd id="xcount-socket_open">{{info['counts'].get('socket_open', 0)}}</dd>
 
  <dt>Bytes/websockets</dt>
- <dd id="count-add_hit">{{info['counts'].get('socket_message', 0)}}</dd>
+ <dd id="count-socket_message">{{info['counts'].get('socket_message', 0)}}</dd>
 
 
 %if len(info['custom']) > 0:

@@ -2,25 +2,46 @@ function isInArray(value, array) {
   return array.indexOf(value) > -1 ? true : false;
 }
 
-var counters = ["addError", "addSuccess"];
+var counters = [];
+
+
 
 function initSocket(url) {
-  
+
   try {
     var socket = new WebSocket(url);
 
     socket.onmessage = function(msg) {
       var obj = JSON.parse(msg.data);
-      $.each(obj, function(key, value) {
-        if (!isInArray(key, counters)) {
+
+      if (obj.metadata.active) {
+        $('state').text("Running");
+      }
+      else {
+         $('#state').text("Ended");
+         socket.close();
+         $('#spinner').hide();
+         return;
+      }
+      $.each(obj.counts, function(key, value) {
           var count_id = '#count-' + key;
           if ($(count_id).length) {
             $(count_id).text(value);
           } else {
             // TODO: add a new widget on the fly!
-          }
         }
       });
+
+      $.each(obj.custom, function(key, value) {
+          var count_id = '#count-' + key;
+          if ($(count_id).length) {
+            $(count_id).text(value);
+          } else {
+            // TODO: add a new widget on the fly!
+        }
+      });
+
+
     };
   }
   catch(exception) {
