@@ -40,9 +40,16 @@ class Controller(object):
             self.dboptions = {}
         else:
             self.dboptions = dboptions
+        self.broker = broker
+        self.backend = db
+        self._init()
 
-        self.db = get_database(db, **self.dboptions)
-        self.client = Client(broker)
+    def reconnect(self):
+        self._init()
+
+    def _init(self):
+        self.db = get_database(self.backend, **self.dboptions)
+        self.client = Client(self.broker)
 
     def stop(self, run_id):
         self.client.stop_run(run_id)

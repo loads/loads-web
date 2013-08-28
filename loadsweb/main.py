@@ -33,6 +33,7 @@ def handle_index():
         # the DB is down.
         # XXX status code ?
         # XXX redirect w/
+        app.controller.reconnect()
         return render('error', message='The DB seems down')
 
     try:
@@ -41,6 +42,7 @@ def handle_index():
         # the broker is down.
         # XXX status code ?
         # XXX redirect w/
+        app.controller.reconnect()
         return render('error', message='The Broker seems down')
 
     def _dated(run_id):
