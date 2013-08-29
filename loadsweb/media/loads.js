@@ -21,6 +21,7 @@ function initSocket(url) {
          $('#state').text("Ended");
          socket.close();
          $('#spinner').hide();
+         $('#stop').hide();
          return;
       }
       $.each(obj.counts, function(key, value) {
