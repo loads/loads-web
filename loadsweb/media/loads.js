@@ -1,189 +1,153 @@
 function isInArray(value, array) {
   return array.indexOf(value) > -1 ? true : false;
 }
-
 var counters = [];
-
-var tmpl = "<div id='error-{{hashed}}'>" +
-           "<strong><span id='error-{{hashed}}-count'>{{count}}</span> occurrences:</strong>" +
-           "<pre>{{tb}}</pre>" +
-           "</div>";
-
+var tmpl = '<div id=\'error-{{hashed}}\'>' + '<strong><span id=\'error-{{hashed}}-count\'>{{count}}</span> occurrences:</strong>' + '<pre>{{tb}}</pre>' + '</div>';
 var template = Handlebars.compile(tmpl);
-
-var run_tmpl = "<dt id='run-{{run_id}}'>Run nº{{index}} - {{started}}</dt>" +
-               "<dd id='run-{{run_id}}-link'>" +
-               "<a href='/run/{{run_id}}'>{{fqn}}</a>" +
-               "</dd>";
-
+var run_tmpl = '<dt id=\'run-{{run_id}}\'>Run n\xba{{index}} - {{started}}</dt>' + '<dd id=\'run-{{run_id}}-link\'>' + '<a href=\'/run/{{run_id}}\'>{{fqn}}</a>' + '</dd>';
 var run_template = Handlebars.compile(run_tmpl);
-
-var inactive_tmpl = "<dt id='inactive-{{run_id}}'>{{run_id}}</dt>" +
-                    "<dd id='inactive-{{run_id}}-link'><a href='/run/{{run_id}}'>{{started}}: {{fqn}}</a></dd>";
-
+var inactive_tmpl = '<dt id=\'inactive-{{run_id}}\'>{{run_id}}</dt>' + '<dd id=\'inactive-{{run_id}}-link\'><a href=\'/run/{{run_id}}\'>{{started}}: {{fqn}}</a></dd>';
 var inactive_template = Handlebars.compile(inactive_tmpl);
-
-
-
-
 function initStatusSocket(url) {
-
   try {
     var status_socket = new WebSocket(url);
-
-    status_socket.onmessage = function(msg) {
-        var obj = JSON.parse(msg.data);
-
-        // hide or show the norun span
-        if (obj.active.length > 0) {
-            $('#norun').hide();
-        } else {
-             $('#norun').show();
+    status_socket.onmessage = function (msg) {
+      var obj = JSON.parse(msg.data);
+      // hide or show the norun span
+      if (obj.active.length > 0) {
+        $('#norun').hide();
+      } else {
+        $('#norun').show();
+      }
+      $.each(obj.active, function (key, value) {
+        key += 1;
+        var _run_id = '#run-' + value[2];
+        if (!$(_run_id).length) {
+          // we need to add a new run
+          var context = {
+              index: key,
+              started: value[0],
+              fqn: value[1],
+              run_id: value[2]
+            };
+          var html = run_template(context);
+          $('#active').append(html);
         }
-
-        $.each(obj.active, function(key, value) {
-          key += 1;
-          var _run_id = "#run-" + value[2];
-
-          if (!$(_run_id).length) {
-              // we need to add a new run
-              var context = {index: key, started: value[0],
-                             fqn: value[1], run_id: value[2]};
-              var html = run_template(context);
-              $('#active').append(html);
-          }
-
-         });
-
-        $.each(obj.inactive, function(key, value) {
-          var _run_id = "#run-" + value[2];
-          var inactive_id = "#inactive-" + value[2];
-          key += 1;
-
-          // let's remove the run if it exists in active
-          if ($(_run_id).length) {
-            $(_run_id).remove();
-            $("#run-" + value[2] + '-link').remove();
-          }
-          // let's add it to the inactive list if not present
-          if (!$(inactive_id).length) {
-              // we need to add a new run
-              var context = {index: key, started: value[0],
-                             fqn: value[1], run_id: value[2]};
-              var html = inactive_template(context);
-              $('#stored-title').after(html);
-          }
-
-         });
-
-    }
-  }  catch(exception) {
+      });
+      $.each(obj.inactive, function (key, value) {
+        var _run_id = '#run-' + value[2];
+        var inactive_id = '#inactive-' + value[2];
+        key += 1;
+        // let's remove the run if it exists in active
+        if ($(_run_id).length) {
+          $(_run_id).remove();
+          $('#run-' + value[2] + '-link').remove();
+        }
+        // let's add it to the inactive list if not present
+        if (!$(inactive_id).length) {
+          // we need to add a new run
+          var context = {
+              index: key,
+              started: value[0],
+              fqn: value[1],
+              run_id: value[2]
+            };
+          var html = inactive_template(context);
+          $('#stored-title').after(html);
+        }
+      });
+    };
+  } catch (exception) {
     console.log(exception);
   }
 }
-
-
-
 function initRunSocket(url) {
-
   try {
     var socket = new WebSocket(url);
-
-    socket.onmessage = function(msg) {
+    socket.onmessage = function (msg) {
       var obj = JSON.parse(msg.data);
-
       if (obj.metadata.active) {
-        $('state').text("Running");
+        $('state').text('Running');
+      } else {
+        $('#state').text('Ended');
+        socket.close();
+        $('#spinner').hide();
+        $('#stop').hide();
+        return;
       }
-      else {
-         $('#state').text("Ended");
-         socket.close();
-         $('#spinner').hide();
-         $('#stop').hide();
-         return;
-      }
-      $.each(obj.counts, function(key, value) {
-          var count_id = '#count-' + key;
-          if ($(count_id).length) {
-            $(count_id).text(value);
-          } else {
-            // TODO: add a new widget on the fly!
+      $.each(obj.counts, function (key, value) {
+        var count_id = '#count-' + key;
+        if ($(count_id).length) {
+          $(count_id).text(value);
+        } else {
         }
       });
-
-      $.each(obj.errors, function(key, value) {
-		  var md5 = value[0];
-		  var _count = value[1][0];
-		  var _tb = value[1][1];
-          var hash = '#error-' + md5;
-          var hash_count = hash + '-count';
-
-          if ($(hash).length) {
-              // set the count
-              $(hash_count).text(_count);
-          } else {
-              /* todo: add the error div*/
-              var context = {hashed: md5, count: _count, tb: _tb};
-              var html = template(context);
-			  $('#errors').append(html);
-          }
-      });
-
-      $.each(obj.custom, function(key, value) {
-          var count_id = '#count-' + key;
-          if ($(count_id).length) {
-            $(count_id).text(value);
-          } else {
-            // TODO: add a new widget on the fly!
+      $.each(obj.errors, function (key, value) {
+        var md5 = value[0];
+        var _count = value[1][0];
+        var _tb = value[1][1];
+        var hash = '#error-' + md5;
+        var hash_count = hash + '-count';
+        if ($(hash).length) {
+          // set the count
+          $(hash_count).text(_count);
+        } else {
+          /* todo: add the error div*/
+          var context = {
+              hashed: md5,
+              count: _count,
+              tb: _tb
+            };
+          var html = template(context);
+          $('#errors').append(html);
         }
       });
-
-
+      $.each(obj.custom, function (key, value) {
+        var count_id = '#count-' + key;
+        if ($(count_id).length) {
+          $(count_id).text(value);
+        } else {
+        }
+      });
     };
-  }
-  catch(exception) {
+  } catch (exception) {
     console.log(exception);
   }
 }
-
 function initSpinner(spinnerId) {
   var opts = {
-    lines: 10, // The number of lines to draw
-    angle: 0, // The length of each line
-    lineWidth: 0.44, // The line thickness
-    pointer: {
-      length: 0.9, // The radius of the inner circle
-       strokeWidth: 0.035, // The rotation offset
-      color: '#000000' // Fill color
-    },
-    limitMax: 'false',   // If true, the pointer will not go past the end of the gauge
-
-    colorStart: '#6FADCF',   // Colors
-    colorStop: '#8FC0DA',    // just experiment with them
-    strokeColor: '#E0E0E0',   // to see which ones work best for you
-    generateGradient: true
+      lines: 10,
+      angle: 0,
+      lineWidth: 0.44,
+      pointer: {
+        length: 0.9,
+        strokeWidth: 0.035,
+        color: '#000000'
+      },
+      limitMax: 'false',
+      colorStart: '#6FADCF',
+      colorStop: '#8FC0DA',
+      strokeColor: '#E0E0E0',
+      generateGradient: true
     };
-
   var opts = {
-    lines: 15, // The number of lines to draw
-    length: 10, // The length of each line
-    width: 3, // The line thickness
-    radius: 10, // The radius of the inner circle
-    corners: 1, // Corner roundness (0..1)
-    rotate: 0, // The rotation offset
-    direction: 1, // 1: clockwise, -1: counterclockwise
-    color: '#000', // #rgb or #rrggbb
-    speed: 1, // Rounds per second
-    trail: 60, // Afterglow percentage
-    shadow: false, // Whether to render a shadow
-    hwaccel: false, // Whether to use hardware acceleration
-    className: 'spinner', // The CSS class to assign to the spinner
-    zIndex: 2e9, // The z-index (defaults to 2000000000)
-    top: 'auto', // Top position relative to parent in px
-    left: 'auto' // Left position relative to parent in px
-  };
-
+      lines: 15,
+      length: 10,
+      width: 3,
+      radius: 10,
+      corners: 1,
+      rotate: 0,
+      direction: 1,
+      color: '#000',
+      speed: 1,
+      trail: 60,
+      shadow: false,
+      hwaccel: false,
+      className: 'spinner',
+      zIndex: 2000000000,
+      top: 'auto',
+      left: 'auto'
+    };
   var target = document.getElementById(spinnerId);
   var spinner = new Spinner(opts).spin(target);
 }
-
