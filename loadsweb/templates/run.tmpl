@@ -80,10 +80,19 @@
 </dl>
 %end
 
-<div class="dashboard">
+<div id="errors">
+<h3>Errors</h3>
 
+%for hashed, (count, tb) in info['errors']:
+  <div id="error-{{hashed}}">
+    <strong><span id="error-{{hashed}}-count">{{count}}</span>
+            occurrences:
+    </strong>
 
-<div style="clear:both"></div>
+    <pre>{{tb}}</pre>
+  </div>
+%end
+</div>
 
 %if active:
 <script>

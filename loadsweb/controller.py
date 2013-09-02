@@ -1,9 +1,9 @@
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
+from hashlib import md5
 
 from loads.db import get_database
-from loads.transport.client import Client, TimeoutError
-
+from loads.transport.client import Client
 
 
 def seconds_to_time(seconds):
@@ -80,7 +80,22 @@ class Controller(object):
         return runs
 
     def get_run_info(self, run_id):
-        data = self.db.get_data(run_id)
+        # we need to batch XXX
+        data = self.db.get_data(run_id, size=100)
+        errors = {}
+
+        for line in self.db.get_data(run_id, data_type='addError',
+                                     size=100):  #groupby=True):
+            error, tb, tb2 = line['exc_info']
+            hashed = md5(error).hexdigest()
+            if hashed in errors:
+                old_count, tb = errors[hashed]
+                errors[hashed] = old_count + 1, tb
+            else:
+                errors[hashed] = 1, tb + '\n' + tb2
+
+        errors = errors.items()
+        errors.sort()
         counts = self.db.get_counts(run_id)
         custom = {}
         for key, value in list(counts.items()):
@@ -122,4 +137,4 @@ class Controller(object):
             metadata['active_label'] = 'Ended'
 
         return {'data': data, 'counts': counts, 'custom': custom,
-                'metadata': metadata}
+                'metadata': metadata, 'errors': errors}

@@ -4,7 +4,12 @@ function isInArray(value, array) {
 
 var counters = [];
 
+var tmpl = "<div id='error-{{hashed}}'>" +
+           "<strong><span id='error-{{hashed}}-count'>{{count}}</span> occurrences:</strong>" +
+           "<pre>{{tb}}</pre>" +
+           "</div>";
 
+var template = Handlebars.compile(tmpl);
 
 function initSocket(url) {
 
@@ -31,6 +36,24 @@ function initSocket(url) {
           } else {
             // TODO: add a new widget on the fly!
         }
+      });
+
+      $.each(obj.errors, function(key, value) {
+		  var md5 = value[0];
+		  var _count = value[1][0];
+		  var _tb = value[1][1];
+          var hash = '#error-' + md5;
+          var hash_count = hash + '-count';
+
+          if ($(hash).length) {
+              // set the count
+              $(hash_count).text(_count);
+          } else {
+              /* todo: add the error div*/
+              var context = {hashed: md5, count: _count, tb: _tb};
+              var html = template(context);
+			  $('#errors').append(html);
+          }
       });
 
       $.each(obj.custom, function(key, value) {

@@ -11,7 +11,8 @@ import gevent
 from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketHandler, WebSocketError
 
-from loadsweb.controller import Controller, TimeoutError
+from loadsweb.controller import Controller
+from loads.transport.client import TimeoutError
 
 
 _TMPL = os.path.join(os.path.dirname(__file__), 'templates')
@@ -28,7 +29,6 @@ def render(name, **options):
 
 @route('/')
 def handle_index():
-
     if not app.controller.ping_db():
         # the DB is down.
         # XXX status code ?
