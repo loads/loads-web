@@ -15,28 +15,32 @@
 
 <h3>Active Runs</h3>
 %if len(runs) > 0:
-  %for index, (started, fqn, run_id) in enumerate(runs):
-  <dt>Run nº{{index+1}} - {{started}}</dt>
-  <dd>
+  %for index, (started, fqn, run_id, info) in enumerate(runs):
+  <dt id="run-{{run_id}}">Run nº{{index+1}} - {{started}}</dt>
+  <dd id="run-{{run_id}}-link">
     <a href="/run/{{run_id}}">{{fqn}}</a>
   </dd>
   %end
 %else:
+ <span id="norun">
   Nothing is running.
+ </span>
 %end
-
-
 </dl>
-
 
 
 <dl id="stored">
 
-<h3>Stored Runs</h3>
-  %for index, (started, fqn, run_id) in enumerate(inactives):
-  <dt>{{run_id}}</dt>
-  <dd><a href="/run/{{run_id}}">{{started}}: {{fqn}}</a></dd>
+<h3 id="stored-title">Stored Runs</h3>
+  %for index, (started, fqn, run_id, info) in enumerate(inactives):
+  <dt id="inactive-{{run_id}}">{{run_id}}</dt>
+  <dd id="inactive-{{run_id}}-link"><a href="/run/{{run_id}}">{{started}}: {{fqn}}</a></dd>
   %end
 </dl>
 
 
+<script>
+  $(document).ready(function() {
+    initStatusSocket("ws://{{wsserver}}:{{wsport}}/status/websocket");
+  });
+</script>

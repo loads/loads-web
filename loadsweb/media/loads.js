@@ -11,7 +11,80 @@ var tmpl = "<div id='error-{{hashed}}'>" +
 
 var template = Handlebars.compile(tmpl);
 
-function initSocket(url) {
+var run_tmpl = "<dt id='run-{{run_id}}'>Run nº{{index}} - {{started}}</dt>" +
+               "<dd id='run-{{run_id}}-link'>" +
+               "<a href='/run/{{run_id}}'>{{fqn}}</a>" +
+               "</dd>";
+
+var run_template = Handlebars.compile(run_tmpl);
+
+var inactive_tmpl = "<dt id='inactive-{{run_id}}'>{{run_id}}</dt>" +
+                    "<dd id='inactive-{{run_id}}-link'><a href='/run/{{run_id}}'>{{started}}: {{fqn}}</a></dd>";
+
+var inactive_template = Handlebars.compile(inactive_tmpl);
+
+
+
+
+function initStatusSocket(url) {
+
+  try {
+    var status_socket = new WebSocket(url);
+
+    status_socket.onmessage = function(msg) {
+        var obj = JSON.parse(msg.data);
+
+        // hide or show the norun span
+        if (obj.active.length > 0) {
+            $('#norun').hide();
+        } else {
+             $('#norun').show();
+        }
+
+        $.each(obj.active, function(key, value) {
+          key += 1;
+          var _run_id = "#run-" + value[2];
+
+          if (!$(_run_id).length) {
+              // we need to add a new run
+              var context = {index: key, started: value[0],
+                             fqn: value[1], run_id: value[2]};
+              var html = run_template(context);
+              $('#active').append(html);
+          }
+
+         });
+
+        $.each(obj.inactive, function(key, value) {
+          var _run_id = "#run-" + value[2];
+          var inactive_id = "#inactive-" + value[2];
+          key += 1;
+
+          // let's remove the run if it exists in active
+          if ($(_run_id).length) {
+            $(_run_id).remove();
+            $("#run-" + value[2] + '-link').remove();
+          }
+          // let's add it to the inactive list if not present
+          if (!$(inactive_id).length) {
+              // we need to add a new run
+              var context = {index: key, started: value[0],
+                             fqn: value[1], run_id: value[2]};
+              var html = inactive_template(context);
+              $('#stored-title').after(html);
+          }
+
+         });
+
+    }
+  }  catch(exception) {
+    console.log(exception);
+  }
+}
+
+
+
+function initRunSocket(url) {
 
   try {
     var socket = new WebSocket(url);

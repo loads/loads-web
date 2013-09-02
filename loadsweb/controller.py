@@ -79,23 +79,28 @@ class Controller(object):
 
         return runs
 
-    def get_run_info(self, run_id):
+    def get_run_info(self, run_id, data=True):
+        result = {}
         # we need to batch XXX
-        data = self.db.get_data(run_id, size=100)
-        errors = {}
+        if data:
+            data = self.db.get_data(run_id, size=100)
+            result['data'] = data
+            errors = {}
 
-        for line in self.db.get_data(run_id, data_type='addError',
-                                     size=100):  #groupby=True):
-            error, tb, tb2 = line['exc_info']
-            hashed = md5(error).hexdigest()
-            if hashed in errors:
-                old_count, tb = errors[hashed]
-                errors[hashed] = old_count + 1, tb
-            else:
-                errors[hashed] = 1, tb + '\n' + tb2
+            for line in self.db.get_data(run_id, data_type='addError',
+                                        size=100):  #groupby=True):
+                error, tb, tb2 = line['exc_info']
+                hashed = md5(error).hexdigest()
+                if hashed in errors:
+                    old_count, tb = errors[hashed]
+                    errors[hashed] = old_count + 1, tb
+                else:
+                    errors[hashed] = 1, tb + '\n' + tb2
 
-        errors = errors.items()
-        errors.sort()
+            errors = errors.items()
+            errors.sort()
+            result['errors'] = errors
+
         counts = self.db.get_counts(run_id)
         custom = {}
         for key, value in list(counts.items()):
@@ -103,6 +108,8 @@ class Controller(object):
                 continue
             custom[key] = value
             del counts[key]
+
+        result['custom'] = custom
 
         metadata = self.db.get_metadata(run_id)
         started = metadata.get('started')
@@ -136,5 +143,6 @@ class Controller(object):
         else:
             metadata['active_label'] = 'Ended'
 
-        return {'data': data, 'counts': counts, 'custom': custom,
-                'metadata': metadata, 'errors': errors}
+        result['counts'] = counts
+        result['metadata'] = metadata
+        return result

@@ -1,6 +1,7 @@
 import sys
 import os
 from json import dumps
+import socket
 
 import bottle
 from bottle import (route, SimpleTemplate, request,
@@ -45,21 +46,28 @@ def handle_index():
         app.controller.reconnect()
         return render('error', message='The Broker seems down')
 
+    runs, inactives = _get_runs()
+    return render('index', runs=runs, inactives=inactives,
+                  controller=app.controller, broker_info=info,
+                  wsserver=app.wsserver, wsport=app.wsport)
+
+
+def _get_runs():
     def _dated(run_id):
-        info = app.controller.get_run_info(run_id)
+        info = app.controller.get_run_info(run_id, data=False)
         started = info['metadata'].get('started', 0)
         fqn = info['metadata']['fqn']
-        return started, fqn, run_id
+        return started, fqn, run_id, info
 
-    runs = [_dated(run) for run in app.controller.get_runs(active=True)]
+    runs = [_dated(run) for run in app.controller.get_runs(active=True,
+                                                           data=False)]
     runs.sort()
 
-    inactives = [_dated(run) for run in app.controller.get_runs(stopped=True)]
+    inactives = [_dated(run) for run in app.controller.get_runs(stopped=True,
+                                                                data=False)]
     inactives.sort()
     inactives.reverse()
-
-    return render('index', runs=runs, inactives=inactives,
-                  controller=app.controller, broker_info=info)
+    return runs, inactives
 
 
 @route('/run/<run_id>')
@@ -70,6 +78,22 @@ def handle_run(run_id=None):
                   info=info, active=info['metadata'].get('active', False),
                   controller=app.controller,
                   wsserver=app.wsserver, wsport=app.wsport)
+
+
+@route('/status/websocket')
+def handle_status():
+    wsock = request.environ.get('wsgi.websocket')
+    if not wsock:
+        abort(400, 'Expected WebSocket request.')
+
+    while True:
+        try:
+            active, inactive = _get_runs()
+            status = {'active': active, 'inactive': inactive}
+            wsock.send(dumps(status))
+            gevent.sleep(5.)
+        except (WebSocketError, socket.error):
+            break
 
 
 @route('/run/<run_id>/websocket')
@@ -84,8 +108,9 @@ def handle_websocket(run_id=None):
             del info['data']
             wsock.send(dumps(info))
             gevent.sleep(1.)
-        except WebSocketError:
+        except (WebSocketError, socket.error):
             break
+
 
 @route('/run/<run_id>/stop')
 def handle_stop(run_id=None):
