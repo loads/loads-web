@@ -136,20 +136,6 @@ div.date {
   text-align: center;
 }
 
-#summary, #results, #status, #active {
-  float: left;
-  width: 49%;
-  padding: 5px;
-}
-
-/*
-#stored {
-  float: left;
-  width: 99%;
-  padding: 5px;
-}
-	*/
-
 
 #summary dt, #results dt, #status dt, #active dt{
   width: 150px;
@@ -257,3 +243,11 @@ tr.red a {
 
 
 .status{ display:inline-block;width:10px;height:10px;margin-right:2px;background-size:auto auto;background-position:0px 0px}
+
+#agents {
+  float: right;
+  color: rgb(226, 107, 29);
+  background-color: rgb(250, 255, 250);
+  font-size: 70%;
+
+}

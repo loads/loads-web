@@ -1,15 +1,8 @@
 %rebase base.tmpl
-<dl id="status">
-  <h3>Status</h3>
-  <dt>Agents</dt>
-  <dd>{{len(broker_info.get('agents', []))}}</dd>
 
-  <dt>Running tests</dt>
-  <dd>{{len(runs)}}</dd>
-
-  <dt>Stored tests</dt>
-  <dd>{{len(inactives)}}</dd>
-</dl>
+<div id="agents">
+  Powered by {{len(broker_info.get('agents', []))}} agents.
+</div>
 
 <div id="active">
 
