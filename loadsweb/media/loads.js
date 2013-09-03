@@ -4,7 +4,9 @@ function isInArray(value, array) {
 var counters = [];
 var tmpl = '<div id=\'error-{{hashed}}\'>' + '<strong><span id=\'error-{{hashed}}-count\'>{{count}}</span> occurrences:</strong>' + '<pre>{{tb}}</pre>' + '</div>';
 var template = Handlebars.compile(tmpl);
-var run_tmpl = '<dt id=\'run-{{run_id}}\'>Run n\xba{{index}} - {{started}}</dt>' + '<dd id=\'run-{{run_id}}-link\'>' + '<a href=\'/run/{{run_id}}\'>{{fqn}}</a>' + '</dd>';
+var run_tmpl = '<div id=\'run-{{run_id}}\'>' + 
+               '<a href=\'/run/{{run_id}}\'><span class="status yellow"></span>{{fqn}}</a>' + 
+               '</div>';
 var run_template = Handlebars.compile(run_tmpl);
 
 var inactive_tmpl = '<dt id=\'inactive-{{run_id}}\'>{{run_id}}</dt>' + '<dd id=\'inactive-{{run_id}}-link\'><a href=\'/run/{{run_id}}\'>{{started}}: {{fqn}}</a></dd>';
@@ -41,7 +43,7 @@ function initStatusSocket(url) {
               run_id: value[2]
             };
           var html = run_template(context);
-          $('#active').append(html);
+          $('#active-title').after(html);
         }
       });
       $.each(obj.inactive, function (key, value) {

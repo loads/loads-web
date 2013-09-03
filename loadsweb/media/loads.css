@@ -121,10 +121,14 @@ div.date {
 	*/
 
 
-#summary dt, #results dt, #status dt{
+#summary dt, #results dt, #status dt, #active dt{
   width: 150px;
   float: left;
   clear: left;
+}
+
+#active a {
+  color: black;
 }
 
 #results dt {
@@ -185,6 +189,10 @@ button.thoughtbot {
 
 span.green {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Ij4NCjxwYXRoIGZpbGw9IiMwRDgxMzYiIGQ9Ik01LDBDMi4yMzksMCwwLDIuMjQsMCw1YzAsMi43NjIsMi4yMzksNSw1LDVjMi43NjIsMCw1LTIuMjM4LDUtNUMxMCwyLjI0LDcuNzYyLDAsNSwwIE00LjUzNSw3LjgyNA0KCUwyLjEzOSw1LjQyNUwzLjY1LDMuOTE0bDAuODg1LDAuODg1bDIuMDQ0LTIuMDQ1bDEuNTEsMS41MTNMNC41MzUsNy44MjR6Ii8+DQo8L3N2Zz4NCg==");
+}
+
+span.yellow {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Ij4NCjxwYXRoIGZpbGw9IiNFN0QxMDAiIGQ9Ik01LDBDMi4yMzksMCwwLDIuMjM4LDAsNWMwLDIuNzYxLDIuMjM5LDUsNSw1YzIuNzYyLDAsNS0yLjIzOSw1LTVDMTAsMi4yMzgsNy43NjIsMCw1LDAiLz4NCjwvc3ZnPg0K");
 }
 
 span.red {

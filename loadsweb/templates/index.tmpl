@@ -11,22 +11,21 @@
   <dd>{{len(inactives)}}</dd>
 </dl>
 
-<dl id="active">
+<div id="active">
 
-<h3>Active Runs</h3>
+<h3 id="active-title">Active Runs</h3>
 %if len(runs) > 0:
   %for index, (started, fqn, run_id, info) in enumerate(runs):
-  <dt id="run-{{run_id}}">Run nº{{index+1}} - {{started}}</dt>
-  <dd id="run-{{run_id}}-link">
-    <a href="/run/{{run_id}}">{{fqn}}</a>
-  </dd>
+  <div id="run-{{run_id}}">
+    <a href="/run/{{run_id}}"><span class="status yellow"></span>{{fqn}}</a>
+  </div>
   %end
 %else:
  <span id="norun">
   Nothing is running.
  </span>
 %end
-</dl>
+</div>
 
 <div style="clear: both"></div>
 
