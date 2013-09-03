@@ -191,6 +191,12 @@ span.red {
 	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Ij4NCjxwYXRoIGZpbGw9IiNDRDE4MUIiIGQ9Ik0xLjQ2MywxLjQ2M2MtMS45NTEsMS45NTItMS45NTEsNS4xMTksMC4wMDEsNy4wNzJjMS45NTQsMS45NTMsNS4xMiwxLjk1Myw3LjA3MSwwDQoJYzEuOTUzLTEuOTUxLDEuOTUzLTUuMTE4LDAtNy4wNzFDNi41ODItMC40ODgsMy40MTctMC40ODgsMS40NjMsMS40NjMgTTcuNDQ5LDMuNzczTDYuMjI2LDVsMS4yMjQsMS4yMjZMNi4yMjYsNy40NDlMNSw2LjIyNg0KCUwzLjc3Myw3LjQ0OUwyLjU1LDYuMjI2TDMuNzczLDVMMi41NSwzLjc3M2wxLjIyNS0xLjIyNUw1LDMuNzczbDEuMjI2LTEuMjI1TDcuNDQ5LDMuNzczeiIvPg0KPC9zdmc+DQo=");
 }
 
+table.stored td {
+  padding-right: 6px;
+  color: rgb(102, 102, 102);
+
+}
+
 table.stored th {
   font-size: 13px;
   border-bottom: 2px solid rgb(255, 255, 255);
@@ -210,5 +216,6 @@ tr.red a {
   background-color: rgb(250, 255, 250);
 
 }
+
 
 .status{ display:inline-block;width:10px;height:10px;margin-right:2px;background-size:auto auto;background-position:0px 0px}

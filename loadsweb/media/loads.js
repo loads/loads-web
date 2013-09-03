@@ -10,8 +10,7 @@ var run_template = Handlebars.compile(run_tmpl);
 var inactive_tmpl = '<dt id=\'inactive-{{run_id}}\'>{{run_id}}</dt>' + '<dd id=\'inactive-{{run_id}}-link\'><a href=\'/run/{{run_id}}\'>{{started}}: {{fqn}}</a></dd>';
 
 var  inactive_tmpl = '<tr id="inactive-{{run_id}}" class="{{style}}">' +
-    '<td><span class="status {{style}}"></span>{{run_id}}</td>' +
-    '<td><a href="/run/{{run_id}}">{{fqn}}</a></td>' +
+    '<td><a href="/run/{{run_id}}"><span class="status {{style}}"></span>{{fqn}}</a></td>' +
     '<td>{{elapsed}}</td>' +
     '<td>{{finished}} ago</td>' +
   '</tr>';

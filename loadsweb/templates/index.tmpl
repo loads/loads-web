@@ -34,7 +34,6 @@
 <table class="stored">
   <thead>
     <tr>
-      <th>Build</th>
       <th>Test</th>
       <th>Duration</th>
       <th>Finished</th>
@@ -43,8 +42,7 @@
   <tbody id="stored">
     %for index, (started, fqn, run_id, info) in enumerate(inactives):
   <tr id="inactive-{{run_id}}" class="{{info['counts']['success'] and 'green' or 'red'}}">
-    <td><span class="status {{info['counts']['success'] and 'green' or 'red'}}"></span>{{run_id}}</td>
-    <td><a href="/run/{{run_id}}">{{fqn}}</a></td>
+    <td><a href="/run/{{run_id}}"><span class="status {{info['counts']['success'] and 'green' or 'red'}}"></span>{{fqn}}</a></td>
     <td>{{info['counts']['elapsed']}}</td>
     <td>{{info['counts']['finished']}} ago</td>
   </tr>
