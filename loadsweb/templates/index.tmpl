@@ -28,15 +28,29 @@
 %end
 </dl>
 
+<div style="clear: both"></div>
 
-<dl id="stored">
-
-<h3 id="stored-title">Stored Runs</h3>
-  %for index, (started, fqn, run_id, info) in enumerate(inactives):
-  <dt id="inactive-{{run_id}}">{{run_id}}</dt>
-  <dd id="inactive-{{run_id}}-link"><a href="/run/{{run_id}}">{{started}}: {{fqn}}</a></dd>
+<h3>Stored Runs</h3>
+<table class="stored">
+  <thead>
+    <tr>
+      <th>Build</th>
+      <th>Test</th>
+      <th>Duration</th>
+      <th>Finished</th>
+    </tr>
+  </thead>
+  <tbody id="stored">
+    %for index, (started, fqn, run_id, info) in enumerate(inactives):
+  <tr id="inactive-{{run_id}}" class="{{info['counts']['success'] and 'green' or 'red'}}">
+    <td><span class="status {{info['counts']['success'] and 'green' or 'red'}}"></span>{{run_id}}</td>
+    <td><a href="/run/{{run_id}}">{{fqn}}</a></td>
+    <td>{{info['counts']['elapsed']}}</td>
+    <td>{{info['counts']['finished']}} ago</td>
+  </tr>
   %end
-</dl>
+  </tbody>
+</table>
 
 
 <script>

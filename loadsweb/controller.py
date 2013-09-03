@@ -1,12 +1,20 @@
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from hashlib import md5
 
 from loads.db import get_database
 from loads.transport.client import Client
 
 
+def finished(date):
+    age = datetime.now() - date
+    return seconds_to_time(age.seconds)
+
+
 def seconds_to_time(seconds):
+    if seconds == 0:
+        return 'Now.'
+
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
@@ -133,10 +141,18 @@ class Controller(object):
             metadata['started'] = started.strftime('%Y-%m-%d %H:%M:%S')
             counts['rps'] = int(rps)
             counts['elapsed'] = seconds_to_time(elapsed)
+            ended = started + timedelta(seconds=elapsed)
+            counts['finished'] = finished(ended)
+            counts['success'] = counts.get('addError', 0) == 0
+            metadata['style'] = counts['success'] and 'green' or 'red'
         else:
             metadata['started'] = 'N/A'
             counts['rps'] = 0
             counts['elapsed'] = 0
+            counts['finished'] = 'N/A'
+            counts['success'] = False
+            metadata['style'] = 'red'
+
 
         if metadata.get('active', False):
             metadata['active_label'] = 'Running'

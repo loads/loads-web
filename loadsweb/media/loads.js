@@ -6,8 +6,19 @@ var tmpl = '<div id=\'error-{{hashed}}\'>' + '<strong><span id=\'error-{{hashed}
 var template = Handlebars.compile(tmpl);
 var run_tmpl = '<dt id=\'run-{{run_id}}\'>Run n\xba{{index}} - {{started}}</dt>' + '<dd id=\'run-{{run_id}}-link\'>' + '<a href=\'/run/{{run_id}}\'>{{fqn}}</a>' + '</dd>';
 var run_template = Handlebars.compile(run_tmpl);
+
 var inactive_tmpl = '<dt id=\'inactive-{{run_id}}\'>{{run_id}}</dt>' + '<dd id=\'inactive-{{run_id}}-link\'><a href=\'/run/{{run_id}}\'>{{started}}: {{fqn}}</a></dd>';
+
+var  inactive_tmpl = '<tr id="inactive-{{run_id}}" class="{{style}}">' +
+    '<td><span class="status {{style}}"></span>{{run_id}}</td>' +
+    '<td><a href="/run/{{run_id}}">{{fqn}}</a></td>' +
+    '<td>{{elapsed}}</td>' +
+    '<td>{{finished}} ago</td>' +
+  '</tr>';
+
 var inactive_template = Handlebars.compile(inactive_tmpl);
+
+
 function initStatusSocket(url) {
   try {
     var status_socket = new WebSocket(url);
@@ -50,10 +61,13 @@ function initStatusSocket(url) {
               index: key,
               started: value[0],
               fqn: value[1],
-              run_id: value[2]
+              run_id: value[2],
+              elapsed: value[3].counts.elapsed,
+              finished: value[3].counts.finished,
+              style: value[3].metadata.style
             };
           var html = inactive_template(context);
-          $('#stored-title').after(html);
+          $('#stored').prepend(html);
         }
       });
     };

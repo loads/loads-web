@@ -46,13 +46,13 @@ def handle_index():
         app.controller.reconnect()
         return render('error', message='The Broker seems down')
 
-    runs, inactives = _get_runs()
+    runs, inactives = _get_runs(size=10)
     return render('index', runs=runs, inactives=inactives,
                   controller=app.controller, broker_info=info,
                   wsserver=app.wsserver, wsport=app.wsport)
 
 
-def _get_runs():
+def _get_runs(size=10):
     def _dated(run_id):
         info = app.controller.get_run_info(run_id, data=False)
         started = info['metadata'].get('started', 0)
@@ -67,7 +67,7 @@ def _get_runs():
                                                                 data=False)]
     inactives.sort()
     inactives.reverse()
-    return runs, inactives
+    return runs[:10], inactives[:10]
 
 
 @route('/run/<run_id>')
