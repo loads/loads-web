@@ -105,8 +105,7 @@ class Controller(object):
             result['data'] = data
             errors = {}
 
-            for line in self.db.get_data(run_id, data_type='addError',
-                                        size=100):  #groupby=True):
+            for line in self.db.get_errors(run_id, size=100):
                 error, tb, tb2 = line['exc_info']
                 hashed = md5(error).hexdigest()
                 if hashed in errors:

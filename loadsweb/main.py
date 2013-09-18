@@ -50,8 +50,10 @@ def handle_index():
 
     runs, inactives = _get_runs(size=10)
     return render('index', runs=runs, inactives=inactives,
-                  controller=app.controller, broker_info=info,
-                  wsserver=app.wsserver, wsport=app.wsport)
+                  controller=app.controller,
+                  broker_info=info,
+                  wsserver=app.config['wsserver'],
+                  wsport=app.config['wsport'])
 
 
 def _get_runs(size=10):
@@ -79,7 +81,8 @@ def handle_run(run_id=None):
     return render('run', run_id=run_id,
                   info=info, active=info['metadata'].get('active', False),
                   controller=app.controller,
-                  wsserver=app.wsserver, wsport=app.wsport)
+                  wsserver=app.config['wsserver'],
+                  wsport=app.config['wsport'])
 
 
 @route('/status/websocket')
@@ -125,6 +128,8 @@ def handle_media(filename):
     return static_file(filename, root=_MEDIA)
 
 
+app = _app()
+
 
 def main():
     parser = argparse.ArgumentParser(description='Run the Loads Dashboard')
@@ -149,7 +154,6 @@ def main():
                 continue
             config[key] = value
 
-    app = _app()
     app.config = config
     app.controller = Controller(config['db'], config['dboptions'],
                                 broker=config['broker'])
