@@ -2,6 +2,8 @@ import sys
 import os
 from json import dumps
 import socket
+import argparse
+from konfig import Config
 
 import bottle
 from bottle import (route, SimpleTemplate, request,
@@ -123,23 +125,46 @@ def handle_media(filename):
     return static_file(filename, root=_MEDIA)
 
 
-app = _app()
-# options to push in  a config file XXX
-app.db = 'redis'
-app.dboptions = {}
-app.wsserver = 'localhost'
-app.wsport = 8080
-app.broker = 'ipc:///tmp/loads-front.ipc'
-app.controller = Controller(db=app.db, dboptions=app.dboptions,
-                            broker=app.broker)
-
-bottle.debug(True)
-
 
 def main():
-    server = WSGIServer(("0.0.0.0", 8080), app,
+    parser = argparse.ArgumentParser(description='Run the Loads Dashboard')
+    parser.add_argument('config', help='configuration file', nargs='?')
+    args = parser.parse_args()
+
+    # default config
+    options = ['db', 'wsserver', 'wsport', 'broker', 'debug', 'host', 'port']
+    config = {'db': 'python',
+              'dboptions': {},
+              'wsserver': 'localhost',
+              'wsport': 8080,
+              'broker': 'ipc:///tmp/loads-front.ipc',
+              'debug': True,
+              'host': '0.0.0.0',
+              'port': 8080}
+
+    if args.config is not None:
+        config_parser = Config(args.config)
+        for key, value in config_parser.items('loads'):
+            if key not in options:
+                continue
+            config[key] = value
+
+    app = _app()
+    app.config = config
+    app.controller = Controller(config['db'], config['dboptions'],
+                                broker=config['broker'])
+
+    if config['debug']:
+        bottle.debug(True)
+
+    print('Running on %s:%d...' % (config['host'], config['port']))
+    server = WSGIServer((config['host'], config['port']), app,
                         handler_class=WebSocketHandler)
-    return server.serve_forever()
+    try:
+        return server.serve_forever()
+    except KeyboardInterrupt:
+        print('Bye!')
+        return 0
 
 
 if __name__ == '__main__':
