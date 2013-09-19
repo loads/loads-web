@@ -166,6 +166,7 @@ def main():
         bottle.debug(True)
 
     print('Running on %s:%d...' % (config['host'], config['port']))
+    print('The broker is at %s' % config['broker'])
     server = WSGIServer((config['host'], config['port']), app,
                         handler_class=WebSocketHandler)
     try:
