@@ -57,6 +57,10 @@ def handle_index():
 
 
 def _get_runs(size=10):
+    """Returns the last :param size: runs.
+
+    Return a list of active and inactive runs.
+    """
     def _dated(run_id):
         info = app.controller.get_run_info(run_id, data=False)
         started = info['metadata'].get('started', 0)
@@ -71,7 +75,7 @@ def _get_runs(size=10):
                                                                 data=False)]
     inactives.sort()
     inactives.reverse()
-    return runs[:10], inactives[:10]
+    return runs[:size], inactives[:size]
 
 
 @route('/run/<run_id>')
