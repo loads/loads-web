@@ -85,14 +85,14 @@ class Controller(object):
 
         runs = []
 
-        for run in self.db.get_runs():
-            info = self.get_run_info(run)
+        for run_id in self.db.get_runs():
+            metadata = self.db.get_metadata(run_id)
             for key, value in filters.items():
-                if key not in info['metadata']:
+                if key not in metadata:
                     continue
                 else:
-                    if info['metadata'][key] == value:
-                        runs.append(run)
+                    if metadata[key] == value:
+                        runs.append(run_id)
                         break
 
         return runs
@@ -161,7 +161,6 @@ class Controller(object):
             counts['finished'] = 'N/A'
             counts['success'] = False
             metadata['style'] = 'red'
-
 
         if metadata.get('active', False):
             metadata['active_label'] = 'Running'
