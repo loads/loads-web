@@ -40,7 +40,6 @@
 
   <dt>Duration</dt>
   <dd>{{info['metadata']['duration']}}</dd>
-
 </dl>
 
 
@@ -69,6 +68,10 @@
 
  <dt>Bytes/websockets</dt>
  <dd id="count-socket_message">{{info['counts'].get('socket_message', 0)}}</dd>
+
+ <dt>Requests / second (RPS)</dt>
+ <dd id="count-rps">{{ info['counts'].get('rps') }}</dd>
+
 
 
 %if len(info['custom']) > 0:
