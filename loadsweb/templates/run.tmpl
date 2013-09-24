@@ -88,7 +88,11 @@
 
 %for hashed, (count, tb) in info['errors']:
   <div id="error-{{hashed}}">
-    <strong><span id="error-{{hashed}}-count">{{count}}</span>
+    <strong><span id="error-{{hashed}}-count">{{count}}
+    %if count == 100:
+    +
+    %endif
+    </span>
             occurrences:
     </strong>
 
