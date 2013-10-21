@@ -62,6 +62,9 @@ class Controller(object):
         self.backend = db
         self._init()
 
+    def get_projects(self):
+        return self.db.get_projects()
+
     def reconnect(self):
         self._init()
 

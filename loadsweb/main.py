@@ -49,8 +49,10 @@ def handle_index():
         return render('error', message='The Broker seems down')
 
     runs, inactives = _get_runs(size=10)
+    projects = app.controller.get_projects()
     return render('index', runs=runs, inactives=inactives,
                   controller=app.controller,
+                  projects=projects,
                   broker_info=info,
                   wsserver=app.config['wsserver'],
                   wsport=app.config['wsport'])
@@ -76,6 +78,16 @@ def _get_runs(size=10):
     inactives.sort()
     inactives.reverse()
     return runs[:size], inactives[:size]
+
+
+@route('/projects/<project>')
+def handle_project(project):
+    return render('project',
+                  controller=app.controller,
+                  project=project,
+                  wsserver=app.config['wsserver'],
+                  wsport=app.config['wsport'])
+
 
 
 @route('/run/<run_id>')
