@@ -58,7 +58,7 @@ def handle_index():
                   wsport=app.config['wsport'])
 
 
-def _get_runs(size=10):
+def _get_runs(size=10, project_name=None):
     """Returns the last :param size: runs.
 
     Return a list of active and inactive runs.
@@ -69,12 +69,17 @@ def _get_runs(size=10):
         fqn = info['metadata']['fqn']
         return started, fqn, run_id, info
 
-    runs = [_dated(run) for run in app.controller.get_runs(active=True,
-                                                           data=False)]
+    filters = {'active': True}
+    if project_name is not None:
+        filters['project_name'] = project_name
+
+    get_runs = app.controller.get_runs
+    runs = [_dated(run) for run in get_runs(**filters)]
     runs.sort()
 
-    inactives = [_dated(run) for run in app.controller.get_runs(stopped=True,
-                                                                data=False)]
+    del filters['active']
+    filters['stopped'] = True
+    inactives = [_dated(run) for run in get_runs(**filters)]
     inactives.sort()
     inactives.reverse()
     return runs[:size], inactives[:size]
@@ -82,7 +87,10 @@ def _get_runs(size=10):
 
 @route('/projects/<project>')
 def handle_project(project):
-    return render('project',
+    runs, inactives = _get_runs(size=10, project_name=project)
+
+    return render('project', runs=runs,
+                  inactives=inactives,
                   controller=app.controller,
                   project=project,
                   wsserver=app.config['wsserver'],
@@ -97,6 +105,7 @@ def handle_run(run_id=None):
     return render('run', run_id=run_id,
                   info=info, active=info['metadata'].get('active', False),
                   controller=app.controller,
+                  metadata=info['metadata'],
                   wsserver=app.config['wsserver'],
                   wsport=app.config['wsport'])
 

@@ -9,8 +9,17 @@
   </div>
 %end
 
+%if metadata.get('project_name'):
+<h2>
+Project <a href="/projects/{{metadata['project_name']}}">
+  {{metadata['project_name']}}</a>
+</h2>
+%end
 
-<p>Testing <strong>{{info['metadata']['fqn']}}</strong></p>
+<p>Testing <strong>{{info['metadata']['fqn']}}</strong>
+
+
+</p>
 
 <dl id="summary">
   <h3>Status</h3>

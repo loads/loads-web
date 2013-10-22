@@ -2,3 +2,53 @@
 
 <h1>{{project}}</h1>
 
+<div style="clear: both"></div>
+
+<h2>Trending</h2>
+
+<div>
+
+</div>
+
+
+<div id="active">
+
+<h3 id="active-title">Active Runs</h3>
+%if len(runs) > 0:
+  %for index, (started, fqn, run_id, info) in enumerate(runs):
+  <div id="run-{{run_id}}">
+    <a href="/run/{{run_id}}"><span class="status yellow"></span>{{fqn}}</a>
+  </div>
+  %end
+%else:
+ <span id="norun">
+  Nothing is running.
+ </span>
+%end
+
+</div>
+
+<div style="clear: both"></div>
+
+<h3>Stored Runs</h3>
+<table class="stored">
+  <thead>
+    <tr>
+      <th>Test</th>
+      <th>Duration</th>
+      <th>Finished</th>
+    </tr>
+  </thead>
+  <tbody id="stored">
+    %for index, (started, fqn, run_id, info) in enumerate(inactives):
+  <tr id="inactive-{{run_id}}" class="{{info['counts']['success'] and 'green' or 'red'}}">
+    <td><a href="/run/{{run_id}}"><span class="status {{info['counts']['success'] and 'green' or 'red'}}"></span>{{fqn}}</a></td>
+    <td>{{info['counts']['elapsed']}}</td>
+    <td>{{info['counts']['finished']}} ago</td>
+  </tr>
+  %end
+  </tbody>
+</table>
+
+
+

@@ -82,22 +82,23 @@ class Controller(object):
     def get_broker_info(self):
         return self.client.ping()
 
-    def get_runs(self, **filters):
+    def get_runs(self, data=False, **filters):
         if filters == {}:
             return self.db.get_runs()
 
         runs = []
-
         for run_id in self.db.get_runs():
             metadata = self.db.get_metadata(run_id)
+            matches = 0
             for key, value in filters.items():
                 if key not in metadata:
                     continue
-                else:
-                    if metadata[key] == value:
-                        runs.append(run_id)
-                        break
 
+                if metadata[key] == value:
+                    matches += 1
+
+            if matches == len(filters):
+                runs.append(run_id)
         return runs
 
     def get_run_info(self, run_id, data=True):
