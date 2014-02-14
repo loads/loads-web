@@ -64,7 +64,7 @@ def _get_runs(size=10):
     def _dated(run_id):
         info = app.controller.get_run_info(run_id, data=False)
         started = info['metadata'].get('started', 0)
-        fqn = info['metadata']['fqn']
+        fqn = info['metadata'].get('fqn', '?')
         return started, fqn, run_id, info
 
     runs = [_dated(run) for run in app.controller.get_runs(active=True,
