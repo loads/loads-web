@@ -9,9 +9,15 @@
 <h3 id="active-title">Active Runs</h3>
 %if len(runs) > 0:
   %for index, (started, fqn, run_id, info) in enumerate(runs):
-  <div id="run-{{run_id}}">
-    <a href="/run/{{run_id}}"><span class="status yellow"></span>{{fqn}}</a>
-  </div>
+    %if fqn.endswith('test_health'):
+    <div id="run-{{run_id}}">
+      <a href="/run/{{run_id}}"><span class="status yellow"></span>Health Check</a>
+    </div>
+    %else:
+    <div id="run-{{run_id}}">
+      <a href="/run/{{run_id}}"><span class="status yellow"></span>{{fqn}}</a>
+    </div>
+    %end
   %end
 %else:
  <span id="norun">
@@ -33,11 +39,24 @@
   </thead>
   <tbody id="stored">
     %for index, (started, fqn, run_id, info) in enumerate(inactives):
-  <tr id="inactive-{{run_id}}" class="{{info['counts']['success'] and 'green' or 'red'}}">
-    <td><a href="/run/{{run_id}}"><span class="status {{info['counts']['success'] and 'green' or 'red'}}"></span>{{fqn}}</a></td>
-    <td>{{info['counts']['elapsed']}}</td>
-    <td>{{info['counts']['finished']}} ago</td>
-  </tr>
+      %if fqn.endswith('test_health'):
+        <tr id="inactive-{{run_id}}" class="{{info['counts']['success'] and 'green' or 'red'}}">
+        <td>
+          <a href="/run/{{run_id}}"><span class="status {{info['counts']['success'] and 'green' or 'red'}}"></span>Health Check</a>
+         </td>
+        <td>{{info['counts']['elapsed']}}</td>
+        <td>{{info['counts']['finished']}} ago</td>
+      </tr>
+
+      %else:
+      <tr id="inactive-{{run_id}}" class="{{info['counts']['success'] and 'green' or 'red'}}">
+        <td>
+          <a href="/run/{{run_id}}"><span class="status {{info['counts']['success'] and 'green' or 'red'}}"></span>{{fqn}}</a>
+         </td>
+        <td>{{info['counts']['elapsed']}}</td>
+        <td>{{info['counts']['finished']}} ago</td>
+      </tr>
+      %end
   %end
   </tbody>
 </table>

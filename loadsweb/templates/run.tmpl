@@ -9,8 +9,11 @@
   </div>
 %end
 
-
+%if fqn.endswith('test_health'):
+<p>Health Check. Loads runs a dummy test across all agents to verify that the cluster is healthy.</p>
+%else:
 <p>Testing <strong>{{info['metadata']['fqn']}}</strong></p>
+%end
 
 <dl id="summary">
 
