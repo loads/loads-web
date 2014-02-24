@@ -18,10 +18,12 @@
 <dl id="summary">
 
   <h3>Status</h3>
-
+  
+  %if 'user_id' in info['metadata']:
   <dt>Test was launched by</dt>
   <dd>{{info['metadata']['user_id']}}</dd>
-
+  %end
+ 
   <dt>Run Id</dt>
   <dd>{{run_id}}</dd>
 
