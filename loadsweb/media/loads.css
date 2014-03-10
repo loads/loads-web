@@ -138,7 +138,7 @@ div.date {
 
 
 #summary dt, #results dt, #status dt, #active dt{
-  width: 150px;
+  width: 250px;
   float: left;
   clear: left;
 }
