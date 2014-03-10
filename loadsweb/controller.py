@@ -8,7 +8,7 @@ from loads.transport.client import Client
 
 def finished(date):
     age = datetime.now() - date
-    return seconds_to_time(age.seconds, loose=True)
+    return seconds_to_time(age.total_seconds(), loose=True)
 
 
 def seconds_to_time(seconds, loose=False):
