@@ -146,16 +146,22 @@ class Controller(object):
             else:
                 rps = hits / elapsed
 
+            def _stamp2time(stamp):
+                if not isinstance(stamp, datetime):
+                    stamp = datetime.fromtimestamp(int(stamp))
+                return stamp.strftime('%Y-%m-%d %H:%M:%S UTC')
+
             started = datetime.fromtimestamp(int(started))
-            metadata['started'] = started.strftime('%Y-%m-%d %H:%M:%S')
+            metadata['started'] = _stamp2time(started)
             counts['rps'] = int(rps)
             counts['elapsed'] = seconds_to_time(elapsed)
             ended = started + timedelta(seconds=elapsed)
             counts['finished'] = finished(ended)
+            metadata['ended'] = _stamp2time(ended)
             counts['success'] = counts.get('addError', 0) == 0
             metadata['style'] = counts['success'] and 'green' or 'red'
         else:
-            metadata['started'] = 'N/A'
+            metadata['started'] = metadata['ended'] = 'N/A'
             counts['rps'] = 0
             counts['elapsed'] = 0
             counts['finished'] = 'N/A'
