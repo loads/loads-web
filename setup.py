@@ -4,7 +4,8 @@ from setuptools import setup, find_packages
 from loadsweb import __version__
 
 
-install_requires = ['bottle', 'loads', 'gevent-websocket', 'konfig']
+install_requires = ['bottle', 'loads', 'gevent-websocket', 'konfig',
+                    'bottle-cork']
 
 try:
     import argparse     # NOQA
@@ -36,4 +37,5 @@ setup(name='loadsweb',
       entry_points="""
       [console_scripts]
       loads-web = loadsweb.main:main
+      loads-hash = loadsweb.main:hash_pbkdf2
       """)
