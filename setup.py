@@ -37,4 +37,5 @@ setup(name='loadsweb',
       entry_points="""
       [console_scripts]
       loads-web = loadsweb.main:main
+      loads-hash = loadsweb.main:hash_pbkdf2
       """)

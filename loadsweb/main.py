@@ -152,13 +152,12 @@ def handle_media(filename):
 #
 # auth
 #
-def hash_pbkdf2(username, pwd, salt=None):
+def hash_pbkdf2():
+    username = raw_input('username: ')
+    pwd = raw_input('password: ')
     from beaker import crypto
     from base64 import b64encode
-    if salt is None:
-        salt = os.urandom(32)
-
-    assert len(salt) == 32, "Incorrect salt length"
+    salt = os.urandom(32)
     cleartext = "%s\0%s" % (username, pwd)
     h = crypto.generateCryptoKeys(cleartext, salt, 10)
     if len(h) != 32:
@@ -167,7 +166,7 @@ def hash_pbkdf2(username, pwd, salt=None):
                            "missing." % len(h))
 
     # 'p' for PBKDF2
-    return b64encode('p' + salt + h)
+    print b64encode('p' + salt + h)
 
 
 def post_get(name, default=''):
