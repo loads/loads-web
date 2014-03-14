@@ -4,7 +4,8 @@ from setuptools import setup, find_packages
 from loadsweb import __version__
 
 
-install_requires = ['bottle', 'loads', 'gevent-websocket', 'konfig']
+install_requires = ['bottle', 'loads', 'gevent-websocket', 'konfig',
+                    'bottle-cork']
 
 try:
     import argparse     # NOQA

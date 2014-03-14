@@ -9,10 +9,12 @@ import bottle
 from bottle import (route, SimpleTemplate, request,
                     app as _app, TEMPLATE_PATH, static_file,
                     abort, redirect)
+from cork import Cork
 
 import gevent
 from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketHandler, WebSocketError
+from beaker.middleware import SessionMiddleware
 
 from loadsweb.controller import Controller
 from loads.transport.client import TimeoutError
@@ -24,6 +26,16 @@ _MEDIA = os.path.join(os.path.dirname(__file__), 'media')
 TEMPLATE_PATH.append(_TMPL)
 
 
+def authorize():
+
+    def _authorize(func):
+        def __authorize(*args, **kw):
+            app.auth.require(fail_redirect='/login')
+            return func(*args, **kw)
+        return __authorize
+    return _authorize
+
+
 def render(name, **options):
     with open(os.path.join(_TMPL, name + '.tmpl')) as f:
 
@@ -31,6 +43,7 @@ def render(name, **options):
 
 
 @route('/')
+@authorize()
 def handle_index():
     if not app.controller.ping_db():
         # the DB is down.
@@ -79,6 +92,7 @@ def _get_runs(size=10):
 
 
 @route('/run/<run_id>')
+@authorize()
 def handle_run(run_id=None):
     info = app.controller.get_run_info(run_id)
 
@@ -90,6 +104,7 @@ def handle_run(run_id=None):
 
 
 @route('/status/websocket')
+@authorize()
 def handle_status():
     wsock = request.environ.get('wsgi.websocket')
     if not wsock:
@@ -106,6 +121,7 @@ def handle_status():
 
 
 @route('/run/<run_id>/websocket')
+@authorize()
 def handle_websocket(run_id=None):
     wsock = request.environ.get('wsgi.websocket')
     if not wsock:
@@ -122,6 +138,7 @@ def handle_websocket(run_id=None):
 
 
 @route('/run/<run_id>/stop')
+@authorize()
 def handle_stop(run_id=None):
     app.controller.stop(run_id)
     redirect('/run/%s' % run_id)
@@ -130,6 +147,51 @@ def handle_stop(run_id=None):
 @route('/media/<filename>')
 def handle_media(filename):
     return static_file(filename, root=_MEDIA)
+
+
+#
+# auth
+#
+def hash_pbkdf2(username, pwd, salt=None):
+    from beaker import crypto
+    from base64 import b64encode
+    if salt is None:
+        salt = os.urandom(32)
+
+    assert len(salt) == 32, "Incorrect salt length"
+    cleartext = "%s\0%s" % (username, pwd)
+    h = crypto.generateCryptoKeys(cleartext, salt, 10)
+    if len(h) != 32:
+        raise RuntimeError("The PBKDF2 hash is %d bytes long instead"
+                           "of 32. The pycrypto library might be "
+                           "missing." % len(h))
+
+    # 'p' for PBKDF2
+    return b64encode('p' + salt + h)
+
+
+def post_get(name, default=''):
+    return bottle.request.POST.get(name, default).strip()
+
+
+@bottle.post('/login')
+def login_post():
+    """Authenticate users"""
+    username = post_get('username')
+    password = post_get('password')
+    app.auth.login(username, password, success_redirect='/',
+                   fail_redirect='/login')
+
+
+@bottle.get('/login')
+def login():
+    """Authenticate users"""
+    return render('login')
+
+
+@route('/logout')
+def logout():
+    app.auth.logout(success_redirect='/')
 
 
 app = _app()
@@ -158,6 +220,24 @@ def main():
                 continue
             config[key] = value
 
+    session = {
+        'session.cookie_expires': True,
+        'session.encrypt_key': 'XXXX',
+        'session.httponly': True,
+        'session.timeout': 3600 * 24,  # 1 day
+        'session.type': 'cookie',
+        'session.validate_key': True,
+    }
+
+    session_opts = {}
+    for key, default in session.items():
+        session_opts[key] = config.get(key, default)
+
+    global app
+    app = SessionMiddleware(app, session_opts)
+    app.auth = Cork(config.get('auth_conf', 'auth_conf'))
+    app.authorize = app.auth.make_auth_decorator(fail_redirect="/login",
+                                                 role="user")
     app.config = config
     app.controller = Controller(config['db'], config['dboptions'],
                                 broker=config['broker'])
