@@ -121,7 +121,7 @@
 <script>
   $(document).ready(function() {
     initSpinner('spinner');
-    initRunSocket("ws://{{wsserver}}:{{wsport}}/run/{{run_id}}/websocket");
+    initRunSocket("{{wsscheme}}://{{wsserver}}:{{wsport}}/run/{{run_id}}/websocket");
   });
 </script>
 %end

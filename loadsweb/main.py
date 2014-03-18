@@ -64,7 +64,8 @@ def handle_index():
     runs, inactives = _get_runs(size=10)
     return render('index', runs=runs, inactives=inactives,
                   controller=app.controller,
-                  broker_info=info,
+                  broker_info=info,     
+                  wsscheme=app.config['wsscheme'],
                   wsserver=app.config['wsserver'],
                   wsport=app.config['wsport'])
 
@@ -99,6 +100,7 @@ def handle_run(run_id=None):
     return render('run', run_id=run_id,
                   info=info, active=info['metadata'].get('active', False),
                   controller=app.controller,
+                  wsscheme=app.config['wsscheme'],
                   wsserver=app.config['wsserver'],
                   wsport=app.config['wsport'])
 
@@ -202,9 +204,11 @@ def main():
     args = parser.parse_args()
 
     # default config
-    options = ['db', 'wsserver', 'wsport', 'broker', 'debug', 'host', 'port']
+    options = ['db', 'wsscheme', 'wsserver', 'wsport', 'broker', 'debug', 
+               'host', 'port']
     config = {'db': 'python',
               'dboptions': {},
+              'wsscheme': 'ws',
               'wsserver': 'localhost',
               'wsport': 8080,
               'broker': 'ipc:///tmp/loads-front.ipc',
