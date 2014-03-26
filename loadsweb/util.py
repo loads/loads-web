@@ -5,9 +5,12 @@ from bottle import TEMPLATE_PATH, SimpleTemplate, app, request
 
 def load_conf(config_file=None):
     # default config
-    options = ['db', 'wsserver', 'wsport', 'broker', 'debug', 'host', 'port']
+    options = ['db', 'wsserver', 'wsscheme', 'wsport', 'broker', 'debug',
+               'host', 'port']
+
     config = {'db': 'python',
               'dboptions': {},
+              'wsscheme': 'http',
               'wsserver': 'localhost',
               'wsport': 8080,
               'broker': 'ipc:///tmp/loads-front.ipc',

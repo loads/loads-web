@@ -38,11 +38,13 @@ def handle_index():
             return render('error', message='The Broker seems down')
 
     runs, inactives = _get_runs(size=10)
+
     return render('index', runs=runs, inactives=inactives,
                   controller=_a().controller,
                   broker_info=info,
                   wsserver=_a().config['wsserver'],
-                  wsport=_a().config['wsport'])
+                  wsport=_a().config['wsport'],
+                  wsscheme=_a().config['wsscheme'])
 
 
 def _get_runs(size=10):
@@ -75,7 +77,8 @@ def handle_run(run_id=None):
                   info=info, active=info['metadata'].get('active', False),
                   controller=_a().controller,
                   wsserver=_a().config['wsserver'],
-                  wsport=_a().config['wsport'])
+                  wsport=_a().config['wsport'],
+                  wsscheme=_a().config['wsscheme'])
 
 
 #@authorize()
