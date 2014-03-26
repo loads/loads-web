@@ -60,14 +60,23 @@ class Controller(object):
             self.dboptions = dboptions
         self.broker = broker
         self.backend = db
+        self.db = None
+        self.client = None
         self._init()
 
     def reconnect(self):
         self._init()
 
     def _init(self):
+        # close any previous connector
+        if self.client is not None:
+            self.close()
         self.db = get_database(self.backend, **self.dboptions)
-        self.client = Client(self.broker)
+        self.client = Client(self.broker, timeout_max_overflow=2.)
+
+    def close(self):
+        self.client.close()
+        self.db.close()
 
     def stop(self, run_id):
         self.client.stop_run(run_id)

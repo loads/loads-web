@@ -8,7 +8,7 @@ from konfig import Config
 import bottle
 from bottle import (route, SimpleTemplate, request,
                     app as _app, TEMPLATE_PATH, static_file,
-                    abort, redirect)
+                    abort, redirect, request)
 from cork import Cork
 
 import gevent
@@ -18,6 +18,7 @@ from beaker.middleware import SessionMiddleware
 
 from loadsweb.controller import Controller
 from loads.transport.client import TimeoutError
+from loads.util import set_logger
 
 
 _TMPL = os.path.join(os.path.dirname(__file__), 'templates')
@@ -27,10 +28,9 @@ TEMPLATE_PATH.append(_TMPL)
 
 
 def authorize():
-
     def _authorize(func):
         def __authorize(*args, **kw):
-            app.auth.require(fail_redirect='/login')
+            app.auth.require(fail_redirect='/login?from=%s' % request.path)
             return func(*args, **kw)
         return __authorize
     return _authorize
@@ -56,10 +56,14 @@ def handle_index():
         info = app.controller.get_broker_info()
     except TimeoutError:
         # the broker is down.
-        # XXX status code ?
-        # XXX redirect w/
+        # trying to reconnect
         app.controller.reconnect()
-        return render('error', message='The Broker seems down')
+        try:
+            info = app.controller.get_broker_info()
+        except TimeoutError:
+            # welp.
+            app.controller.close()
+            return render('error', message='The Broker seems down')
 
     runs, inactives = _get_runs(size=10)
     return render('index', runs=runs, inactives=inactives,
@@ -105,8 +109,8 @@ def handle_run(run_id=None):
                   wsport=app.config['wsport'])
 
 
+#@authorize()
 @route('/status/websocket')
-@authorize()
 def handle_status():
     wsock = request.environ.get('wsgi.websocket')
     if not wsock:
@@ -180,14 +184,16 @@ def login_post():
     """Authenticate users"""
     username = post_get('username')
     password = post_get('password')
-    app.auth.login(username, password, success_redirect='/',
-                   fail_redirect='/login')
+    from_ = post_get('from')
+    app.auth.login(username, password, success_redirect=from_,
+                   fail_redirect='/login?from=%s' % from_)
 
 
 @bottle.get('/login')
 def login():
     """Authenticate users"""
-    return render('login')
+    from_ = request.query.get('from', '/')
+    return render('login', from_=from_)
 
 
 @route('/logout')
@@ -199,6 +205,8 @@ app = _app()
 
 
 def main():
+    set_logger()
+
     parser = argparse.ArgumentParser(description='Run the Loads Dashboard')
     parser.add_argument('config', help='configuration file', nargs='?')
     args = parser.parse_args()
