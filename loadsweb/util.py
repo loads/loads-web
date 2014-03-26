@@ -1,4 +1,5 @@
 from konfig import Config
+from bottle import TEMPLATE_PATH, SimpleTemplate, app
 
 
 def load_conf(config_file=None):
@@ -21,3 +22,36 @@ def load_conf(config_file=None):
             config[key] = value
 
     return config
+
+
+def authorize():
+    def _authorize(func):
+        def __authorize(*args, **kw):
+            app.auth.require(fail_redirect='/login?from=%s' % request.path)
+            return func(*args, **kw)
+        return __authorize
+    return _authorize
+
+
+TMPL = os.path.join(os.path.dirname(__file__), 'templates')
+TEMPLATE_PATH.append(TMPL)
+
+
+def render(name, **options):
+    with open(os.path.join(TMPL, name + '.tmpl')) as f:
+        return SimpleTemplate(f.read(), lookup=[TMPL]).render(**options)
+
+
+#
+# meh...
+#
+_app = app()
+
+
+def set_app(app):
+    global _app
+    _app = app
+
+
+def get_app():
+    return _app
