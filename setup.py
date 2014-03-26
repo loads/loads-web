@@ -38,4 +38,5 @@ setup(name='loadsweb',
       [console_scripts]
       loads-web = loadsweb.main:main
       loads-hash = loadsweb.main:hash_pbkdf2
+      loads-adduser = loadsweb.main:add_user
       """)
