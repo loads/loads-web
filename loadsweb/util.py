@@ -1,5 +1,6 @@
+import os
 from konfig import Config
-from bottle import TEMPLATE_PATH, SimpleTemplate, app
+from bottle import TEMPLATE_PATH, SimpleTemplate, app, request
 
 
 def load_conf(config_file=None):
@@ -27,7 +28,8 @@ def load_conf(config_file=None):
 def authorize():
     def _authorize(func):
         def __authorize(*args, **kw):
-            app.auth.require(fail_redirect='/login?from=%s' % request.path)
+            redir = '/login?from=%s' % request.path
+            get_app().auth.require(fail_redirect=redir)
             return func(*args, **kw)
         return __authorize
     return _authorize

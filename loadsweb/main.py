@@ -1,27 +1,20 @@
 import sys
-import os
-from json import dumps
-import socket
 import argparse
 
 import bottle
-from bottle import (route, request,
-                    app as _app, static_file,
-                    abort, redirect)
 from cork import Cork
 
-import gevent
 from gevent.pywsgi import WSGIServer
-from geventwebsocket import WebSocketHandler, WebSocketError
+from geventwebsocket import WebSocketHandler
 
 from beaker.middleware import SessionMiddleware
 
 from loadsweb.controller import Controller
 from loadsweb.util import load_conf, get_app, set_app
-from loadsweb import views
+# loads all views
+from loadsweb import views    # noqa
 
-from loads.transport.client import TimeoutError
-from loads.util import set_logger, TMPL
+from loads.util import set_logger
 
 
 def main():
