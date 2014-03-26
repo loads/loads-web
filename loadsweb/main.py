@@ -3,15 +3,11 @@ import os
 from json import dumps
 import socket
 import argparse
-from konfig import Config
-from base64 import b64encode
-from getpass import getpass
-import json
 
 import bottle
 from bottle import (route, SimpleTemplate, request,
                     app as _app, TEMPLATE_PATH, static_file,
-                    abort, redirect, request)
+                    abort, redirect)
 from cork import Cork
 
 import gevent
@@ -19,9 +15,10 @@ from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketHandler, WebSocketError
 
 from beaker.middleware import SessionMiddleware
-from beaker import crypto
 
 from loadsweb.controller import Controller
+from loadsweb.util import load_conf
+
 from loads.transport.client import TimeoutError
 from loads.util import set_logger
 
@@ -73,7 +70,7 @@ def handle_index():
     runs, inactives = _get_runs(size=10)
     return render('index', runs=runs, inactives=inactives,
                   controller=app.controller,
-                  broker_info=info,     
+                  broker_info=info,
                   wsscheme=app.config['wsscheme'],
                   wsserver=app.config['wsserver'],
                   wsport=app.config['wsport'])
@@ -160,76 +157,6 @@ def handle_media(filename):
     return static_file(filename, root=_MEDIA)
 
 
-#
-# auth
-#
-def hash_pbkdf2():
-    username = raw_input('username: ')
-    pwd = raw_input('password: ')
-    salt = os.urandom(32)
-    cleartext = "%s\0%s" % (username, pwd)
-    h = crypto.generateCryptoKeys(cleartext, salt, 10)
-    if len(h) != 32:
-        raise RuntimeError("The PBKDF2 hash is %d bytes long instead"
-                           "of 32. The pycrypto library might be "
-                           "missing." % len(h))
-
-    # 'p' for PBKDF2
-    print b64encode('p' + salt + h)
-
-
-def add_user():
-    set_logger()
-    parser = argparse.ArgumentParser(description='Adds users')
-    parser.add_argument('config', help='configuration file', nargs='?')
-    parser.add_argument('--overwrite', help='overwrite existing user',
-                        action='store_true', default=False)
-
-    args = parser.parse_args()
-    config = _load_conf(args.config)
-
-    username = raw_input('username: ')
-    pwd = getpass('password: ')
-
-    salt = os.urandom(32)
-    cleartext = "%s\0%s" % (username, pwd)
-    h = crypto.generateCryptoKeys(cleartext, salt, 10)
-    if len(h) != 32:
-        raise RuntimeError("The PBKDF2 hash is %d bytes long instead"
-                           "of 32. The pycrypto library might be "
-                           "missing." % len(h))
-
-    # 'p' for PBKDF2
-    hash = b64encode('p' + salt + h)
-
-    # now adding the user
-    conf_dir = config.get('auth_conf', 'auth_conf')
-
-    with open(os.path.join(conf_dir, 'users.json')) as f:
-        users = json.loads(f.read())
-
-    with open(os.path.join(conf_dir, 'roles.json')) as f:
-        roles = json.loads(f.read())
-
-    if username in users and not args.overwrite:
-        print('User %r exists. Use --overwrite' % username)
-        sys.exit(0)
-
-
-    users[username] = {'email_addr': '', 'role': 'user', 'hash': hash,
-                       'desc': ''}
-
-    with open(os.path.join(conf_dir, 'users.json'), 'w') as f:
-        f.write(json.dumps(users))
-
-    if username not in roles['user']:
-        roles['user'].append(username)
-        with open(os.path.join(conf_dir, 'roles.json'), 'w') as f:
-            f.write(json.dumps(roles))
-
-    print('User %r added.' % username)
-
-
 def post_get(name, default=''):
     return bottle.request.POST.get(name, default).strip()
 
@@ -261,7 +188,7 @@ app = _app()
 
 def _load_conf(config_file=None):
     # default config
-    options = ['db', 'wsscheme', 'wsserver', 'wsport', 'broker', 'debug', 
+    options = ['db', 'wsscheme', 'wsserver', 'wsport', 'broker', 'debug',
                'host', 'port']
     config = {'db': 'python',
               'dboptions': {},
@@ -288,7 +215,7 @@ def main():
     parser = argparse.ArgumentParser(description='Run the Loads Dashboard')
     parser.add_argument('config', help='configuration file', nargs='?')
     args = parser.parse_args()
-    config = _load_conf(args.config)
+    config = load_conf(args.config)
 
     session = {
         'session.cookie_expires': True,
