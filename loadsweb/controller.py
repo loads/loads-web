@@ -70,7 +70,10 @@ class Controller(object):
     def _init(self):
         # close any previous connector
         if self.client is not None:
-            self.close()
+            try:
+                self.close()
+            except zmq.ZMQError:
+                pass
         self.db = get_database(self.backend, **self.dboptions)
         self.client = Client(self.broker, timeout_max_overflow=2.)
 
