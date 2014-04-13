@@ -6,6 +6,7 @@ from bottle import route, request, static_file, abort, redirect, post, get
 
 from geventwebsocket import WebSocketError
 import gevent
+import zmq
 
 from loads.transport.client import TimeoutError
 from loadsweb.util import get_app as _a, authorize, render
@@ -26,13 +27,13 @@ def handle_index():
 
     try:
         info = _a().controller.get_broker_info()
-    except TimeoutError:
+    except (TimeoutError, zmq.ZMQError):
         # the broker is down.
         # trying to reconnect
         _a().controller.reconnect()
         try:
             info = _a().controller.get_broker_info()
-        except TimeoutError:
+        except (TimeoutError, zmq.ZMQError):
             # welp.
             _a().controller.close()
             return render('error', message='The Broker seems down')
