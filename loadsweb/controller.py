@@ -2,6 +2,7 @@ import time
 from datetime import datetime, timedelta
 from hashlib import md5
 
+import zmq
 from loads.db import get_database
 from loads.transport.client import Client
 
