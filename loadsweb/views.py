@@ -1,6 +1,7 @@
 import os
 from json import dumps
 import socket
+from collections import defaultdict
 
 from bottle import route, request, static_file, abort, redirect, post, get
 
@@ -46,6 +47,23 @@ def handle_index():
                   wsserver=_a().config['wsserver'],
                   wsport=_a().config['wsport'],
                   wsscheme=_a().config['wsscheme'])
+
+
+@route('/agents')
+@authorize()
+def handle_agents():
+    info = _a().controller.get_broker_info()
+
+    # agents by hostname
+    hosts = defaultdict(list)
+    numagents = len(info['agents'])
+
+    for pid, info in info['agents'].items():
+        hosts[info['hostname']].append(pid)
+
+    hosts = hosts.items()
+    hosts.sort()
+    return render('agents', hosts=hosts, numagents=numagents)
 
 
 def _get_runs(size=10):

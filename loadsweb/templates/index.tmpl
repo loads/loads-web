@@ -1,7 +1,9 @@
 %rebase base.tmpl
 
 <div id="agents">
-  Powered by {{len(broker_info.get('agents', []))}} agents.
+  <a href="/agents">
+    Powered by {{len(broker_info.get('agents', []))}} agents.
+  </a>
 </div>
 
 <div id="active">

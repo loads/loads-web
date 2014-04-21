@@ -1,0 +1,16 @@
+%rebase base.tmpl
+
+<h3>Cluster of {{numagents}} agent(s)</h3>
+
+<ul>
+%for host, agents in hosts:
+  <li>
+  Host : {{host}}
+  <ul>
+  %for agent in agents:
+    <li>{{agent}}</li>
+  %end
+  </ul>
+  </li>
+%end
+</ul>
