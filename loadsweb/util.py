@@ -6,7 +6,7 @@ from bottle import TEMPLATE_PATH, SimpleTemplate, app, request
 def load_conf(config_file=None):
     # default config
     options = ['db', 'wsserver', 'wsscheme', 'wsport', 'broker', 'debug',
-               'host', 'port']
+               'host', 'port', 'no_auth']
 
     config = {'db': 'python',
               'dboptions': {},
@@ -16,7 +16,8 @@ def load_conf(config_file=None):
               'broker': 'ipc:///tmp/loads-front.ipc',
               'debug': True,
               'host': '0.0.0.0',
-              'port': 8080}
+              'port': 8080,
+              'no_auth': False}
 
     if config_file is not None:
         config_parser = Config(config_file)
@@ -31,8 +32,9 @@ def load_conf(config_file=None):
 def authorize():
     def _authorize(func):
         def __authorize(*args, **kw):
-            redir = '/login?from=%s' % request.path
-            get_app().auth.require(fail_redirect=redir)
+            if get_app().auth is not None:
+                redir = '/login?from=%s' % request.path
+                get_app().auth.require(fail_redirect=redir)
             return func(*args, **kw)
         return __authorize
     return _authorize

@@ -38,9 +38,12 @@ def main():
         session_opts[key] = config.get(key, default)
 
     app = SessionMiddleware(get_app(), session_opts)
-    app.auth = Cork(config.get('auth_conf', 'auth_conf'))
-    app.authorize = app.auth.make_auth_decorator(fail_redirect="/login",
-                                                 role="user")
+    if config.get('no_auth'):
+        app.authorize = app.auth = None
+    else:
+        app.auth = Cork(config.get('auth_conf', 'auth_conf'))
+        app.authorize = app.auth.make_auth_decorator(fail_redirect="/login",
+                                                     role="user")
     app.config = config
     app.controller = Controller(config['db'], config['dboptions'],
                                 broker=config['broker'])
