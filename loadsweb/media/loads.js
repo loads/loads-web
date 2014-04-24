@@ -4,8 +4,8 @@ function isInArray(value, array) {
 var counters = [];
 var tmpl = '<div id=\'error-{{hashed}}\'>' + '<strong><span id=\'error-{{hashed}}-count\'>{{count}}</span> occurrences:</strong>' + '<pre>{{tb}}</pre>' + '</div>';
 var template = Handlebars.compile(tmpl);
-var run_tmpl = '<div id=\'run-{{run_id}}\'>' + 
-               '<a href=\'/run/{{run_id}}\'><span class="status yellow"></span>{{fqn}}</a>' + 
+var run_tmpl = '<div id=\'run-{{run_id}}\'>' +
+               '<a href=\'/run/{{run_id}}\'><span class="status yellow"></span>{{fqn}}</a>' +
                '</div>';
 var run_template = Handlebars.compile(run_tmpl);
 

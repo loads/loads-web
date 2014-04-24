@@ -10,7 +10,7 @@ def load_conf(config_file=None):
 
     config = {'db': 'python',
               'dboptions': {},
-              'wsscheme': 'http',
+              'wsscheme': 'ws',
               'wsserver': 'localhost',
               'wsport': 8080,
               'broker': 'ipc:///tmp/loads-front.ipc',

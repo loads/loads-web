@@ -86,6 +86,9 @@ class Controller(object):
         self.client.stop_run(run_id)
         self.get_broker_info()
 
+    def agent_status(self, agent_id):
+        return self.client.status(agent_id)
+
     def ping_db(self):
         return self.db.ping()
 

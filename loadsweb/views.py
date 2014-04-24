@@ -59,7 +59,10 @@ def handle_agents():
     numagents = len(info['agents'])
 
     for pid, info in info['agents'].items():
-        hosts[info['hostname']].append(pid)
+        agent = {'pid': pid}
+        # check if the agent is doing something...
+        agent['status'] = _a().controller.agent_status(pid)
+        hosts[info['hostname']].append(agent)
 
     hosts = hosts.items()
     hosts.sort()

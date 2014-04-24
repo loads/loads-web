@@ -7,8 +7,19 @@
   <li>
   Host : {{host}}
   <ul>
-  %for agent in agents:
-    <li>{{agent}}</li>
+  %for agent_info in agents:
+    <li>{{agent_info['pid']}}
+    %if agent_info['status']['status'] == {}:
+     - Idling
+    %else:
+     - Busy 
+   <ul>
+    %for pid, info in agent_info['status']['status'].items():
+     <li>process {{pid}} works on <a href="/run/{{info['run_id']}}">{{info['run_id']}}</a>.</li>
+    %end
+   </ul>
+    %end
+    </li>
   %end
   </ul>
   </li>
