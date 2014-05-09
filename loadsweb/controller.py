@@ -79,7 +79,7 @@ class Controller(object):
         self.client = Client(self.broker, timeout_max_overflow=20.)
 
     def health_check(self):
-        client = Client(self.broker, timeout_max_overflow=2.)
+        client = Client(self.broker, timeout_max_overflow=20.)
         ping = client.ping()
         total_agents = len(ping['agents'])
         if total_agents == 0:
