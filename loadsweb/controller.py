@@ -78,6 +78,31 @@ class Controller(object):
         self.db = get_database(self.backend, **self.dboptions)
         self.client = Client(self.broker, timeout_max_overflow=2.)
 
+    def health_check(self):
+        client = Client(self.broker, timeout_max_overflow=2.)
+        ping = client.ping()
+        total_agents = len(ping['agents'])
+        if total_agents == 0:
+            msg = 'No agents currently registered.'
+            return False, msg, 0
+
+        runs = client.list_runs().items()
+        busy_agents = sum([len(agents) for run_id, agents in runs])
+        avail = total_agents - busy_agents
+        if avail == 0:
+            # no agents are available.
+            msg = 'All agents are busy.'
+            return False, msg, 0
+
+        args = {'fqn': 'loads.examples.test_blog.TestWebSite.test_health',
+                'hits': '1',
+                'agents': avail,
+                'users': '1',
+                'detach': True}
+
+        client.run(args)
+        return True, 'Health check launched', avail
+
     def close(self):
         self.client.close()
         self.db.close()

@@ -11,6 +11,10 @@
       <a href="/">
         <img src="/media/logo.png" id="logo"></img><h1>Loads cluster</h1>
       </a>
+
+      %if defined('message'):
+        <div id="message">{{message}}</div>
+      %end
     </div>
     <div class="content">
     %include

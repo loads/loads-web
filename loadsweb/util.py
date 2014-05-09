@@ -45,6 +45,7 @@ TEMPLATE_PATH.append(TMPL)
 
 
 def render(name, **options):
+    # default variables
     with open(os.path.join(TMPL, name + '.tmpl')) as f:
         return SimpleTemplate(f.read(), lookup=[TMPL]).render(**options)
 

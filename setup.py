@@ -5,7 +5,7 @@ from loadsweb import __version__
 
 
 install_requires = ['bottle', 'loads', 'gevent-websocket', 'konfig',
-                    'bottle-cork']
+                    'bottle-cork', 'bleach']
 
 try:
     import argparse     # NOQA

@@ -2,6 +2,7 @@ import os
 from json import dumps
 import socket
 from collections import defaultdict
+import bleach
 
 from bottle import route, request, static_file, abort, redirect, post, get
 
@@ -41,12 +42,24 @@ def handle_index():
 
     runs, inactives = _get_runs(size=10)
 
+    options = {}
+    if 'msg' in request.GET:
+        options['message'] = bleach.clean(request.GET['msg'])
+
     return render('index', runs=runs, inactives=inactives,
                   controller=_a().controller,
                   broker_info=info,
                   wsserver=_a().config['wsserver'],
                   wsport=_a().config['wsport'],
-                  wsscheme=_a().config['wsscheme'])
+                  wsscheme=_a().config['wsscheme'],
+                  **options)
+
+
+@route('/health_check')
+@authorize()
+def health_check():
+    result, msg, agents = _a().controller.health_check()
+    redirect('/?msg=' + msg)
 
 
 @route('/agents')

@@ -14,6 +14,7 @@ div.dashboardHeader {
 h1 {
   color: rgb(226, 107, 29);
   float: left;
+  text-shadow: 0.01em 0.01em #C2C2C2;
 }
 
 div.header {
@@ -53,7 +54,7 @@ div.content {
 
 h2, h3 {
   color: rgb(226, 107, 29);
-
+  text-shadow: 0.005em 0.005em #C2C2C2;
 }
 
 div.dashboard {
@@ -249,5 +250,15 @@ tr.red a {
   color: rgb(226, 107, 29);
   background-color: rgb(250, 255, 250);
   font-size: 70%;
-
 }
+
+#message {
+  padding: 5px;
+  color: #F9DE4E;
+  font-size: 120%;
+  font-weight: bold;
+  float: right;
+  vertical-align: middle;
+  text-shadow: 0.01em 0.01em #C2C2C2;
+}
+

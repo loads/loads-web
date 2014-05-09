@@ -57,11 +57,18 @@ function initStatusSocket(url) {
         }
         // let's add it to the inactive list if not present
         if (!$(inactive_id).length) {
+          if (value[1] == 'loads.examples.test_blog.TestWebSite.test_health') {
+              var fqn = 'Health Check';
+          } else {
+              var fqn = value[1];
+          }
+
+
           // we need to add a new run
           var context = {
               index: key,
               started: value[0],
-              fqn: value[1],
+              fqn: fqn,
               run_id: value[2],
               elapsed: value[3].counts.elapsed,
               finished: value[3].counts.finished,
