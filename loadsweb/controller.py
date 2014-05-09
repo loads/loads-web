@@ -76,7 +76,7 @@ class Controller(object):
             except zmq.ZMQError:
                 pass
         self.db = get_database(self.backend, **self.dboptions)
-        self.client = Client(self.broker, timeout_max_overflow=2.)
+        self.client = Client(self.broker, timeout_max_overflow=20.)
 
     def health_check(self):
         client = Client(self.broker, timeout_max_overflow=2.)
