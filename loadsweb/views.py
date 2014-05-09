@@ -40,7 +40,7 @@ def handle_index():
             _a().controller.close()
             return render('error', message='The Broker seems down')
 
-    runs, inactives = _get_runs(size=10)
+    runs, inactives = _get_runs(size=30)
 
     options = {}
     if 'msg' in request.GET:
