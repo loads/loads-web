@@ -71,10 +71,10 @@ def handle_agents():
     hosts = defaultdict(list)
     numagents = len(info['agents'])
 
-    for pid, info in info['agents'].items():
-        agent = {'pid': pid}
+    for agent_id, info in info['agents'].items():
+        agent = {'agent_id': agent_id, 'pid': info['pid']}
         # check if the agent is doing something...
-        agent['status'] = _a().controller.agent_status(pid)
+        agent['status'] = _a().controller.agent_status(agent_id)
         hosts[info['hostname']].append(agent)
 
     hosts = hosts.items()
