@@ -1,12 +1,15 @@
 %rebase base.tmpl message=get('message', '')
 
-<div id="agents">
-  <a href="/agents">
-    Powered by {{len(broker_info.get('agents', []))}} agents.
-  </a>
-</div>
-
 <div id="active">
+
+<h3>Cluster Management</h3>
+
+<div>
+  <a href="/agents">Agents statuses</a>
+</div>
+<div>
+  <a href="/health_check">Launch a health check on all agents</a>
+</div>
 
 <h3 id="active-title">Active Runs</h3>
 %if len(runs) > 0:
@@ -30,7 +33,9 @@
 
 <div style="clear: both"></div>
 
-<h3>Stored Runs</h3>
+<h3>Finished Runs</h3>
+<p class="summary">The 30 last finished runs are displayed.</p>
+
 <table class="stored">
   <thead>
     <tr>

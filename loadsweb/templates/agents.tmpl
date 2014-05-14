@@ -1,10 +1,9 @@
 %rebase base.tmpl
 
-<h3>Cluster of {{numagents}} agent(s)</h3>
-
-<div>
-  <a href="/health_check">Launch a health check</a>
-</div>
+<p class="summary">
+The displayed statuses are the last ones sent by the agents - so they 
+may be a bit out of sync
+</p>
 
 <ul>
 %for host, agents in hosts:
