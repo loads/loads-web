@@ -49,7 +49,7 @@ def seconds_to_time(seconds, loose=False):
 _COUNTS = ['addError', 'addSuccess', 'stopTestRun', 'startTest',
            'startTestRun', 'stopTest', 'add_hit',
            'socket_open', 'socket_message', 'socket_close',
-           'socket_message']
+           'socket_message', 'addFailure']
 
 
 class Controller(object):
@@ -199,7 +199,8 @@ class Controller(object):
             ended = started + timedelta(seconds=elapsed)
             counts['finished'] = finished(ended)
             metadata['ended'] = _stamp2time(ended)
-            counts['success'] = counts.get('addError', 0) == 0
+            counts['success'] = (counts.get('addError', 0) == 0 and
+                                 counts.get('addFailure', 0) == 0)
             metadata['style'] = counts['success'] and 'green' or 'red'
         else:
             metadata['started'] = metadata['ended'] = 'N/A'
