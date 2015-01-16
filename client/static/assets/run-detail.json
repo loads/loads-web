@@ -1,0 +1,40 @@
+{
+  "desc": "Testing <b>loadtest.TestLoop.test_all</b>",
+  "status": {
+    "author": "jbonacci",
+    "runId": "dc481968-3610-4083-a5e0-3b6c0bb40f8a",
+    "startTime": "2014-10-20T17:43:43-08:00",
+    "endTime": "2014-10-20T18:14:06-08:00",
+    "duration": "30 min and 23 sec",
+    "state": "Ended"
+  },
+  "configuration": {
+    "users": [
+      20
+    ],
+    "hits": 0,
+    "agents": 5,
+    "duration": 1800,
+    "serverUrl": "https://loop.stage.mozaws.net"
+  },
+  "results": {
+    "testsOver": 70204,
+    "successes": 70204,
+    "failures": 0,
+    "errors": 2,
+    "tcpHits": 281264,
+    "openedWebSockets": 140488,
+    "totalWebSockets": 140488,
+    "bytesPerWebSocket": 30294148,
+    "requestsPerSecond": 154
+  },
+  "customMetrics": {
+    "healthCheck": 20
+  },
+  "errors": [
+    {
+      "count": "2",
+      "message": "Invalid response\n  File \"/usr/lib/python2.7/unittest/case.py\", line 332, in run\n    testMethod()\n  File \"loadtest.py\", line 47, in test_all\n    self._test_websockets(*params)\n  File \"loadtest.py\", line 270, in _test_websockets\n    callee_ws = self.create_ws(progress_url, callback=_handle_callee)\n  File \"loadtest.py\", line 34, in create_ws\n    ws = TestCase.create_ws(self, *args, **kw)\n  File \"/home/ubuntu/loads/loads/case.py\", line 65, in create_ws\n    test_case=self)\n  File \"/home/ubuntu/loads/loads/websockets.py\", line 56, in create_ws\n    extensions, klass, test_case)\n  File \"/home/ubuntu/loads/loads/websockets.py\", line 82, in _create_ws\n    socket.connect()\n  File \"/home/ubuntu/loads/local/lib/python2.7/site-packages/ws4py/client/__init__.py\", line 126, in connect\n    raise HandshakeError(\"Invalid response\")"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+<table class="run-table">
+  <caption>
+    <h2>Finished <span class="round radius label">{{ runs.inactive.length }}</span></h2>
+    <small>Last updated: <time ng-bind="runs.lastSync|date:'medium'"></time></small>
+  </caption>
+  <thead ng-show="runs.inactive.length">
+    <tr runs-head></tr>
+  </thead>
+  <tbody>
+    <tr runs-body ng-repeat="run in runs.inactive" id="run-{{ run.runId }}" class="{{ run.cssClass }}"></tr>
+  </tbody>
+  <!--
+  <tfoot>
+    <tr>
+      <td colspan="4" class="pagination-centered">
+        <ul class="pagination">
+          <li class="arrow unavailable"><a href="">&laquo;</a></li>
+          <li class="current"><a href="">1</a></li>
+          <li><a href="">2</a></li>
+          <li><a href="">3</a></li>
+          <li><a href="">4</a></li>
+          <li class="unavailable"><a href="">&hellip;</a></li>
+          <li><a href="">12</a></li>
+          <li><a href="">13</a></li>
+          <li class="arrow"><a href="">&raquo;</a></li>
+        </ul>
+      </td>
+    </tr>
+  </tfoot>
+  -->
+</table>

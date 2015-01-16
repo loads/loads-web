@@ -1,0 +1,143 @@
+/* Structure */
+body {
+  background: #e9eaed;
+}
+
+body > header {
+  background: #c13832;
+  -webkit-box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .52);
+  box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .52);
+}
+
+.top-bar, .top-bar-section li:not(.has-form) a:not(.button), .top-bar-section ul li {
+  background: none;
+}
+
+.top-bar .name h1 a {
+  font-weight: bold;
+}
+
+.top-bar-section > ul > .divider, .top-bar-section > ul > [role="separator"] {
+  border-right-color: #ad0901;
+}
+
+nav.breadcrumbs {
+  background: none;
+  margin: 10px 0;
+  padding: 0;
+  border: 0;
+  float: right;
+}
+
+h2 .label {
+  float: right;
+  font-size: 1.3rem;
+  background: transparent;
+  color: #999;
+}
+
+.runs-column {
+  width: calc(50% - 20px);
+  width: -webkit-calc(50% - 20px);
+  float: left;
+}
+
+@media (max-width: 768px) {
+
+  .runs-column {
+    width: 100%;
+    float: none; 
+  }
+}
+
+
+/* Tags */
+body, h1, h2, h3, h4, h5, h6 {
+  color: #4d4e53;
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+  color: #222;
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+.runs-column table caption {
+  color: inherit;
+  text-align: start;
+}
+
+.runs-column table h2 {
+  margin-bottom: 0;
+}
+
+.runs-column table caption small {
+  display: block;
+  color: #999;
+  margin-bottom: 10px;
+  font-weight: normal;
+  font-size: 70%;
+}
+
+.run-table {
+  width: 100%;
+}
+.run-table tbody td {
+  border-bottom: 1px solid #eee;
+}
+
+.run-result {
+  position: relative;
+  padding-right: 40px;
+}
+
+.run-result div {
+  font-size: 85%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.run-result-icon {
+  position: absolute;
+  top: 35%;
+  right: 20px;
+}
+
+
+
+
+a.run-link {
+  font-weight: bold;
+  display: block;
+}
+
+.success {
+  background-color: rgba(0, 255, 0, 0.05) !important;
+}
+
+.danger {
+  background-color: rgba(255, 0, 0, 0.05) !important;
+}
+
+.success-text {
+  color: green;
+}
+.danger-text {
+  color: red;
+}
+
+table.details-table {
+  width: 100%;
+}
+
+table.details-table th {
+  text-align: start;
+}
+
+table.details-table tbody th[scope="row"] {
+  width: 10em;
+}

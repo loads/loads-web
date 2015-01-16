@@ -1,0 +1,13 @@
+<!--
+<td><i class="foundicon-{{ run.iconClass }} {{ run.cssClass }}-text"></i> <a ng-href="{{ ROUTES.RUN_DETAIL }}/{{ run.runId }}" class="run-link">{{ run.name }}</a></td>
+<td class="elapsed" ng-bind="run.details.counts.elapsed"></td>
+<td class="finished"><time ng-bind="run.details.counts.finished"></time> ago</td>
+<td><a ng-href="mailto:{{ run.details.metadata.user_id }}@mozilla.com" ng-bind="run.details.metadata.user_id" ng-show="run.details.metadata.user_id"></a></td>
+-->
+<td><div class="run-result result-{{ run.iconClass }}">
+	<i class="run-result-icon foundicon-{{ run.iconClass }} {{ run.cssClass }}-text"></i>
+	<a ng-href="{{ ROUTES.RUN_DETAIL }}/{{ run.runId }}" class="run-link">{{ run.name }}</a>
+	<div class="elapsed" ng-bind="run.details.counts.elapsed" title="Duration"></div>
+	<div class="time"><time ng-bind="run.details.counts.finished"></time> ago</div>
+	<div class="user"><a ng-href="mailto:{{ run.details.metadata.user_id }}@mozilla.com" ng-bind="run.details.metadata.user_id" ng-show="run.details.metadata.user_id"></a></div>
+</div></td>
