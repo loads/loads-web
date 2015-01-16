@@ -1,12 +1,19 @@
-/* Structure */
+/*
+  Imports
+*/
+@import 'fonts.styl';
+
+/* 
+  Site structure 
+*/
 body {
   background: #e9eaed;
-}
-
-body > header {
-  background: #c13832;
-  -webkit-box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .52);
-  box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .52);
+  
+  > header {
+    background: #c13832;
+    -webkit-box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .52);
+    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .52);
+  }
 }
 
 .top-bar, .top-bar-section li:not(.has-form) a:not(.button), .top-bar-section ul li {
@@ -36,22 +43,26 @@ h2 .label {
   color: #999;
 }
 
-.runs-column {
+.half-block {
   width: calc(50% - 20px);
   width: -webkit-calc(50% - 20px);
   float: left;
-}
-
-@media (max-width: 768px) {
-
-  .runs-column {
+  margin-right: 20px;
+  
+  &.clear {
+    clear: left;
+  }
+  
+  @media (max-width: 768px) {
     width: 100%;
     float: none; 
   }
 }
 
 
-/* Tags */
+/* 
+  Tags 
+*/
 body, h1, h2, h3, h4, h5, h6 {
   color: #4d4e53;
   font-family: 'Open Sans', sans-serif;
@@ -66,16 +77,27 @@ h2 {
   font-size: 1.5em;
 }
 
-.runs-column table caption {
-  color: inherit;
-  text-align: start;
+/* 
+  Runs styles 
+*/
+.run-table {
+  width: 100%;
+
+  h2 {
+    margin-bottom: 0;
+  }
+  
+  caption {
+    color: inherit;
+    text-align: start;
+  }
+  
+  tbody td {
+    border-bottom: 1px solid #eee;
+  }
 }
 
-.runs-column table h2 {
-  margin-bottom: 0;
-}
-
-.runs-column table caption small {
+.lastUpdated {
   display: block;
   color: #999;
   margin-bottom: 10px;
@@ -83,22 +105,15 @@ h2 {
   font-size: 70%;
 }
 
-.run-table {
-  width: 100%;
-}
-.run-table tbody td {
-  border-bottom: 1px solid #eee;
-}
-
 .run-result {
   position: relative;
   padding-right: 40px;
-}
-
-.run-result div {
-  font-size: 85%;
-  display: inline-block;
-  margin-right: 8px;
+  
+  div {
+    font-size: 85%;
+    display: inline-block;
+    margin-right: 8px;
+  }
 }
 
 .run-result-icon {
@@ -106,9 +121,6 @@ h2 {
   top: 35%;
   right: 20px;
 }
-
-
-
 
 a.run-link {
   font-weight: bold;
@@ -132,12 +144,12 @@ a.run-link {
 
 table.details-table {
   width: 100%;
-}
-
-table.details-table th {
-  text-align: start;
-}
-
-table.details-table tbody th[scope="row"] {
-  width: 10em;
+  
+  th {
+    text-align: start;
+  }
+  
+  tbody th[scope="row"] {
+    width: 10em;
+  }
 }
