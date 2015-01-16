@@ -2,9 +2,9 @@
   "name": "angular-routes",
   "version": "1.0.0",
   "authors": [
-    "Peter deHaan <peter@deseloper.com>"
+    "Mozilla"
   ],
-  "license": "WTFPL",
+  "license": "Apache",
   "private": true,
   "ignore": [
     "**/.*",

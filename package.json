@@ -1,8 +1,8 @@
 {
-  "name": "loads-template-v3",
+  "name": "loads-web",
   "description": "Testing Hapi w/ Angular routing",
   "version": "1.0.0",
-  "author": "Peter deHaan <peter@deseloper.com> (http://nodeexamples.com/)",
+  "author": "Mozilla (https://mozilla.org/)",
   "bugs": "https://github.com/pdehaan/loads-template-v3/issues",
   "dependencies": {
     "hapi": "7.1.1",
@@ -15,14 +15,14 @@
   "devDependencies": {
     "eslint": "0.9.1"
   },
-  "homepage": "https://github.com/pdehaan/loads-template-v3",
+  "homepage": "https://github.com/loads/loads-web",
   "keywords": [
     "hapi",
     "angular"
   ],
-  "license": "WTFPL",
+  "license": "Apache",
   "main": "server.js",
-  "repository": "pdehaan/loads-template-v3",
+  "repository": "loads/loads-web",
   "scripts": {
     "lint": "eslint .",
     "postinstall": "bower update",
