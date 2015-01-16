@@ -1,7 +1,7 @@
 <table class="run-table">
   <caption>
     <h2>Active <span class="round radius label">{{ runs.active.length }}</span></h2>
-    <small>Last updated: <time ng-bind="runs.lastSync|date:'medium'"></time></small>
+    <small class="lastUpdated">Last updated: <time ng-bind="runs.lastSync|date:'medium'"></time></small>
   </caption>
   <thead ng-show="runs.active.length">
     <tr runs-head></tr>

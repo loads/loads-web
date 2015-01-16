@@ -1,5 +1,5 @@
 <section>
-  <form role="form" name="commentForm" class="panel callout radius">
+  <form role="form" name="commentForm" class="panel callout radius" ng-action="{{ ROUTES.RUN_DETAIL }}/{{ runComment.runId }}" ng-submit="submitCommentForm();">
     <h3>Add Comment</h3>
     <input type="hidden" id="runId" name="runId" ng-model="runComment.runId" />
 
@@ -24,8 +24,7 @@
     <div class="row">
       <div class="small-12 columns">
       <div class="right inline">
-        <!--<button class="button radius secondary" ng-click="resetCommentForm();">RESET</button>-->
-        <button class="button radius" ng-click="submitCommentForm();">COMMENT</button>
+        <button class="button radius">Comment</button>
       </div>
       </div>
     </div>
