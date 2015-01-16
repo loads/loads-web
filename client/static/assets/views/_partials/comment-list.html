@@ -1,0 +1,19 @@
+<section>
+  <h2 id="comments">Comments <span class="round radius label" ng-show="comments.length">{{ comments.length }}</span></h2>
+
+  <div ng-show="comments.length">
+    <dl class="panel radius" ng-repeat="comment in comments">
+      <dt>
+        <span ng-bind="comment.name"></span> <i>commented <time ng-bind="comment.createdAt | date"></time></i>
+        <ul class="round secondary button-group right">
+          <li><a href="#" class="button tiny primary">edit</a></li>
+          <li><a href="#" class="button tiny alert">delete</a></li>
+        </ul>
+      </dt>
+      <dd>
+        <hr />
+        <div ng-bind-html="comment.comment"></div>
+      </dd>
+    </dl>
+  </div>
+</section>

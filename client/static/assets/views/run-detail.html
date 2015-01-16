@@ -1,0 +1,141 @@
+<article>
+  <header>
+    <nav class="breadcrumbs">
+      <a href="{{ ROUTES.HOME }}">Home</a>
+      <a href="{{ ROUTES.RUNS }}">Runs</a>
+      <a class="current">{{ params.id }}</a>
+    </nav>
+    <h1>{{ title }} <small ng-bind="params.id"></small></h1>
+  </header>
+
+  <p class="lead" ng-bind-html="details.desc"></p>
+
+  <!-- Status -->
+  <table ng-show="details.status" class="details-table" role="grid">
+  <thead>
+    <tr>
+      <th colspan="2" scope="row"><h2>Status</h2></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Run Id:</th>
+      <td ng-bind="details.status.runId"></td>
+    </tr>
+    <tr>
+      <th scope="row">Duration:</th>
+      <td ng-bind="details.status.duration"></td>
+    </tr>
+    <tr>
+      <th scope="row">Started:</th>
+      <td ng-bind="details.status.startTime | date:'dd-M-yyyy H:mm'"></td>
+    </tr>
+    <tr>
+      <th scope="row">Ended:</th>
+      <td ng-bind="details.status.endTime | date:'dd-M-yyyy H:mm'"></td>
+    </tr>
+    <tr>
+      <th scope="row">State:</th>
+      <td ng-bind="details.status.state"></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <!-- Configuration -->
+  <table ng-show="details.configuration" class="details-table" role="grid">
+  <thead>
+    <tr>
+      <th colspan="2" scope="row"><h2>Configuration</h2></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Users:</th>
+      <td ng-bind="details.configuration.users"></td>
+    </tr>
+    <tr>
+      <th scope="row">Hits:</th>
+      <td ng-bind="details.configuration.hits"></td>
+    </tr>
+    <tr>
+      <th scope="row">Agents:</th>
+      <td ng-bind="details.configuration.agents"></td>
+    </tr>
+    <tr>
+      <th scope="row">Duration:</th>
+      <td ng-bind="details.configuration.duration"></td>
+    </tr>
+    <tr>
+      <th scope="row">Server URL:</th>
+      <td><a ng-href="{{ details.configuration.serverUrl }}" ng-bind="details.configuration.serverUrl"></a></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <!-- Results -->
+  <table ng-show="details.results" class="details-table" role="grid">
+  <thead>
+    <tr>
+      <th colspan="2" scope="row"><h2>Results</h2></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Tests over:</th>
+      <td ng-bind="details.results.testsOver | number"></td>
+    </tr>
+    <tr>
+      <th scope="row">Successes:</th>
+      <td ng-bind="details.results.successes | number"></td>
+    </tr>
+    <tr>
+      <th scope="row">Failures:</th>
+      <td ng-bind="details.results.failures"></td>
+    </tr>
+    <tr>
+      <th scope="row">Errors:</th>
+      <td ng-bind="details.results.errors"></td>
+    </tr>
+    <tr>
+      <th scope="row">TCP Hits:</th>
+      <td ng-bind="details.results.tcpHits | number"></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <!-- Custom metrics -->
+  <table ng-show="details.customMetrics" class="details-table" role="grid">
+  <thead>
+    <tr>
+      <th colspan="2" scope="row"><h2>Custom Metrics</h2></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Health check:</th>
+      <td ng-bind="details.customMetrics.healthCheck"></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <!-- Errors -->
+  <table ng-show="details.errors.length" class="details-table" role="grid">
+  <thead>
+    <tr>
+      <th scope="row"><h2>Errors</h2></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="error in details.errors">
+      <td>
+        <p><strong>{{ error.count }} occurrences</strong></p>
+        <pre ng-bind="error.message"></pre>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+
+  <comment-list></comment-list>
+  <comment-form></comment-form>
+
+</article>

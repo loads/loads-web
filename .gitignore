@@ -34,3 +34,8 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# Generated files not desired
+.DS_Store
+client/bower_components
+node_modules

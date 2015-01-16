@@ -1,0 +1,33 @@
+<section>
+  <form role="form" name="commentForm" class="panel callout radius">
+    <h3>Add Comment</h3>
+    <input type="hidden" id="runId" name="runId" ng-model="runComment.runId" />
+
+    <div class="row">
+      <div class="small-2 columns">
+        <label for="name" class="right inline">Name:</label>
+      </div>
+      <div  class="small-10 columns">
+        <input type="text" id="name" name="name" ng-model="runComment.name" ng-required="true" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-2 columns">
+        <label for="comment" class="right inline">Comment:</label>
+      </div>
+      <div class="small-10 columns">
+        <textarea id="comment" name="comment" rows="5" ng-model="runComment.comment" ng-required="true"></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns">
+      <div class="right inline">
+        <!--<button class="button radius secondary" ng-click="resetCommentForm();">RESET</button>-->
+        <button class="button radius" ng-click="submitCommentForm();">COMMENT</button>
+      </div>
+      </div>
+    </div>
+  </form>
+</section>

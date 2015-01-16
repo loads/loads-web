@@ -1,0 +1,11 @@
+env:
+  browser: true
+  node: true
+
+globals:
+  angular: false
+
+rules:
+  global-strict: 0
+  no-use-before-define: [2, 'nofunc']
+  quotes: [1, single]

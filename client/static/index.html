@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="LoadsApp" ng-controller="AppController">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <base href="/" />
+
+  <link href="bower_components/foundation/css/normalize.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="bower_components/foundation/css/foundation.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="bower_components/foundation-icons/foundation_icons_general/stylesheets/general_foundicons.css" media="all" rel="stylesheet" type="text/css" />
+
+  <!-- build:css assets/css/app.min.css -->
+  <link href="assets/css/opensans.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="assets/css/app.css" media="all" rel="stylesheet" type="text/css" />
+  <!-- endbuild -->
+
+  <!-- <link href="assets/favicon.ico" rel="shortcut icon" type="image/x-icon" /> -->
+  <title>{{ title }} &raquo; Loads App</title>
+</head>
+<body>
+
+  <header-nav></header-nav>
+
+  <div class="row">
+    <section id="main" class="small-12 columns" ng-view>
+    </section>
+  </div>
+
+  <footer-nav></footer-nav>
+
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-route/angular-route.min.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+
+  <!-- build:js assets/scripts/app.min.js -->
+  <script src="assets/scripts/app.js"></script>
+  <script src="assets/scripts/constants.js"></script>
+  <script src="assets/scripts/configs.js"></script>
+  <script src="assets/scripts/services.js"></script>
+  <script src="assets/scripts/controllers.js"></script>
+  <script src="assets/scripts/directives.js"></script>
+  <script src="assets/scripts/filters.js"></script>
+  <!-- endbuild -->
+
+</body>
+</html>

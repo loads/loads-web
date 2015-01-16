@@ -1,0 +1,42 @@
+<header>
+  <nav class="top-bar row" data-topbar="" role="menu">
+    <ul class="title-area">
+      <li class="name"><h1><a ng-href="{{ ROUTES.HOME }}">LOADS v2</a></h1></li>
+      <li class="toggle-topbar menu-icon"><a ng-href="{{ ROUTES.HOME }}"><span>menu</span></a></li>
+    </ul>
+
+    <section class="top-bar-section">
+      <ul class="right">
+        <!-- <li class="divider"></li>
+        <li><a ng-href="{{ ROUTES.HOME }}">Home</a></li> -->
+        <!--
+        <li class="divider"></li>
+        <li><a ng-href="{{ ROUTES.TESTS }}">Tests</a></li>
+        -->
+        <li class="divider"></li>
+        <li class="has-dropdown not-click">
+          <a ng-href="{{ ROUTES.RUNS }}">Runs</a>
+          <ul class="dropdown">
+            <li><a ng-href="{{ ROUTES.RUNS_ACTIVE }}">Active Runs</a></li>
+            <li><a ng-href="{{ ROUTES.RUNS_FINISHED }}">Finished Runs</a></li>
+          </ul>
+        </li>
+        <!-- -->
+        <li class="divider"></li>
+        <li><a ng-href="{{ ROUTES.TESTS }}">Containers</a></li>
+        <!-- -->
+        <li class="divider"></li>
+        <li class="has-dropdown not-click">
+          <a ng-href="{{ ROUTES.CLUSTER }}">Cluster Management</a>
+          <ul class="dropdown">
+            <li><a ng-href="{{ ROUTES.AGENTS_STATUS }}">Agents Status</a></li>
+            <li><a ng-href="{{ ROUTES.AGENTS_CHECK }}">Launch Agent Health Check</a></li>
+          </ul>
+        </li>
+        <!-- -->
+        <li class="divider"></li>
+        <li><a ng-href="{{ ROUTES.REFERENCE }}">Reference</a></li>
+      </ul>
+    </section>
+  </nav>
+</header>
