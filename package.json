@@ -3,7 +3,7 @@
   "description": "Testing Hapi w/ Angular routing",
   "version": "1.0.0",
   "author": "Mozilla (https://mozilla.org/)",
-  "bugs": "https://github.com/pdehaan/loads-template-v3/issues",
+  "bugs": "https://github.com/loads/loads-web/issues",
   "dependencies": {
     "hapi": "7.1.1",
     "joi": "4.7.0",
@@ -28,6 +28,7 @@
     "lint": "eslint .",
     "postinstall": "bower update",
     "start": "PORT=5000 node server",
+    "stylus": "stylus --compress client/static/assets/stylus/app.styl --out client/static/assets/css/",
     "test": "npm run lint"
   }
 }
