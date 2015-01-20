@@ -33,7 +33,15 @@ nav.breadcrumbs {
   margin: 10px 0;
   padding: 0;
   border: 0;
-  float: right;
+  
+  position: absolute;
+  right: 15px;
+  top: 8px;
+  
+  @media (max-width: 768px) {
+      position: static;
+      margin-top: 20px;
+    }
 }
 
 h2 .label {
@@ -71,6 +79,10 @@ body, h1, h2, h3, h4, h5, h6 {
 h1 {
   color: #222;
   margin-top: 20px;
+  
+  small {
+    word-break: break-word;
+  }
 }
 
 h2 {
