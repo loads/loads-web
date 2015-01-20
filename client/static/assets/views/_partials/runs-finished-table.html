@@ -7,7 +7,9 @@
     <tr runs-head></tr>
   </thead>
   <tbody>
-    <tr runs-body ng-repeat="run in runs.inactive" id="run-{{ run.runId }}" class="{{ run.cssClass }}"></tr>
+    <tr runs-body ng-repeat="run in runs.inactive" id="run-{{ run.runId }}" class="{{ run.cssClass }}" ng-if="runs.inactive.length > 0"></tr>
+    <tr ng-if="runs.inactive.length == 0"><td>There are no finished runs.</td></tr>
+
   </tbody>
   <!--
   <tfoot>
