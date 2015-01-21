@@ -3,6 +3,11 @@
 */
 @import 'fonts.styl';
 
+/*
+  Vars
+*/
+$media-query-tablet = 768px;
+
 /* 
   Site structure 
 */
@@ -38,7 +43,7 @@ nav.breadcrumbs {
   right: 15px;
   top: 8px;
   
-  @media (max-width: 768px) {
+  @media (max-width: $media-query-tablet) {
       position: static;
       margin-top: 20px;
     }
@@ -51,22 +56,33 @@ h2 .label {
   color: #999;
 }
 
-.half-block {
-  width: calc(50% - 20px);
-  width: -webkit-calc(50% - 20px);
-  float: left;
-  margin-right: 20px;
+.two-column-row {
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
   
-  &.clear {
-    clear: left;
+  @media (max-width: $media-query-tablet) {
+    display: block;  
   }
   
-  @media (max-width: 768px) {
-    width: 100%;
-    float: none; 
+  > div {
+    width: 50%;
+    
+    @media (max-width: $media-query-tablet) {
+      width: 100%;
+      float: none; 
+    }
+    
+    &:first-child {
+      margin-right: 20px;
+      
+      @media (max-width: $media-query-tablet) {
+        width: auto;
+        margin-right: 0; 
+      }
+    }
   }
 }
-
 
 /* 
   Tags 

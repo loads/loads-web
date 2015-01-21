@@ -7,7 +7,7 @@
     <tr runs-head></tr>
   </thead>
   <tbody>
-    <tr runs-body ng-repeat="run in runs.active" id="run-{{ run.runId }}" class="{{ run.cssClass }}" ng-if="runs.active.length > 0"></tr>
-    <tr ng-if="runs.active.length == 0"><td>There are no active runs.</td></tr>
+    <tr runs-body ng-repeat="run in runs.active" id="run-{{ run.runId }}" class="{{ run.cssClass }}" ng-if="runs.hasActive"></tr>
+    <tr ng-if="!runs.hasActive"><td>There are no active runs.</td></tr>
   </tbody>
 </table>
