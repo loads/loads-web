@@ -3,6 +3,11 @@
 */
 @import 'fonts.styl';
 
+/*
+  Vars
+*/
+$media-query-tablet = 768px;
+
 /* 
   Site structure 
 */
@@ -38,7 +43,7 @@ nav.breadcrumbs {
   right: 15px;
   top: 8px;
   
-  @media (max-width: 768px) {
+  @media (max-width: $media-query-tablet) {
       position: static;
       margin-top: 20px;
     }
@@ -55,14 +60,14 @@ h2 .label {
   display: flex;
   width: 100%;
   
-  @media (max-width: 768px) {
+  @media (max-width: $media-query-tablet) {
     display: block;  
   }
   
   > div {
     width: 50%;
     
-    @media (max-width: 768px) {
+    @media (max-width: $media-query-tablet) {
       width: 100%;
       float: none; 
     }
@@ -70,7 +75,7 @@ h2 .label {
     &:first-child {
       margin-right: 20px;
       
-      @media (max-width: 768px) {
+      @media (max-width: $media-query-tablet) {
         width: auto;
         margin-right: 0; 
       }
