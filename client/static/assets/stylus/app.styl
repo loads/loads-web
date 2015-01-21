@@ -51,22 +51,32 @@ h2 .label {
   color: #999;
 }
 
-.half-block {
-  width: calc(50% - 20px);
-  width: -webkit-calc(50% - 20px);
-  float: left;
-  margin-right: 20px;
-  
-  &.clear {
-    clear: left;
-  }
+.two-column-row {
+  display: flex;
+  width: 100%;
   
   @media (max-width: 768px) {
-    width: 100%;
-    float: none; 
+    display: block;  
+  }
+  
+  > div {
+    width: 50%;
+    
+    @media (max-width: 768px) {
+      width: 100%;
+      float: none; 
+    }
+    
+    &:first-child {
+      margin-right: 20px;
+      
+      @media (max-width: 768px) {
+        width: auto;
+        margin-right: 0; 
+      }
+    }
   }
 }
-
 
 /* 
   Tags 

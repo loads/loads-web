@@ -11,7 +11,8 @@
   <p class="lead" ng-bind-html="details.desc"></p>
 
   <!-- Status -->
-  <div class="half-block">
+  <div class="two-column-row">
+  <div>
   <table ng-show="details.status" class="details-table" role="grid">
   <thead>
     <tr>
@@ -44,7 +45,7 @@
   </div>
 
   <!-- Configuration -->
-  <div class="half-block">
+  <div>
   <table ng-show="details.configuration" class="details-table" role="grid">
   <thead>
     <tr>
@@ -75,9 +76,11 @@
   </tbody>
   </table>
   </div>
+  </div>
 
   <!-- Results -->
-  <div class="half-block clear">
+  <div class="two-column-row">
+  <div>
   <table ng-show="details.results" class="details-table" role="grid">
   <thead>
     <tr>
@@ -110,7 +113,7 @@
   </div>
 
   <!-- Custom metrics -->
-  <div class="half-block">
+  <div>
   <table ng-show="details.customMetrics" class="details-table" role="grid">
   <thead>
     <tr>
@@ -124,6 +127,7 @@
     </tr>
   </tbody>
   </table>
+  </div>
   </div>
 
   <!-- Errors -->
