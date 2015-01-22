@@ -3,12 +3,12 @@
     <h2>Finished <span class="round radius label">{{ runs.inactive.length }}</span></h2>
     <small class="lastUpdated">Last updated: <time ng-bind="runs.lastSync|date:'medium'"></time></small>
   </caption>
-  <thead ng-show="runs.inactive.length">
+  <thead>
     <tr runs-head></tr>
   </thead>
   <tbody>
-    <tr runs-body ng-repeat="run in runs.inactive" id="run-{{ run.runId }}" class="{{ run.cssClass }}" ng-if="runs.hasInactive"></tr>
-    <tr ng-if="!runs.hasInactive"><td>There are no finished runs.</td></tr>
+    <tr runs-body ng-repeat="run in runs.inactive" id="run-{{ run.runId }}" class="{{ run.cssClass }}" ng-show="runs.hasInactive"></tr>
+    <tr ng-show="!runs.hasInactive"><td>There are no finished runs.</td></tr>
   </tbody>
   <!--
   <tfoot>

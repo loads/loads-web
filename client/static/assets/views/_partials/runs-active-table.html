@@ -3,11 +3,11 @@
     <h2>Active <span class="round radius label">{{ runs.active.length }}</span></h2>
     <small class="lastUpdated">Last updated: <time ng-bind="runs.lastSync|date:'medium'"></time></small>
   </caption>
-  <thead ng-show="runs.active.length">
+  <thead>
     <tr runs-head></tr>
   </thead>
   <tbody>
-    <tr runs-body ng-repeat="run in runs.active" id="run-{{ run.runId }}" class="{{ run.cssClass }}" ng-if="runs.hasActive"></tr>
-    <tr ng-if="!runs.hasActive"><td>There are no active runs.</td></tr>
+    <tr runs-body ng-repeat="run in runs.active" id="run-{{ run.runId }}" class="{{ run.cssClass }}" ng-show="runs.hasActive"></tr>
+    <tr ng-show="!runs.hasActive"><td>There are no active runs.</td></tr>
   </tbody>
 </table>
