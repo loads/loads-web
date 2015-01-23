@@ -15,6 +15,11 @@ angular.module('LoadsApp')
     $rootScope.title = 'Launch Agent Health Check';
   }).controller('TestsController', function ($scope, $rootScope) {
     $rootScope.title = 'Containers';
+
+    $scope.containerFormChange = function(a, b, c) {
+      
+    };
+
   }).controller('RunsController', function ($scope, $rootScope, MockRunsService, RunsService) {
     $rootScope.title = 'Runs';
   }).controller('ActiveRunsController', function ($scope, $rootScope, MockRunsService, RunsService) {

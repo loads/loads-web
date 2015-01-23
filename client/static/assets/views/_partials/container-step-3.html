@@ -1,0 +1,60 @@
+<table class="step3 container-tool-table">
+  <tr>
+    <th colspan="2"><h3>Step 3: <i>Container Set</i></h3></th>
+  </tr>
+  <tr>
+    <th><label for="container_name" class="left">Name:</label></th>
+    <td><input type="text" id="container_name" name="container_name"></td>
+  </tr>
+  <tr>
+    <th><label for="instance_count" class="left">Instance Count:</label></th>
+    <td><input type="number" id="instance_count" name="instance_count" min="1"></td>
+  </tr>
+  <tr>
+    <th><label for="instance_type" class="left">Instance Type:</label></th>
+    <td><select id="instance_type" name="instance_type"></select></td>
+  </tr>
+  <tr>
+    <th><label for="run_max_time" class="left">Run Max Time:</label></th>
+    <td><input type="number" id="run_max_time" name="run_max_time" min="0"></td>
+  </tr>
+  <tr>
+    <th><label for="run_delay" class="left">Run Delay:</label></th>
+    <td><input type="number" id="run_delay" name="run_delay" min="0"></td>
+  </tr>
+  <tr>
+    <th><label for="container_name" class="left">Container Name:</label></th>
+    <td><input type="text" id="container_name" name="container_name" placeholder="kitcambridge/pushtest:latest"></td>
+  </tr>
+  <tr>
+    <th><label for="container_url" class="left">Container URL:</label></th>
+    <td>
+      <input type="text" id="container_url" name="container_url" placeholder="https://s3.amazonaws.com/loads-docker-images/pushgo-1.4rc3.tar.bz2" list="container_url_list">
+
+      <datalist id="container_url_list">
+        <option value="https://s3.amazonaws.com/loads-docker-images/pushgo-1.4rc3.tar.bz2">
+        <option value="https://accounts.firefox.com/">
+        <option value="https://reddit.com/">
+      </datalist></td>
+  </tr>
+  <tr>
+    <th><label for="environment_data" class="left">Environment Data:</label></th>
+    <td><textarea id="environment_data" name="environment_data" rows="6" placeholder="PUSHGO_METRICS_STATSD_HOST=$STATSD_HOST:$STATSD_PORT\nPUSHGO_DISCOVERY_TYPE=etcd\nPUSHGO_DISCOVERY_SERVERS=http://internal-loads-test-EtcdELB-I7U9KLC25MS9-1217877132.us-east-1.elb.amazonaws.com:4001\nPUSHGO_DISCOVERY_DIR=test-$RUN_ID\nPUSHGO_DEFAULT_RESOLVE_HOST=false\nPUSHGO_DEFAULT_CURRENT_HOST=testcluster.mozilla.org\nPUSHGO_ROUTER_DEFAULT_HOST=$PRIVATE_IP\nPUSHGO_DISCOVERY_REFRESH_INTERVAL=5s"></textarea></td>
+  </tr>
+  <tr>
+    <th><label for="dns_mapping" class="left">DNS Mapping:</label></th>
+    <td><input type="text" id="dns_mapping" name="dns_mapping"  placeholder="testcluster.mozilla.org"></td>
+  </tr>
+  <tr>
+    <th><label for="port_mapping" class="left">Port Mapping:</label></th>
+    <td><input type="text" id="port_mapping" name="port_mapping" placeholder="8080:8090,8081:8081,3000:3000"></td>
+  </tr>
+  <tr>
+    <th><label for="volume_mapping" class="left">Volume Mapping:</label></th>
+    <td><input type="text" id="volume_mapping" name="volume_mapping" placeholder="/var/log:/var/log/$RUN_ID:rw"></td>
+  </tr>
+  <tr>
+    <th><label for="docker_series" class="left">Docker Series:</label></th>
+    <td><input type="text" id="docker_series" name="docker_series"  placeholder="push_tester"></td>
+  </tr>
+</table>
