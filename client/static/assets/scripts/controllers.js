@@ -16,9 +16,46 @@ angular.module('LoadsApp')
   }).controller('TestsController', function ($scope, $rootScope) {
     $rootScope.title = 'Containers';
 
-    $scope.containerFormChange = function(a, b, c) {
+    var strategyTemplate;
+    var containerTemplate;
+    var strategyClone;
+    var containerClone;
+
+    var containerToolStrategiesContainer; // Node to hold strategies for the project
+
+    // Get nodes important to front-end functionality
+    function collectImportantNodes() {
+      containerToolStrategiesContainer = $('.container-tool-strategies');
+      strategyTemplate = $('.strategy-template');
+      containerTemplate = $('.container-template');
+
+      strategyClone = strategyTemplate.cloneNode(true);
+      containerClone = containerTemplate.cloneNode(true);
+    };
+
+    // Add a clone of the strategy form to the project
+    $scope.addStrategyToProject = function() {
+      var newStrategyNode = strategyClone.cloneNode(true);
+      containerToolStrategiesContainer.appendChild(newStrategyNode);
+      $('input', newStrategyNode).focus();
+
+    };
+
+    // Add a clone of the container form to the strategy
+    $scope.addContainerToStrategy = function() {
+
+    };
+
+    // Runs upon submission of form; should generate JSON and send to DB
+    $scope.containerFormSubmit = function() {
       
     };
+
+    // Get nodes to start
+    collectImportantNodes();
+
+    function $(selector, parent) { return (parent || document).querySelector(selector); }
+    function $$(selector, parent) { return (parent || document).querySelectorAll(selector); }
 
   }).controller('RunsController', function ($scope, $rootScope, MockRunsService, RunsService) {
     $rootScope.title = 'Runs';
