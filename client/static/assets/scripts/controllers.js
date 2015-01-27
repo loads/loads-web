@@ -37,19 +37,22 @@ angular.module('LoadsApp')
     $scope.addStrategyToProject = function() {
       var newStrategyNode = strategyClone.cloneNode(true);
       containerToolStrategiesContainer.appendChild(newStrategyNode);
+      jQuery(newStrategyNode).find('.strategy-num').text(jQuery('.strategy-template').length);
       focusFirst(newStrategyNode);
     };
 
     // Add a clone of the container form to the strategy
     function addContainerToStrategy(button) {
       var newContainerNode = containerClone.cloneNode(true);
-      button.parentNode.insertBefore(newContainerNode, button);
+      var parent = button.parentNode;
+
+      parent.insertBefore(newContainerNode, button);
+      jQuery(newContainerNode).find('.container-num').text(jQuery(parent).find('.container-template').length);
       focusFirst(newContainerNode);
     };
 
     // Focuses on the first element in a block
     function focusFirst(parent) {
-      console.log(jQuery(parent).find('input').get(0));
       jQuery(parent).find('input').get(0).focus();
     }
 
