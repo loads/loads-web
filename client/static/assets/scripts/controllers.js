@@ -25,37 +25,45 @@ angular.module('LoadsApp')
 
     // Get nodes important to front-end functionality
     function collectImportantNodes() {
-      containerToolStrategiesContainer = $('.container-tool-strategies');
-      strategyTemplate = $('.strategy-template');
-      containerTemplate = $('.container-template');
+      containerToolStrategiesContainer = $('.container-tool-strategies').get(0);
+      strategyTemplate = $('.strategy-template').get(0);
+      containerTemplate = $('.container-template').get(0);
 
       strategyClone = strategyTemplate.cloneNode(true);
       containerClone = containerTemplate.cloneNode(true);
     };
 
-    // Add a clone of the strategy form to the project
+    // Add a clone of the strategy form to the project, focus on first input
     $scope.addStrategyToProject = function() {
       var newStrategyNode = strategyClone.cloneNode(true);
       containerToolStrategiesContainer.appendChild(newStrategyNode);
-      $('input', newStrategyNode).focus();
-
+      focusFirst(newStrategyNode);
     };
 
     // Add a clone of the container form to the strategy
-    $scope.addContainerToStrategy = function() {
-
+    function addContainerToStrategy(button) {
+      var newContainerNode = containerClone.cloneNode(true);
+      button.parentNode.insertBefore(newContainerNode, button);
+      focusFirst(newContainerNode);
     };
+
+    // Focuses on the first element in a block
+    function focusFirst(parent) {
+      console.log(jQuery(parent).find('input').get(0));
+      jQuery(parent).find('input').get(0).focus();
+    }
 
     // Runs upon submission of form; should generate JSON and send to DB
     $scope.containerFormSubmit = function() {
-      
+
     };
 
     // Get nodes to start
     collectImportantNodes();
 
-    function $(selector, parent) { return (parent || document).querySelector(selector); }
-    function $$(selector, parent) { return (parent || document).querySelectorAll(selector); }
+    jQuery('.test-form').on('click', '.test-add-container', function() {
+      addContainerToStrategy(this);
+    });
 
   }).controller('RunsController', function ($scope, $rootScope, MockRunsService, RunsService) {
     $rootScope.title = 'Runs';
