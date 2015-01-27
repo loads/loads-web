@@ -53,24 +53,62 @@ angular.module('LoadsApp')
 
     // Focuses on the first element in a block
     function focusFirst(parent) {
-      jQuery(parent).find('input').get(0).focus();
+      jQuery(parent).find(':input').get(0).focus();
     }
 
     // Runs upon submission of form; should generate JSON and send to DB
     function containerFormSubmit() {
-      $('#container-tool-textarea').get(0).focus();
+      // Create the object which will store all data
+      var data = {
+        strategies: []
+      };
+      var convertElementsToObject = function($inputs, obj) {
+        $inputs = $inputs.serializeArray();
+        jQuery.each($inputs, function() {
+          obj[this.name] = this.value || "";
+        });
+      };
+
+      // Step 1:  Grab the Project information
+      convertElementsToObject(jQuery('.project-table :input'), data);
+
+      // Step 2.1:  Grab the Strategies
+      jQuery('.strategy-template').each(function() {
+        var strategyItem = {
+          containers: []
+        };
+
+        // Get just the *strategy* info, *not* the containers yet
+        convertElementsToObject(jQuery(this).find('.strategy-table :input'), strategyItem);
+
+        // Now, get the containers
+        jQuery(this).find('.container-template').each(function() {
+          var containerItem = {};
+
+          convertElementsToObject(jQuery(this).find(':input'), containerItem);
+
+          strategyItem.containers.push(containerItem);
+        });
+
+        data.strategies.push(strategyItem);
+      });
+
+      // Finally, focus on the generated code
+      var textarea = $('#container-tool-textarea').val(JSON.stringify(data)).get(0);
+      textarea.focus();
+      textarea.select();
 
       return false;
     };
 
-    // Get nodes to start
+    // Initialization
     collectImportantNodes();
-
-    jQuery('.test-form').on('click', '.test-add-container', function(e) {
+    var $form = jQuery('.test-form');
+    $form.find('input').get(0).focus();
+    $form.on('click', '.test-add-container', function(e) {
       addContainerToStrategy(this);
     });
-
-    jQuery('.test-form').on('submit', function(e) {
+    $form.on('submit', function(e) {
       e.preventDefault();
       containerFormSubmit();
     });
