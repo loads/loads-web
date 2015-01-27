@@ -57,15 +57,22 @@ angular.module('LoadsApp')
     }
 
     // Runs upon submission of form; should generate JSON and send to DB
-    $scope.containerFormSubmit = function() {
+    function containerFormSubmit() {
+      $('#container-tool-textarea').get(0).focus();
 
+      return false;
     };
 
     // Get nodes to start
     collectImportantNodes();
 
-    jQuery('.test-form').on('click', '.test-add-container', function() {
+    jQuery('.test-form').on('click', '.test-add-container', function(e) {
       addContainerToStrategy(this);
+    });
+
+    jQuery('.test-form').on('submit', function(e) {
+      e.preventDefault();
+      containerFormSubmit();
     });
 
   }).controller('RunsController', function ($scope, $rootScope, MockRunsService, RunsService) {
