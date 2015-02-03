@@ -1,5 +1,5 @@
 <section>
-  <form role="form" name="commentForm" class="panel callout radius" ng-action="{{ ROUTES.RUN_DETAIL }}/{{ runComment.runId }}" ng-submit="submitCommentForm();">
+  <form role="form" name="commentForm" class="panel callout radius" ng-action="{{ ROUTES.RUN_DETAIL }}/{{ runComment.runId }}" ng-submit="containerFormChange();">
     <h3>Add Comment</h3>
     <input type="hidden" id="runId" name="runId" ng-model="runComment.runId" />
 
