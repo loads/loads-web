@@ -16,39 +16,39 @@ angular.module('LoadsApp')
   }).controller('TestsController', function ($scope, $rootScope) {
     $rootScope.title = 'Containers';
 
-    var strategyTemplate;
-    var containerTemplate;
-    var strategyClone;
-    var containerClone;
+    var planTemplate;
+    var stepTemplate;
+    var planClone;
+    var stepClone;
 
-    var containerToolStrategiesContainer; // Node to hold strategies for the project
+    var containerToolPlansContainer; // Node to hold strategies for the project
 
     // Get nodes important to front-end functionality
     function collectImportantNodes() {
-      containerToolStrategiesContainer = $('.container-tool-strategies').get(0);
-      strategyTemplate = $('.strategy-template').get(0);
-      containerTemplate = $('.container-template').get(0);
+      containerToolPlansContainer = $('.container-tool-plans').get(0);
+      planTemplate = $('.plan-template').get(0);
+      stepTemplate = $('.step-template').get(0);
 
-      strategyClone = strategyTemplate.cloneNode(true);
-      containerClone = containerTemplate.cloneNode(true);
+      planClone = planTemplate.cloneNode(true);
+      stepClone = stepTemplate.cloneNode(true);
     };
 
     // Add a clone of the strategy form to the project, focus on first input
-    $scope.addStrategyToProject = function() {
-      var newStrategyNode = strategyClone.cloneNode(true);
-      containerToolStrategiesContainer.appendChild(newStrategyNode);
-      jQuery(newStrategyNode).find('.strategy-num').text(jQuery('.strategy-template').length);
-      focusFirst(newStrategyNode);
+    $scope.addPlanToProject = function() {
+      var newPlanNode = planClone.cloneNode(true);
+      containerToolPlansContainer.appendChild(newPlanNode);
+      jQuery(newPlanNode).find('.plan-num').text(jQuery('.plan-template').length);
+      focusFirst(newPlanNode);
     };
 
     // Add a clone of the container form to the strategy
-    function addContainerToStrategy(button) {
-      var newContainerNode = containerClone.cloneNode(true);
+    function addStepToPlan(button) {
+      var newStepNode = stepClone.cloneNode(true);
       var parent = button.parentNode;
 
-      parent.insertBefore(newContainerNode, button);
-      jQuery(newContainerNode).find('.container-num').text(jQuery(parent).find('.container-template').length);
-      focusFirst(newContainerNode);
+      parent.insertBefore(newStepNode, button);
+      jQuery(newStepNode).find('.step-num').text(jQuery(parent).find('.step-template').length);
+      focusFirst(newStepNode);
     };
 
     // Focuses on the first element in a block
@@ -73,16 +73,16 @@ angular.module('LoadsApp')
       convertElementsToObject(jQuery('.project-table :input'), data);
 
       // Step 2.1:  Grab the Strategies
-      jQuery('.strategy-template').each(function() {
+      jQuery('.plan-template').each(function() {
         var strategyItem = {
           containers: []
         };
 
         // Get just the *strategy* info, *not* the containers yet
-        convertElementsToObject(jQuery(this).find('.strategy-table :input'), strategyItem);
+        convertElementsToObject(jQuery(this).find('.plan-table :input'), strategyItem);
 
         // Now, get the containers
-        jQuery(this).find('.container-template').each(function() {
+        jQuery(this).find('.step-template').each(function() {
           var containerItem = {};
 
           convertElementsToObject(jQuery(this).find(':input'), containerItem);
@@ -99,14 +99,14 @@ angular.module('LoadsApp')
       textarea.select();
 
       return false;
-    };
+    }
 
     // Initialization
     collectImportantNodes();
     var $form = jQuery('.test-form');
     $form.find('input').get(0).focus();
-    $form.on('click', '.test-add-container', function(e) {
-      addContainerToStrategy(this);
+    $form.on('click', '.test-add-step', function(e) {
+      addStepToPlan(this);
     });
     $form.on('submit', function(e) {
       e.preventDefault();

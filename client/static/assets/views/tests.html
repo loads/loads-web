@@ -7,7 +7,7 @@
     <h1>{{ title }}</h1>
   </header>
 
-  <p class="lead">Project &gt; Strategy &gt; Container Generation Menu</p>
+  <p class="lead">Project &gt; Plan &gt; Steps Generation Menu</p>
 
   <form action="" method="post" class="test-form">
     
@@ -22,27 +22,27 @@
         </tr>
       </table>
     </div>
-    <div class="container-tool-strategies step2">
-      <div class="strategy-template">
-        <table class="container-tool-table strategy-table">
+    <div class="container-tool-plans step2">
+      <div class="plan-template">
+        <table class="container-tool-table plan-table">
           <tr>
-            <th colspan="2"><h3>Strategy <span class="strategy-num">1</span></h3></th>
+            <th colspan="2"><h3>Plan <span class="plan-num">1</span></h3></th>
           </tr>
           <tr>
-            <th><label for="strategy_title" class="left">Title:</label></th>
-            <td><input type="text" id="strategy_title" name="strategy_title" /></td>
+            <th><label for="plan_title" class="left">Title:</label></th>
+            <td><input type="text" id="plan_title" name="plan_title" /></td>
           </tr>
           <tr>
-            <th><label for="strategy_description" class="left">Description:</label></th>
-            <td><textarea id="strategy_description" name="strategy_description" rows="4"></textarea></td>
+            <th><label for="plan_description" class="left">Description:</label></th>
+            <td><textarea id="plan_description" name="plan_description" rows="4"></textarea></td>
           </tr>
         </table>
 
-        <div class="container-tool-containers step3">
-          <div class="container-template">
+        <div class="container-tool-steps step3">
+          <div class="step-template">
             <table class="container-tool-table">
               <tr>
-                <th colspan="2"><h3>Container Set <span class="container-num">1</span></h3></th>
+                <th colspan="2"><h3>Step <span class="step-num">1</span></h3></th>
               </tr>
               <tr>
                 <th><label for="container_name" class="left">Name:</label></th>
@@ -102,12 +102,12 @@
             </table>
           </div>
 
-          <button class="test-add-container" type="button">Add Container</button>
+          <button class="test-add-step" type="button">Add Step</button>
         </div>
       </div>
     </div>
 
-    <button ng-click="addStrategyToProject(this)" type="button">Add Strategy</button>
+    <button ng-click="addPlanToProject(this)" type="button">Add Plan</button>
     <button type="submit">Generate JSON</button>
   </form>
   <h2>Generated JSON</h2>
