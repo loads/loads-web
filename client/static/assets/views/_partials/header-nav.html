@@ -23,7 +23,13 @@
         </li>
         <!-- -->
         <li class="divider"></li>
-        <li><a ng-href="{{ ROUTES.TESTS }}">Containers</a></li>
+        <li class="has-dropdown not-click">
+          <a ng-href="{{ ROUTES.PROJECTS_LISTING }}">Projects</a>
+          <ul class="dropdown">
+            <li><a ng-href="{{ ROUTES.PROJECTS_LISTING }}">Project Listing</a></li>
+            <li><a ng-href="{{ ROUTES.PROJECTS_BUILDER }}">Project Builder</a></li>
+          </ul>
+        </li>
         <!-- -->
         <li class="divider"></li>
         <li class="has-dropdown not-click">

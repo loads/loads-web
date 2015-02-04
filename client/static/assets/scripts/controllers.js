@@ -13,8 +13,14 @@ angular.module('LoadsApp')
     $rootScope.title = 'Agents Status';
   }).controller('LaunchAgentHealthCheckController', function ($scope, $rootScope) {
     $rootScope.title = 'Launch Agent Health Check';
-  }).controller('TestsController', function ($scope, $rootScope) {
-    $rootScope.title = 'Containers';
+  }).controller('ProjectsController', function($scope, $rootScope) {
+    $rootScope.title = 'Projects';
+
+    
+
+
+  }).controller('ProjectBuilderController', function ($scope, $rootScope) {
+    $rootScope.title = 'Project Builder';
 
     // Nodes key in building the Project form
     var planTemplate;
@@ -22,11 +28,11 @@ angular.module('LoadsApp')
     var planClone;
     var stepClone;
 
-    var containerToolPlansContainer; // Node to hold plans for the project
+    var projectToolPlansContainer; // Node to hold plans for the project
 
     // Get nodes important to front-end functionality
     function collectImportantNodes() {
-      containerToolPlansContainer = jQuery('.container-tool-plans').get(0);
+      projectToolPlansContainer = jQuery('.project-tool-plans').get(0);
       planTemplate = jQuery('.plan-template').get(0);
       stepTemplate = jQuery('.step-template').get(0);
 
@@ -37,7 +43,7 @@ angular.module('LoadsApp')
     // Add a clone of the plan form to the project, focus on first input
     function addPlanToProject(isPrepopulate) {
       var newPlanNode = planClone.cloneNode(true);
-      containerToolPlansContainer.appendChild(newPlanNode);
+      projectToolPlansContainer.appendChild(newPlanNode);
       jQuery(newPlanNode).find('.plan-num').text(jQuery('.plan-template').length);
 
       // FYI:  Cannot return node in all cases because Angular throws error 
@@ -72,7 +78,7 @@ angular.module('LoadsApp')
     }
 
     // Runs upon submission of form; should generate JSON and send to DB
-    function containerFormSubmit() {
+    function generateJSON() {
       // Serializes elements to a key=>value object
       var convertElementsToObject = function($inputs, obj) {
         $inputs = $inputs.serializeArray();
@@ -105,7 +111,7 @@ angular.module('LoadsApp')
 
       // Finally, focus on the generated code
       var json = JSON.stringify(data);
-      var textarea = jQuery('#container-tool-textarea').val(json).get(0);
+      var textarea = jQuery('#project-tool-textarea').val(json).get(0);
       textarea.focus();
       textarea.select();
 
@@ -115,7 +121,8 @@ angular.module('LoadsApp')
     // Prepopluates data to the form
     $scope.prepopulate = function() {
       // Stub data
-      var data = {"plans":[{"steps":[{"step_name":"Plan 1 Name","instance_count":"1","run_max_time":"1","run_delay":"1","step_url":"","environment_data":"1 Environment Data","dns_mapping":"DNS 1","port_mapping":"Port 1","volume_mapping":"Volume 1","docker_series":"Docker 1"}],"plan_title":"Plan 1 Title","plan_description":"Plan 1 Description"},{"steps":[{"step_name":"Plan 2","instance_count":"22","run_max_time":"22","run_delay":"22","step_url":"","environment_data":"Data 2","dns_mapping":"DNS 2","port_mapping":"Port 2","volume_mapping":"Volumne 2","docker_series":"Docer 2"}],"plan_title":"Plan 2","plan_description":"Description 2"}],"project_title":"P Title"}
+      //var data = {"plans":[{"steps":[{"step_name":"Plan 1 Name","instance_count":"1","run_max_time":"1","run_delay":"1","step_url":"","environment_data":"1 Environment Data","dns_mapping":"DNS 1","port_mapping":"Port 1","volume_mapping":"Volume 1","docker_series":"Docker 1"}],"plan_title":"Plan 1 Title","plan_description":"Plan 1 Description"},{"steps":[{"step_name":"Plan 2","instance_count":"22","run_max_time":"22","run_delay":"22","step_url":"","environment_data":"Data 2","dns_mapping":"DNS 2","port_mapping":"Port 2","volume_mapping":"Volumne 2","docker_series":"Docer 2"}],"plan_title":"Plan 2","plan_description":"Description 2"}],"project_title":"P Title"}
+      var data; // TO DO:  PULL IN THE DATA
 
       // Setup the project
       jQuery('#project_title').val(data.project_title);
@@ -130,10 +137,13 @@ angular.module('LoadsApp')
           populateFormElements(stepNode, this);
         });
       });
-
     };
 
-
+    // Save this project, either as new or edit
+    $scope.saveProject = function() {
+      // Put the JSON together
+      generateJSON();
+    };
 
     // Initialization
     collectImportantNodes();
@@ -144,7 +154,7 @@ angular.module('LoadsApp')
     });
     $form.on('submit', function(e) {
       e.preventDefault();
-      containerFormSubmit();
+      generateJSON();
     });
 
   }).controller('RunsController', function ($scope, $rootScope, MockRunsService, RunsService) {
