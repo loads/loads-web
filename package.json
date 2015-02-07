@@ -27,6 +27,7 @@
   "scripts": {
     "lint": "eslint .",
     "postinstall": "bower update",
+    "prestart": "npm run stylus",
     "start": "PORT=5000 node server",
     "stylus": "stylus --compress client/static/assets/stylus/app.styl --out client/static/assets/css/",
     "test": "npm run lint"
