@@ -1,0 +1,6 @@
+{
+  "processes": ["server.js"],
+  "hooks": {
+    "postdeploy": "scripts/postdeploy.sh"
+  }
+}
