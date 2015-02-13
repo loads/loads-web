@@ -5,16 +5,17 @@
   "author": "Mozilla (https://mozilla.org/)",
   "bugs": "https://github.com/loads/loads-web/issues",
   "dependencies": {
-    "hapi": "7.1.1",
-    "joi": "4.7.0",
+    "hapi": "8.1.0",
+    "joi": "5.1.0",
     "mockloadsresults": "pdehaan/MockLoadsResults",
-    "mysql": "2.5.3",
-    "remarkable": "1.4.1",
-    "sequelize": "2.0.0-rc2"
+    "mysql": "2.5.4",
+    "remarkable": "1.6.0",
+    "sequelize": "2.0.0-rc8",
+    "stylus": "0.50.0"
   },
   "devDependencies": {
-    "eslint": "0.9.1",
-    "stylus": "0.49.3"
+    "eslint": "0.13.0",
+    "nsp": "1.0.0"
   },
   "homepage": "https://github.com/loads/loads-web",
   "keywords": [
@@ -25,9 +26,13 @@
   "main": "server.js",
   "repository": "loads/loads-web",
   "scripts": {
+    "clean": "rm -rf ./{node_modules,client/bower_components} && npm i > /dev/null",
     "lint": "eslint .",
+    "outdated": "npm outdated --depth 0",
     "postinstall": "bower update",
+    "postshrinkwrap": "nsp audit-shrinkwrap",
     "prestart": "npm run stylus",
+    "shrinkwrap": "npm shrinkwrap --dev",
     "start": "PORT=5000 node server",
     "stylus": "stylus --compress client/static/assets/stylus/app.styl --out client/static/assets/css/",
     "test": "npm run lint"
