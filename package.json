@@ -5,19 +5,22 @@
   "author": "Mozilla (https://mozilla.org/)",
   "bugs": "https://github.com/loads/loads-web/issues",
   "dependencies": {
+    "bower": "1.3.12",
     "hapi": "8.1.0",
+    "hapi-auth-cookie": "2.0.0",
     "joi": "5.1.0",
     "mockloadsresults": "pdehaan/MockLoadsResults",
     "mysql": "2.5.4",
+    "nunjucks-hapi": "1.1.0",
     "remarkable": "1.6.0",
+    "require-hapiroutes": "0.1.7",
     "sequelize": "2.0.0-rc8",
-    "stylus": "0.50.0",
-    "bower": "1.3.12"
+    "stylus": "0.50.0"
   },
   "devDependencies": {
-    "eslint": "0.13.0",
-    "nsp": "1.0.0",
-    "awsbox": "0.7.0"
+    "awsbox": "0.7.0",
+    "eslint": "0.15.0",
+    "nsp": "1.0.0"
   },
   "homepage": "https://github.com/loads/loads-web",
   "keywords": [
