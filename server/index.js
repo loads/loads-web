@@ -17,6 +17,7 @@ server.route([
   require('./routes/POST-comments'),
   require('./routes/404'),
   require('./routes/GET-broker')
+  require('./routes/GET-project')
 ]);
 
 // server.ext('onPreResponse', function (request, reply) {
