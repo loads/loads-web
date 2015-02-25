@@ -29,6 +29,7 @@ angular.module('LoadsApp')
     var stepClone;
 
     var projectToolPlansContainer; // Node to hold plans for the project
+    var projectJSON;
 
     // Get nodes important to front-end functionality
     function collectImportantNodes() {
@@ -110,8 +111,8 @@ angular.module('LoadsApp')
       });
 
       // Finally, focus on the generated code
-      var json = JSON.stringify(data);
-      var textarea = jQuery('#project-tool-textarea').val(json).get(0);
+      projectJSON = data;
+      var textarea = jQuery('#project-tool-textarea').val(JSON.stringify(data)).get(0);
       textarea.focus();
       textarea.select();
 
@@ -124,6 +125,8 @@ angular.module('LoadsApp')
       // Setup the project
       jQuery('#project_id').val(data.project_id);
       jQuery('#project_title').val(data.project_title);
+
+      console.log('data.project_id', data.project_id)
 
       // Create the plans and steps, populate them
       jQuery.each(data.plans, function(i) {
@@ -139,8 +142,13 @@ angular.module('LoadsApp')
 
     // Save this project, either as new or edit
     $scope.saveProject = function() {
-      // Put the JSON together
+      // Send to server, redirect to projects listing
       generateJSON();
+      $http.post('/mock/project', projectJSON).success(function (data) {
+        console.log('bling!');
+      }).error(function (err) {
+        console.log(err);
+      });
     };
 
     // Initialization

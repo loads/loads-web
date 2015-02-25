@@ -10,8 +10,6 @@
   <p class="lead">Project &gt; Plan &gt; Steps Generation Tool</p>
 
   <form action="" method="post" class="test-form">
-
-    <input name="project_id" type="hidden" value="">
     
     <div class="step1">
       <table class="project-tool-table project-table">
@@ -20,7 +18,10 @@
         </tr>
         <tr>
           <th><label for="project_title" class="left">Title:</label></th>
-          <td><input type="text" id="project_title" name="project_title" /></td>
+          <td>
+            <input type="text" id="project_title" name="project_title" />
+            <input id="project_id" name="project_id" type="hidden" value="" />
+          </td>
         </tr>
       </table>
     </div>
