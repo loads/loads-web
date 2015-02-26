@@ -24,6 +24,7 @@ sequelize.sync({
   force: false
 }).complete(function (err) {
   if (err) {
-    return console.error(err);
+    console.error(err);
+    process.exit(1);
   }
 });
