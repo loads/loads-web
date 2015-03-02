@@ -112,7 +112,7 @@ angular.module('LoadsApp')
 
       // Finally, focus on the generated code
       projectJSON = data;
-      var textarea = jQuery('#project-tool-textarea').val(JSON.stringify(data)).get(0);
+      var textarea = jQuery('#project-tool-textarea').val(JSON.stringify(data, null, 2)).get(0);
       textarea.focus();
       textarea.select();
 
