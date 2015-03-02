@@ -40,3 +40,4 @@ nosetests.xml
 client/bower_components
 node_modules
 client/static/assets/css/*.css
+npm-debug.log
