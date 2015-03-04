@@ -34,7 +34,7 @@
     "clean": "rm -rf ./{node_modules,client/bower_components} && npm i > /dev/null",
     "lint": "eslint .",
     "outdated": "npm outdated --depth 0",
-    "postinstall": "bower update",
+    "postinstall": "bower update --config.interactive=false -s",
     "postshrinkwrap": "nsp audit-shrinkwrap",
     "prestart": "npm run stylus",
     "shrinkwrap": "npm shrinkwrap --dev",
