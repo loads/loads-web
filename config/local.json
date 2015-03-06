@@ -1,3 +1,10 @@
 {
-  "port": 2000
+  "db": {
+    "connection": "mysql://bf7b93b4271c8b:b86e5248@us-cdbr-iron-east-01.cleardb.net/heroku_9f656c64b3de37f?reconnect=true"
+  },
+  "server": {
+    "connection": {
+      "port": 2000
+    }
+  }
 }

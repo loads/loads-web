@@ -2,7 +2,9 @@
 
 var Sequelize = require('sequelize');
 
-var CONNECTION_STRING = 'mysql://bf7b93b4271c8b:b86e5248@us-cdbr-iron-east-01.cleardb.net/heroku_9f656c64b3de37f?reconnect=true';
+var conf = require('./config');
+
+var CONNECTION_STRING = conf.get('db.connection');
 
 var sequelize = new Sequelize(CONNECTION_STRING, {
   dialect: 'mysql',

@@ -15,10 +15,6 @@ angular.module('LoadsApp')
     $rootScope.title = 'Launch Agent Health Check';
   }).controller('ProjectsController', function($scope, $rootScope) {
     $rootScope.title = 'Projects';
-
-    
-
-
   }).controller('ProjectBuilderController', function ($scope, $rootScope, $routeParams, $http) {
     $rootScope.title = 'Project Builder';
 
@@ -39,7 +35,7 @@ angular.module('LoadsApp')
 
       planClone = planTemplate.cloneNode(true);
       stepClone = stepTemplate.cloneNode(true);
-    };
+    }
 
     // Add a clone of the plan form to the project, focus on first input
     function addPlanToProject(isPrepopulate) {
@@ -47,7 +43,7 @@ angular.module('LoadsApp')
       projectToolPlansContainer.appendChild(newPlanNode);
       jQuery(newPlanNode).find('.plan-num').text(jQuery('.plan-template').length);
 
-      // FYI:  Cannot return node in all cases because Angular throws error 
+      // FYI:  Cannot return node in all cases because Angular throws error
       if(isPrepopulate) {
         return newPlanNode;
       }
@@ -55,6 +51,7 @@ angular.module('LoadsApp')
         focusFirst(newPlanNode);
       }
     }
+
     $scope.addPlanToProject = addPlanToProject;
 
     // Add a clone of the container form to the plan
@@ -64,7 +61,7 @@ angular.module('LoadsApp')
       parent.insertBefore(newStepNode, jQuery(parent).find('.test-add-step').get(0));
       jQuery(newStepNode).find('.step-num').text(jQuery(parent).find('.step-template').length);
       focusFirst(newStepNode);
-    };
+    }
 
     // Focuses on the first element in a block
     function focusFirst(parent) {
@@ -84,7 +81,7 @@ angular.module('LoadsApp')
       var convertElementsToObject = function($inputs, obj) {
         $inputs = $inputs.serializeArray();
         obj = obj || {};
-        
+
         jQuery.each($inputs, function() {
           obj[this.name] = this.value || '';
         });
@@ -121,12 +118,11 @@ angular.module('LoadsApp')
 
     // Prepopluates data to the form
     function prepopulate(data) {
-
       // Setup the project
       jQuery('#project_id').val(data.project_id);
       jQuery('#project_title').val(data.project_title);
 
-      console.log('data.project_id', data.project_id)
+      console.log('data.project_id', data.project_id);
 
       // Create the plans and steps, populate them
       jQuery.each(data.plans, function(i) {
@@ -138,7 +134,7 @@ angular.module('LoadsApp')
           populateFormElements(stepNode, this);
         });
       });
-    };
+    }
 
     // Save this project, either as new or edit
     $scope.saveProject = function() {
@@ -147,7 +143,7 @@ angular.module('LoadsApp')
       $http.post('/mock/project', projectJSON).success(function (data) {
         console.log('bling!');
       }).error(function (err) {
-        console.log(err);
+        console.error(err);
       });
     };
 
@@ -172,11 +168,11 @@ angular.module('LoadsApp')
       });
     }
 
-  }).controller('RunsController', function ($scope, $rootScope, MockRunsService, RunsService) {
+  }).controller('RunsController', function ($scope, $rootScope, RunsService) {
     $rootScope.title = 'Runs';
-  }).controller('ActiveRunsController', function ($scope, $rootScope, MockRunsService, RunsService) {
+  }).controller('ActiveRunsController', function ($scope, $rootScope, RunsService) {
     $rootScope.title = 'Active Runs';
-  }).controller('FinishedRunsController', function ($scope, $rootScope, MockRunsService, RunsService) {
+  }).controller('FinishedRunsController', function ($scope, $rootScope, RunsService) {
     $rootScope.title = 'Finished Runs';
   }).controller('RunDetailController', function ($scope, $rootScope, $routeParams, $http) {
     var id = $routeParams.id;
@@ -198,7 +194,7 @@ angular.module('LoadsApp')
       $http.post('/api/comments/', data).success(function (data) {
         $scope.resetCommentForm();
       }).error(function (err) {
-        console.log(err);
+        console.error(err);
       });
     };
 
