@@ -1,30 +1,17 @@
 'use strict';
 
-var path = require('path');
 
 var Hapi = require('hapi');
 var HapiAuthCookie = require('hapi-auth-cookie');
-var NunjucksHapi = require('nunjucks-hapi');
 
-var routes = require('./routes/index');
-
-var PORT = process.env.PORT || 5000;
-var DAYS_IN_MS = 1000 * 60 * 60 * 24;
-
-var viewPath = path.join(__dirname, 'views');
-var env = NunjucksHapi.configure(viewPath);
+var conf = require('./config');
+var routes = require('./routes/index').routes;
+var views = require('./views');
 
 var server = new Hapi.Server();
 server.connection({
-  host: '0.0.0.0',
-  port: PORT
-});
-
-server.views({
-  engines: {
-    html: NunjucksHapi
-  },
-  path: viewPath
+  host: conf.get('server.connection.host'),
+  port: conf.get('server.connection.port')
 });
 
 server.register(HapiAuthCookie, function (err) {
@@ -34,15 +21,15 @@ server.register(HapiAuthCookie, function (err) {
 
   var cache = server.cache({
     segment: 'sessions',
-    expiresIn: 7 * DAYS_IN_MS
+    expiresIn: conf.get('server.cache.expiresIn')
   });
 
   server.app.cache = cache;
   server.auth.strategy('session', 'cookie', true, {
-    password: 'secret',
-    cookie: 'sid-example',
-    redirectTo: '/login',
-    isSecure: false,
+    password: conf.get('server.auth.strategy.password'),
+    cookie: conf.get('server.auth.strategy.cookie'),
+    redirectTo: conf.get('server.auth.strategy.redirectTo'),
+    isSecure: conf.get('server.auth.strategy.isSecure'),
     validateFunc: function (session, callback) {
       cache.get(session.sid, function (err, cached) {
         if (err) {
@@ -57,7 +44,8 @@ server.register(HapiAuthCookie, function (err) {
     }
   });
 
-  server.route(routes.routes);
+  server.views(views);
+  server.route(routes);
 
   server.start(function () {
     console.log('Hapi server started at %s', server.info.uri);

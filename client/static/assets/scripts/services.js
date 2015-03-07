@@ -40,42 +40,4 @@ angular.module('LoadsApp')
     };
 
     return ws;
-  })
-  .factory('MockRunsService', ['$http', function ($http) {
-    var getRuns = function (active, count) {
-      active = active ? 'active' : 'finished';
-      count = Math.min(parseInt(count, 10), 30);
-
-      // Example: "/mock/api/finished/5"
-      var API_URL = ['/mock', 'api', active, count].join('/');
-
-      return $http.get(API_URL).error(function (err) {
-        console.error(err);
-      });
-    };
-
-    return {
-      getActiveRuns: function () {
-        var cnt = Math.floor(Math.random() * 5);
-        return getRuns(true, cnt).success(function (runs) {
-          runs.map(function (run) {
-            run.success = true;
-            return run;
-          });
-
-          if (runs.length > 3) {
-            return [];
-          }
-          return runs;
-        });
-      },
-      getFinishedRuns: function (count) {
-        return getRuns(false, count).success(function (runs) {
-          // console.table(runs);
-          return runs.sort(function (runA, runB) {
-            return new Date(runB.endDate) - new Date(runA.endDate);
-          });
-        });
-      }
-    };
-  }]);
+  });
