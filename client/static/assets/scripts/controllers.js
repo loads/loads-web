@@ -167,6 +167,10 @@ angular.module('LoadsApp')
         prepopulate(data);
       });
     }
+  }).controller('ProjectLoaderController', function($scope, $rootScope) {
+    $rootScope.title = 'Project Loader';
+
+
 
   }).controller('RunsController', function ($scope, $rootScope, RunsService) {
     $rootScope.title = 'Runs';
