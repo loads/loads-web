@@ -7,20 +7,11 @@
     <h1>{{ title }}</h1>
   </header>
 
-  <p class="lead">Listing of Saved Projects</p>
+  <p class="lead">Get a Saved Project from Gist</p>
 
-  <table class="project-list">
-    <thead>
-      <tr><th>Project</th></tr>
-    </thead>
-    <tbody>
-      <!--
-      <tr><td>
-        <h2><a href="">Some Project Name</a></h2>
-        <p>This is the project description which should be .....</p>
-      </td></tr>
-      -->
-    </tbody>
-  </table> 
+  <form action="/api/gist" method="post" id="gist-form">
+    <input type="text" name="gist" id="gist" placeholder="https://gist.github.com/..." autofocus>
+    <button type="submit">Load Gist</button>
+  </form>
 
-  </article>
+</article>

@@ -15,6 +15,26 @@ angular.module('LoadsApp')
     $rootScope.title = 'Launch Agent Health Check';
   }).controller('ProjectsController', function($scope, $rootScope) {
     $rootScope.title = 'Projects';
+
+    jQuery('#gist-form').on('submit', function(e) {
+      e.preventDefault();
+
+      var gist = jQuery('#gist').val();
+      if(gist === '') return;
+
+      jQuery.ajax('/api/gist/' + gist).done(function(data) {
+        console.log('done!', data);
+
+        if(data.success) { // Succesful, we have info
+
+        }
+        else { // Error
+
+        }
+      });
+
+    });
+
   }).controller('ProjectBuilderController', function ($scope, $rootScope, $routeParams, $http) {
     $rootScope.title = 'Project Builder';
 
