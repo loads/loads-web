@@ -19,19 +19,26 @@ angular.module('LoadsApp')
     jQuery('#gist-form').on('submit', function(e) {
       e.preventDefault();
 
-      var gist = jQuery('#gist').val();
-      if(gist === '') return;
+      var gistId = jQuery('#gist').val();
+      var $resultDestination = jQuery('.result-destination');
 
-      jQuery.getJSON('/api/gist/' + gist).done(function(data) {
-        console.log('done!', data);
+      console.log($resultDestination.get(0));
+
+      $resultDestination.removeClass('error').removeClass('valid');
+      jQuery.getJSON('/api/gist/' + gistId).done(function(data) {
+        console.log('done!', data.success, data);
 
         if(data.success) {
-          jQuery('.valid-info textarea').val(JSON.stringify(data.files[0], null, 4)).get(0).select();
-          jQuery('.result-destination').addClass('valid').removeClass('error');
+          jQuery('.valid-info textarea').val(JSON.stringify(data.files[0], null, 2)).get(0).select();
+          jQuery('.gist-avatar').attr('src', data.owner_avatar_url);
+          jQuery('.gist-username').html(data.owner);
+          jQuery('.gist-description').html(data.description);
+
+          $resultDestination.addClass('valid');
         }
         else { // Error
-          jQuery('.result-destination').addClass('error').removeClass('valid');
-          jQuery('.invalid-info').html(data.error);
+          jQuery('.invalid-info').html(data.message);
+          $resultDestination.addClass('error');
         }
       });
 

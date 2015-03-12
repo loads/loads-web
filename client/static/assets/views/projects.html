@@ -16,7 +16,7 @@
       <span class="prefix">https://gist.github.com/</span>
     </div>
     <div class="small-6 large-8 columns">
-      <input type="text" placeholder="Gist ID" name="gist" id="gist" autofocus>
+      <input type="text" placeholder="Gist ID" name="gist" id="gist" required autofocus>
     </div>
   </div>
 
@@ -24,8 +24,15 @@
   </form>
 
   <div class="result-destination">
+
+    <h2>Gist Information</h2>
+
     <!-- result information will be here -->
     <div class="valid-info">
+      <img src="" class="gist-avatar" width="16" height="16">
+      <span class="gist-username"></span>
+      <div class="gist-description"></div>
+
       <textarea></textarea>
       <div class="result-destination-buttons">
         <button>Run Load Test</button>

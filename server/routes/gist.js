@@ -26,7 +26,7 @@ module.exports = [{
         // If the files are no good, go back to error mode
         if(!output.files.length || output.files[0].content.error) {
           output.success = false;
-          output.error = 'Invalid JSON:  File could not be parsed.';
+          output.message = 'Invalid JSON:  File could not be parsed.';
         }
       }
 
