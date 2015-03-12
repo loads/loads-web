@@ -4,11 +4,11 @@ module.exports = [{
   method: 'GET',
   path: '/api/gist/{id}',
   handler: function(request, reply) {
-	var id = request.params.id ||  '88695561d9fe3acd71b9'; // Hardcoding for the sake of ease;
+	var id = request.params.id;
 	var output = {};
 
 	require('octonode').client().gist().get(id, function(err, data) {
-		if(err) {
+		if(err) { // Basic error
 			output = err;
 			output.success = false;
 		}
@@ -19,9 +19,15 @@ module.exports = [{
 
 			['description', 'comments', 'created_at', 'update_at', 'id', 'public'].forEach(function(i) {
 				output[i] = data[i];
-			});-
+			});
 
-			output.files = extractGistFiles(data.files);
+			var files = output.files = extractGistFiles(data.files);
+
+                  // If the files are no good, go back to error mode
+                  if(!files.length || files[0].content.error) {
+                    output.success = false;
+                    output.error = 'Invalid JSON:  File could not be parsed.';
+                  }
 		}
 		
 		reply(JSON.stringify(output, null, 2));
@@ -47,7 +53,14 @@ function extractGistFiles(filesObj) {
     var file = filesObj[key];
     // If the current file is a .JSON file, convert it from a string to an object.
     if (file.type === 'application/json') {
-      file.content = JSON.parse(file.content);
+    	try {
+    		file.content = JSON.parse(file.content);
+    	}
+      catch(e) {
+      	file.content = {
+      		error: 'File contents could not be parsed'
+      	};
+      }
     }
     return file;
   });

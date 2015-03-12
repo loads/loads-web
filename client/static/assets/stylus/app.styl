@@ -182,6 +182,33 @@ table.details-table {
   }
 }
 
+/*
+  Projects Loader
+*/
+.result-destination {
+  display: none;
+   
+  &.valid, &.error {
+    display: block;
+  }
+  
+  &.valid {
+    .invalid-info {
+      display: none;
+    }
+  }
+  
+  &.error {
+    .valid-info {
+      display: none;
+    }
+  }
+  
+  textarea {
+    height: 200px;
+  }
+}
+
 
 /*
   Projects Generator

@@ -16,13 +16,26 @@
       <span class="prefix">https://gist.github.com/</span>
     </div>
     <div class="small-6 large-8 columns">
-      <input type="text" placeholder="Gist ID" name="gist" id="gist">
+      <input type="text" placeholder="Gist ID" name="gist" id="gist" autofocus>
     </div>
   </div>
 
     <button type="submit" >Load Gist</button>
   </form>
 
+  <div class="result-destination">
+    <!-- result information will be here -->
+    <div class="valid-info">
+      <textarea></textarea>
+      <div class="result-destination-buttons">
+        <button>Run Load Test</button>
+        <button>Edit with Project Builder</button>
+      </div>
+    </div>
+
+    <!-- no good? -->
+    <div class="invalid-info"></div>
+  </div>
 
 
 </article>

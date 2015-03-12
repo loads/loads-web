@@ -22,14 +22,16 @@ angular.module('LoadsApp')
       var gist = jQuery('#gist').val();
       if(gist === '') return;
 
-      jQuery.ajax('/api/gist/' + gist).done(function(data) {
+      jQuery.getJSON('/api/gist/' + gist).done(function(data) {
         console.log('done!', data);
 
-        if(data.success) { // Succesful, we have info
-
+        if(data.success) {
+          jQuery('.valid-info textarea').val(JSON.stringify(data.files[0], null, 4)).get(0).select();
+          jQuery('.result-destination').addClass('valid').removeClass('error');
         }
         else { // Error
-
+          jQuery('.result-destination').addClass('error').removeClass('valid');
+          jQuery('.invalid-info').html(data.error);
         }
       });
 
