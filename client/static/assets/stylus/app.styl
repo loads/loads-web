@@ -182,6 +182,46 @@ table.details-table {
   }
 }
 
+/*
+  Projects Loader
+*/
+.result-destination {
+  display: none;
+   
+  &.valid, &.error {
+    display: block;
+  }
+  
+  &.valid {
+    .invalid-info {
+      display: none;
+    }
+  }
+  
+  &.error {
+    .valid-info {
+      display: none;
+    }
+  }
+  
+  textarea {
+    height: 200px;
+  }
+  
+  .invalid-info {
+    color: #f00;
+  }
+}
+
+.gist-username {
+  font-weight: bold;
+}
+
+.gist-description {
+  font-style: italic;
+  color: #777;
+}
+
 
 /*
   Projects Generator

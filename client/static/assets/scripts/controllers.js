@@ -15,6 +15,35 @@ angular.module('LoadsApp')
     $rootScope.title = 'Launch Agent Health Check';
   }).controller('ProjectsController', function($scope, $rootScope) {
     $rootScope.title = 'Projects';
+
+    jQuery('#gist-form').on('submit', function(e) {
+      e.preventDefault();
+
+      var gistId = jQuery('#gist').val();
+      var $resultDestination = jQuery('.result-destination');
+
+      console.log($resultDestination.get(0));
+
+      $resultDestination.removeClass('error').removeClass('valid');
+      jQuery.getJSON('/api/gist/' + gistId).done(function(data) {
+        console.log('done!', data.success, data);
+
+        if(data.success) {
+          jQuery('.valid-info textarea').val(JSON.stringify(data.files[0], null, 2)).get(0).select();
+          jQuery('.gist-avatar').attr('src', data.owner_avatar_url);
+          jQuery('.gist-username').html(data.owner);
+          jQuery('.gist-description').html(data.description);
+
+          $resultDestination.addClass('valid');
+        }
+        else { // Error
+          jQuery('.invalid-info').html(data.message);
+          $resultDestination.addClass('error');
+        }
+      });
+
+    });
+
   }).controller('ProjectBuilderController', function ($scope, $rootScope, $routeParams, $http) {
     $rootScope.title = 'Project Builder';
 

@@ -7,20 +7,42 @@
     <h1>{{ title }}</h1>
   </header>
 
-  <p class="lead">Listing of Saved Projects</p>
+  <p class="lead">Get a Saved Project from Gist</p>
 
-  <table class="project-list">
-    <thead>
-      <tr><th>Project</th></tr>
-    </thead>
-    <tbody>
-      <!--
-      <tr><td>
-        <h2><a href="">Some Project Name</a></h2>
-        <p>This is the project description which should be .....</p>
-      </td></tr>
-      -->
-    </tbody>
-  </table> 
+  <form action="/api/gist" method="post" id="gist-form">
 
-  </article>
+    <div class="row collapse">
+    <div class="small-6 large-4 columns">
+      <span class="prefix">https://gist.github.com/</span>
+    </div>
+    <div class="small-6 large-8 columns">
+      <input type="text" placeholder="Gist ID" name="gist" id="gist" required autofocus>
+    </div>
+  </div>
+
+    <button type="submit" >Load Gist</button>
+  </form>
+
+  <div class="result-destination">
+
+    <h2>Gist Information</h2>
+
+    <!-- result information will be here -->
+    <div class="valid-info">
+      <img src="" class="gist-avatar" width="16" height="16">
+      <span class="gist-username"></span>
+      <div class="gist-description"></div>
+
+      <textarea></textarea>
+      <div class="result-destination-buttons">
+        <button>Run Load Test</button>
+        <button>Edit with Project Builder</button>
+      </div>
+    </div>
+
+    <!-- no good? -->
+    <div class="invalid-info"></div>
+  </div>
+
+
+</article>
