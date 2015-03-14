@@ -2,7 +2,6 @@
   "name": "loads-web",
   "description": "Web site for the loads v2 tool",
   "version": "1.0.0",
-
   "author": "Mozilla (https://mozilla.org/)",
   "bugs": "https://github.com/loads/loads-web/issues",
   "dependencies": {
@@ -12,6 +11,7 @@
     "hapi": "8.2.0",
     "hapi-auth-cookie": "2.0.0",
     "joi": "6.0.0",
+    "json-mask": "0.3.4",
     "mysql": "2.5.5",
     "nunjucks-hapi": "1.1.0",
     "octonode": "0.6.15",
@@ -27,8 +27,8 @@
   },
   "homepage": "https://github.com/loads/loads-web",
   "keywords": [
-    "hapi",
-    "angular"
+    "angular",
+    "hapi"
   ],
   "license": "Apache",
   "main": "server.js",
