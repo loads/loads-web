@@ -8,6 +8,7 @@ globals:
 
 rules:
   global-strict: 0
+  no-alert: 1
   no-process-exit: 0
   no-shadow: 0
   no-unused-vars: [1, {args: none}]
