@@ -1,6 +1,6 @@
 # loads-web
 
-[![](https://travis-ci.org/loads/loads-web.svg?branch=master)](https://travis-ci.org/loads/loads-web)
+[![Build Status](https://travis-ci.org/loads/loads-web.svg?branch=master)](https://travis-ci.org/loads/loads-web)
 
 Web dashboard for Loads, v2.
 <https://github.com/loads/loads-broker>
@@ -19,7 +19,7 @@ Setting the app up:
 $ npm install
 ```
 
-Watch and compile stylus to CSS:
+Watch and compile Stylus to CSS:
 
 ```sh
 $ ./node_modules/.bin/stylus --watch --compress client/static/assets/stylus/app.styl --out client/static/assets/css/
@@ -33,7 +33,7 @@ $ node server # or `npm start`
 
 ## Deployment
 
-The dashboard is hosted by a hapi server that proxies API requests to a
+The dashboard is hosted by a Hapi server that proxies API requests to a
 separate broker instance. This allows the front-end to be developed
 independently of the broker, and provides a mechanism for serving mock data
 if the broker does not implement a particular call.
