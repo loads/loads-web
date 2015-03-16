@@ -27,11 +27,13 @@ angular.module('LoadsApp')
       $resultDestination.removeClass('error').removeClass('valid');
       jQuery.getJSON('/api/gist/' + gistId).done(function(data) {
         console.log('done!', data.success, data);
+        var content;
 
-        if(data.success) {
-          jQuery('.valid-info textarea').val(JSON.stringify(data.files[0], null, 2)).get(0).select();
-          jQuery('.gist-avatar').attr('src', data.owner_avatar_url);
-          jQuery('.gist-username').html(data.owner);
+        if (data.success) {
+          content = data.files[0].content;
+          jQuery('.valid-info textarea').val(JSON.stringify(content, null, 2)).get(0).select();
+          jQuery('.gist-avatar').attr('src', data.owner.avatar_url);
+          jQuery('.gist-username').html(data.owner.login);
           jQuery('.gist-description').html(data.description);
 
           $resultDestination.addClass('valid');
