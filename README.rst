@@ -1,6 +1,9 @@
 loads-web
 =========
 
+.. image:: https://travis-ci.org/loads/loads-web.svg?branch=master
+    :target: https://travis-ci.org/loads/loads-web
+
 Web dashboard for Loads, v2.
 https://github.com/loads/loads-broker
 
