@@ -16,19 +16,35 @@ angular.module('LoadsApp')
   }).controller('ProjectsController', function($scope, $rootScope) {
     $rootScope.title = 'Projects';
 
+    jQuery('.validateBtn').on('click', function (e) {
+      e.preventDefault();
+      var data = jQuery('.valid-info textarea').val();
+
+      jQuery.post('/api/schema/validate', {
+        data: data
+      }, function (resp) {
+        var messages = [];
+        if (resp.success) {
+          alert('is valid!');
+        } else {
+          // NOTE: `resp.details.length` always seems to be 1.
+          resp.details.forEach(function (result) {
+            messages.push(result.message);
+          });
+          alert(messages.join('\n'));
+        }
+      });
+    });
+
     jQuery('#gist-form').on('submit', function(e) {
       e.preventDefault();
 
       var gistId = jQuery('#gist').val();
       var $resultDestination = jQuery('.result-destination');
 
-      console.log($resultDestination.get(0));
-
       $resultDestination.removeClass('error').removeClass('valid');
       jQuery.getJSON('/api/gist/' + gistId).done(function(data) {
-        console.log('done!', data.success, data);
         var content;
-
         if (data.success) {
           content = data.files[0].content;
           jQuery('.valid-info textarea').val(JSON.stringify(content, null, 2)).get(0).select();
@@ -37,15 +53,12 @@ angular.module('LoadsApp')
           jQuery('.gist-description').html(data.description);
 
           $resultDestination.addClass('valid');
-        }
-        else { // Error
+        } else { // Error
           jQuery('.invalid-info').html(data.message);
           $resultDestination.addClass('error');
         }
       });
-
     });
-
   }).controller('ProjectBuilderController', function ($scope, $rootScope, $routeParams, $http) {
     $rootScope.title = 'Project Builder';
 
