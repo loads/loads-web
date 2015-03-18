@@ -11,6 +11,7 @@ rules:
   no-alert: 1
   no-process-exit: 0
   no-shadow: 0
+  no-new: 0
   no-unused-vars: [1, {args: none}]
   no-use-before-define: [2, nofunc]
   quotes: [1, single]
