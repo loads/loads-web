@@ -16,23 +16,46 @@ angular.module('LoadsApp')
   }).controller('ProjectsController', function($scope, $rootScope) {
     $rootScope.title = 'Projects';
 
+    var $textarea = jQuery('.gist-json');
+    var notify = function(messages) {
+      if(window.Notification && Notification.permission !== 'denied') {
+        Notification.requestPermission(function(status) {
+          jQuery.each(messages, function(i, value) {
+            new Notification('Validation Result', {
+              body: value
+            });
+          });
+        });
+      }
+      else {
+        alert(messages.join('\n'));
+      }
+    };
+
     jQuery('.validateBtn').on('click', function (e) {
       e.preventDefault();
-      var data = jQuery('.valid-info textarea').val();
+      var data = $textarea.val();
+      var $this = jQuery(this);
+      var originalText = $this.text();
+      $this.prop('disabled', true).text('Validating...');
 
       jQuery.post('/api/schema/validate', {
         data: data
       }, function (resp) {
         var messages = [];
+
+        $this.prop('disabled', false).text(originalText);
+
         if (resp.success) {
-          alert('is valid!');
+          messages.push('Success!');
         } else {
           // NOTE: `resp.details.length` always seems to be 1.
           resp.details.forEach(function (result) {
             messages.push(result.message);
           });
-          alert(messages.join('\n'));
         }
+
+        notify(messages);
       });
     });
 
@@ -47,7 +70,7 @@ angular.module('LoadsApp')
         var content;
         if (data.success) {
           content = data.files[0].content;
-          jQuery('.valid-info textarea').val(JSON.stringify(content, null, 2)).get(0).select();
+          $textarea.val(JSON.stringify(content, null, 2)).get(0).select();
           jQuery('.gist-avatar').attr('src', data.owner.avatar_url);
           jQuery('.gist-username').html(data.owner.login);
           jQuery('.gist-description').html(data.description);
