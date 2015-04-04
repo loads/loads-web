@@ -1,0 +1,11 @@
+env:
+  browser: true
+  jquery: true
+  node: false
+
+globals:
+  angular: false
+
+rules:
+  no-alert: 1
+  no-console: 0

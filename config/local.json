@@ -6,5 +6,6 @@
     "connection": {
       "port": 2000
     }
-  }
+  },
+  "compressCss": false
 }
