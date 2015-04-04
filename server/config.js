@@ -29,6 +29,12 @@ var conf = convict({
     }
   },
 
+  compressCss: {
+    doc: 'Whether or not the generated CSS should be minimized.',
+    format: Boolean,
+    default: true
+  },
+
   server: {
     auth: {
       strategy: {

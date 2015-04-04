@@ -7,8 +7,8 @@ var controller = require('../controllers/comments');
 module.exports = [{
   method: 'GET',
   path: '/api/comments/runId/{runId}',
-  handler: controller.getComments,
   config: {
+    handler: controller.getComments,
     validate: {
       params: {
         runId: Joi.string().required()

@@ -10,6 +10,13 @@ Web dashboard for Loads, v2.
  * Define load profiles (container sets)
  * Control load test runs
 
+## Prerequisites
+
+Before you install loads-web, you'll need to have [Node.js](https://nodejs.org/) installed, as well as [Grunt](http://gruntjs.com/) and [Bower](http://bower.io/) modules installed globally:
+```sh
+$ npm install bower grunt-cli --global
+```
+
 
 ## Development
 
@@ -19,15 +26,15 @@ Setting the app up:
 $ npm install
 ```
 
-Watch and compile Stylus to CSS:
+Compile Stylus to CSS:
 
 ```sh
-$ ./node_modules/.bin/stylus --watch --compress client/static/assets/stylus/app.styl --out client/static/assets/css/
+$ grunt stylus
 ```
 
 Starting the server:
 ```sh
-$ node server # or `npm start`
+$ npm start
 ```
 
 
