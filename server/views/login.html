@@ -6,15 +6,12 @@
 </head>
 <body>
 
-  {% if message %}
-    <h3>{{ message }}</h3>
-  {% endif %}
+  <input type="button" id="signin" value="signin"><br />
+  <!-- <input type="button" id="signout" value="signout"><br /> -->
 
-  <form method="post" action="/login">
-    <label>Username: <input type="text" name="username" placeholder="johnny"></label><br/>
-    <label>Password: <input type="password" name="password" placeholder="quest"></label><br/>
-    <input type="submit" value="Login">
-  </form>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="https://login.persona.org/include.js"></script>
+  <script src="assets/scripts/persona.js"></script>
 
 </body>
 </html>

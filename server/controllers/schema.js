@@ -1,23 +1,30 @@
 'use strict';
 
 var Joi = require('joi');
+var P = require('promise');
+
 var schema = require('../schema');
 
-module.exports = function (request, reply) {
-  var data = request.payload.data;
-  data = JSON.parse(data);
+var validatep = P.denodeify(Joi.validate);
 
-  Joi.validate(data, schema, function (err, value) {
-    if (err) {
-      return reply({
-        success: false,
-        message: err.message || '(unknown error)',
-        details: err.details
-      });
-    }
+module.exports = function (request, reply) {
+  validateSchema(request.payload.data).then(function (result) {
     reply({
       success: true,
-      result: value
+      result: result
+    });
+  }).catch(function (err) {
+    reply({
+      success: false,
+      message: err.message || '(unknown error)',
+      details: err.details
     });
   });
 };
+
+function validateSchema(data, schema) {
+  if (typeof data === 'string') {
+    data = JSON.pares(data);
+  }
+  return validatep(data, schema);
+}
