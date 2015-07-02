@@ -7,6 +7,7 @@
   "dependencies": {
     "awstypes": "1.0.0",
     "bower": "1.4.1",
+    "browserid-verify": "0.1.2",
     "convict": "0.6.1",
     "hapi": "8.4.0",
     "hapi-auth-cookie": "2.0.0",
@@ -15,6 +16,7 @@
     "mysql": "2.6.1",
     "nunjucks-hapi": "1.1.0",
     "octonode": "0.6.16",
+    "promise": "6.1.0",
     "remarkable": "1.6.0",
     "require-hapiroutes": "0.1.9",
     "sequelize": "2.0.5"

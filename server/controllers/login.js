@@ -1,49 +1,48 @@
 'use strict';
 
-var uuid = 1;
-
-// Amateur hour...
-var users = {
-  johnny: {
-    password: 'quest'
-  }
-};
+var verify = require('browserid-verify')();
 
 module.exports = function (request, reply) {
   if (request.auth.isAuthenticated) {
     return reply.redirect('/');
   }
 
-  var message = '';
-  var account = null;
+  if (request.method === 'get') {
+    return reply.view('login', {
+      message: ''
+    });
+  }
 
   if (request.method === 'post') {
-    if (!request.payload.username || !request.payload.password) {
-      message = 'Missing username or password';
-    } else {
-      account = users[request.payload.username];
-      if (!account || account.password !== request.payload.password) {
-        message = 'Invalid username or password';
+    var assertion = request.payload.assertion;
+    var audience = request.info.host;
+
+    verify(assertion, audience, function (err, email, response) {
+      if (err) {
+        console.error('There was an error : ' + err);
+        return reply(err);
       }
-    }
-  }
 
-  if (request.method === 'get' || message) {
-    return reply.view('login', {
-      message: message
+      console.log(JSON.stringify(response, null, 2));
+
+      request.server.app.cache.set(assertion, {
+        account: email
+      }, 0, function (err) {
+        if (err) {
+          return reply(err);
+        }
+        request.auth.session.set({
+          sid: assertion
+        });
+
+        response.status = (response.status === 'okay') && isMozillian(email);
+
+        reply(response);
+      });
     });
   }
-
-  var sid = String(++uuid);
-  request.server.app.cache.set(sid, {
-    account: account
-  }, 0, function (err) {
-    if (err) {
-      return reply(err);
-    }
-    request.auth.session.set({
-      sid: sid
-    });
-    return reply.redirect('/');
-  });
 };
+
+function isMozillian (email) {
+  return (/@mozilla\.(com|org)$/i).test(email)
+}
