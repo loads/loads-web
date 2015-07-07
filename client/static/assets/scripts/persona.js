@@ -14,15 +14,19 @@ $(function () {
     onlogin: function(assertion) {
       $.ajax({
         type: 'POST',
-        url: '/login',
+        url: '/login?buster=' + Date.now(),
         data: {
           assertion: assertion
         },
         success: function(res, status, xhr) {
-          var success = res.status && (status === 'success');
-          console.log('onlogin.success:', success, status, '???', res.status);
-          if (success !== undefined) {
-            window.location.replace(success ? '/' : '/login');
+          if (status === 'success' && res.email) {
+            if (res.status) {
+              currentUser = res.email;
+              window.location.replace('/');
+            } else {
+              alert('Unauthorized');
+              navigator.id.logout();
+            }
           }
         },
         error: function(xhr, status, err) {

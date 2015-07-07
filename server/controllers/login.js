@@ -23,8 +23,6 @@ module.exports = function (request, reply) {
         return reply(err);
       }
 
-      console.log(JSON.stringify(response, null, 2));
-
       request.server.app.cache.set(assertion, {
         account: email
       }, 0, function (err) {
@@ -32,11 +30,11 @@ module.exports = function (request, reply) {
           return reply(err);
         }
         request.auth.session.set({
-          sid: assertion
+          sid: assertion,
+          email: email
         });
 
         response.status = (response.status === 'okay') && isMozillian(email);
-
         reply(response);
       });
     });
@@ -44,5 +42,5 @@ module.exports = function (request, reply) {
 };
 
 function isMozillian (email) {
-  return (/@mozilla\.(com|org)$/i).test(email)
+  return (/@mozilla\.(com|org)$/i).test(email);
 }
