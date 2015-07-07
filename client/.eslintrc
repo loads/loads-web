@@ -8,4 +8,4 @@ globals:
 
 rules:
   no-alert: 1
-  no-console: 0
+  no-console: 1
