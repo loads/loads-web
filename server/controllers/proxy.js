@@ -13,7 +13,7 @@ function makeMapFunc(prefix) {
       port: 8080,
       protocol: 'http',
       pathname: pathname,
-      search: request.url.search,
+      search: request.url.search
     });
     callback(null, proxyURI);
   };

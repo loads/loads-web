@@ -19,7 +19,7 @@ module.exports = function (request, reply) {
 
     verify(assertion, audience, function (err, email, response) {
       if (err) {
-        console.error('There was an error : ' + err);
+        console.error('There was an error : ' + err); // eslint-disable-line no-console
         return reply(err);
       }
 

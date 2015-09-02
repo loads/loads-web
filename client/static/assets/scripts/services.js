@@ -19,7 +19,7 @@ angular.module('LoadsApp')
 
     var ws = new WebSocket(WEBSOCKET_URL);
     ws.onopen = function () {
-      console.log('Socket has been opened to %s', WEBSOCKET_URL);
+      console.log('Socket has been opened to %s', WEBSOCKET_URL); // eslint-disable-line no-console
     };
     ws.onmessage = function (message) {
       $rootScope.$apply(function () {
@@ -33,8 +33,8 @@ angular.module('LoadsApp')
             lastSync: new Date()
           };
         } catch (err) {
-          console.error(err);
-          console.log(message);
+          console.error(err); // eslint-disable-line no-console
+          console.log(message); // eslint-disable-line no-console
         }
       });
     };

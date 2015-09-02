@@ -3,7 +3,7 @@
 var Joi = require('joi');
 var P = require('promise');
 
-var schema = require('../schema');
+// var schema = require('../schema');
 
 var validatep = P.denodeify(Joi.validate);
 
