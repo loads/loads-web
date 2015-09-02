@@ -12,7 +12,8 @@ function makeMapFunc(prefix) {
       hostname: 'loadsv2.stage.mozaws.net',
       port: 8080,
       protocol: 'http',
-      pathname: pathname
+      pathname: pathname,
+      search: request.url.search,
     });
     callback(null, proxyURI);
   };
