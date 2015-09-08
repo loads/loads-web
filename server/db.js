@@ -24,9 +24,9 @@ exports.Comment = sequelize.define('Comment', {
 // Sync the models to the server and recreate tables.
 sequelize.sync({
   force: false
-}).complete(function (err) {
+}).catch(function (err) {
   if (err) {
-    console.error(err);
+    console.error(err); // eslint-disable-line no-console
     process.exit(1);
   }
 });

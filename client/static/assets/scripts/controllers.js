@@ -28,7 +28,7 @@ angular.module('LoadsApp')
         });
       }
       else {
-        alert(messages.join('\n'));
+        alert(messages.join('\n')); // eslint-disable-line no-alert
       }
     };
 
@@ -189,7 +189,7 @@ angular.module('LoadsApp')
       jQuery('#project_id').val(data.project_id);
       jQuery('#project_title').val(data.project_title);
 
-      console.log('data.project_id', data.project_id);
+      console.log('data.project_id', data.project_id); // eslint-disable-line no-console
 
       // Create the plans and steps, populate them
       jQuery.each(data.plans, function(i) {
@@ -208,9 +208,9 @@ angular.module('LoadsApp')
       // Send to server, redirect to projects listing
       generateJSON();
       $http.post('/mock/project', projectJSON).success(function (data) {
-        console.log('bling!');
+        console.log(data); // eslint-disable-line no-console
       }).error(function (err) {
-        console.error(err);
+        console.error(err); // eslint-disable-line no-console
       });
     };
 
@@ -261,7 +261,7 @@ angular.module('LoadsApp')
       $http.post('/api/comments/', data).success(function (data) {
         $scope.resetCommentForm();
       }).error(function (err) {
-        console.error(err);
+        console.error(err); // eslint-disable-line no-console
       });
     };
 
@@ -275,7 +275,7 @@ angular.module('LoadsApp')
       // data.status.endTime = new Date(data.status.endTime);
       $scope.details = data;
     }).error(function (err) {
-      console.error(err);
+      console.error(err); // eslint-disable-line no-console
     });
   }).controller('ReferenceController', function ($scope, $rootScope) {
     $rootScope.title = 'Reference';

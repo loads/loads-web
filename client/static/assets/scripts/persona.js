@@ -24,13 +24,13 @@ $(function () {
               currentUser = res.email;
               window.location.replace('/');
             } else {
-              alert('Unauthorized');
+              alert('Unauthorized'); // eslint-disable-line no-alert
               navigator.id.logout();
             }
           }
         },
         error: function(xhr, status, err) {
-          console.error(err);
+          console.error(err); // eslint-disable-line no-console
           currentUser = null;
           navigator.id.logout();
         }
