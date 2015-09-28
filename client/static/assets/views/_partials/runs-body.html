@@ -1,13 +1,17 @@
-<!--
-<td><i class="foundicon-{{ run.iconClass }} {{ run.cssClass }}-text"></i> <a ng-href="{{ ROUTES.RUN_DETAIL }}/{{ run.runId }}" class="run-link">{{ run.name }}</a></td>
-<td class="elapsed" ng-bind="run.details.counts.elapsed"></td>
-<td class="finished"><time ng-bind="run.details.counts.finished"></time> ago</td>
-<td><a ng-href="mailto:{{ run.details.metadata.user_id }}@mozilla.com" ng-bind="run.details.metadata.user_id" ng-show="run.details.metadata.user_id"></a></td>
--->
-<td><div class="run-result result-{{ run.iconClass }}">
-	<i class="run-result-icon foundicon-{{ run.iconClass }} {{ run.cssClass }}-text"></i>
-	<a ng-href="{{ ROUTES.RUN_DETAIL }}/{{ run.runId }}" class="run-link">{{ run.name }}</a>
-	<div class="elapsed" ng-bind="run.details.counts.elapsed" title="Duration"></div>
-	<div class="time"><time ng-bind="run.details.counts.finished"></time> ago</div>
-	<div class="user"><a ng-href="mailto:{{ run.details.metadata.user_id }}@mozilla.com" ng-bind="run.details.metadata.user_id" ng-show="run.details.metadata.user_id"></a></div>
-</div></td>
+<td class="run-result">
+  <a ng-href="{{ ROUTES.RUN_DETAIL + '/' + run.uuid }}" class="run-link">{{ run.uuid }}</a>
+  <ul>
+    <li><code>aborted</code>: <span ng-bind="run.aborted"></span></li>
+    <li><code>state</code>: <span ng-bind="run.state | statusToText"></span></li>
+
+    <li><code>id</code>: <span ng-bind="run.id"></span></li>
+    <li><code>plan_id</code>: <span ng-bind="run.plan_id"></span></li>
+    <li><code>uuid</code>: <span ng-bind="run.uuid"></span></li>
+
+    <li><code>created_at</code>: <span ng-bind="run.created_at | date:'medium'"></span> (<span am-time-ago="run.created_at"></span>)</li>
+    <li><code>started_at</code>: <span ng-bind="run.started_at | date:'medium'"></span></li>
+    <li><code>completed_at</code>: <span ng-bind="run.completed_at | date:'medium'"></span></li>
+
+    <li>duration: <span>{{ run.started_at | amDifference: run.completed_at : 'minutes'}} minutes</span></li>
+  </ul>
+</td>

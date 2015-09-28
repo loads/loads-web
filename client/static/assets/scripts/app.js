@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('LoadsApp', ['ngRoute', 'ngSanitize']);
+angular.module('LoadsApp', ['ngRoute', 'ngSanitize', 'angularMoment']);

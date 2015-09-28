@@ -1,43 +1,11 @@
 'use strict';
 
 angular.module('LoadsApp')
-  .factory('RunsService', function ($rootScope, WEBSOCKET_URL) {
-    var cleanData = function (arr) {
-      return arr.map(function (result) {
-        var data = {
-          date: result[0],
-          name: result[1],
-          runId: result[2],
-          details: result[3]
-        };
-        data.success = (data.details.metadata.style === 'green');
-        data.cssClass = (data.success) ? 'success' : 'danger';
-        data.iconClass = (data.success) ? 'checkmark' : 'remove';
-        return data;
-      });
-    };
+  .factory('RunsService', function ($rootScope, $http) {
 
-    var ws = new WebSocket(WEBSOCKET_URL);
-    ws.onopen = function () {
-      console.log('Socket has been opened to %s', WEBSOCKET_URL); // eslint-disable-line no-console
-    };
-    ws.onmessage = function (message) {
-      $rootScope.$apply(function () {
-        try {
-          var data = angular.fromJson(message.data);
-          $rootScope.runs = {
-            active: cleanData(data.active),
-            inactive: cleanData(data.inactive),
-            hasActive: (data.active.length !== 0),
-            hasInactive: (data.inactive.length !== 0),
-            lastSync: new Date()
-          };
-        } catch (err) {
-          console.error(err); // eslint-disable-line no-console
-          console.log(message); // eslint-disable-line no-console
-        }
+    return $http.get('/api')
+     .then(function (res) {
+        $rootScope.runs = res.data.runs;
+        $rootScope.lastSync = Date.now();
       });
-    };
-
-    return ws;
   });
