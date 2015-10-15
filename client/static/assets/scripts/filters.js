@@ -9,4 +9,15 @@ angular.module('LoadsApp')
     return function (bool) {
       return bool ? 'success' : 'danger';
     };
+  }).filter('statusToText', function () {
+    // Converts status states to an output-friendly format.
+    return function (status) {
+      var STATUSES = [
+        'INITIALIZING',
+        'RUNNING',
+        'TERMINATING',
+        'COMPLETED'
+      ];
+      return STATUSES[status] || 'UNKNOWN';
+    };
   });

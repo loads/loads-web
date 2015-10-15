@@ -6,9 +6,19 @@
     </nav>
     <h1>{{ title }}</h1>
   </header>
- 
-  <div class="two-column-row">
-    <div><finished-runs></finished-runs></div>
-    <div><active-runs></active-runs></div>
-  </div>
+
+  <table class="run-table">
+    <caption>
+      <small class="lastUpdated">Last updated: <time ng-bind="lastSync | date:'medium'"></time></small>
+    </caption>
+    <thead>
+      <tr runs-head></tr>
+    </thead>
+    <tbody>
+      <tr ng-show="runs.length" ng-repeat="run in runs" runs-body id="run-{{ run.id }}"></tr>
+      <tr ng-show="!runs.length">
+        <td>There are no runs.</td>
+      </tr>
+    </tbody>
+  </table>
 </article>

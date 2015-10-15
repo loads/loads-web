@@ -6,8 +6,7 @@ module.exports = function (grunt) {
   grunt.config('eslint', {
     app: {
       src: [
-        '{,client/**/,server/**/,grunttasks/}*.js',
-        '!client/bower_components/**'
+        '{,client/static/**/,server/**/,grunttasks/}*.js'
       ]
     }
   });
